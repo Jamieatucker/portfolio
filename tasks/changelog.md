@@ -4,6 +4,24 @@ All notable changes to this project are recorded here, newest first.
 This project follows [Semantic Versioning](https://semver.org/) loosely: the site is
 private and unversioned, so entries are grouped by date and milestone.
 
+## [1.3.1] — 2026-08-04
+
+### Fixed
+- The "Read the case studies" button at the end of the home page's selected-work
+  section was left-aligned while the timeline's "Show 2 earlier roles" button was
+  centred. `.home-more` now centres too, so the two section-closing buttons share
+  an axis.
+- The YouTube Playables role read "1 yr 9 mo" against dates of Oct 2025 – Jul
+  2026, which is 9 months. The tenure is hand-written next to the dates, so
+  `test/page-markup.test.js` now compares every role's duration against
+  `Resume.formatDuration(role.start, role.end)` and the contradiction cannot
+  return.
+
+### Changed
+- The Playables case study is now "Playables Game Creation" (was "Playables Game
+  Creation Client") in `utils/project-data.js`, `index.html`, and
+  `pages/projects/html/projects.html`.
+
 ## [1.3.0] — 2026-08-04
 
 ### Added — Milestone 4: home page length controls

@@ -76,6 +76,17 @@ alwaysApply: false
   `test/home-sections.test.js`.
 - **State**: Resolved.
 
+### A4e. A hand-written tenure contradicted its own date range
+
+- **Context**: Role dates and duration are both typed into `index.html`, while
+  `resume-data.js` can derive the duration from the structured start and end.
+- **Symptom**: The Playables role read "1 yr 9 mo" beside "Oct 2025 – Jul 2026",
+  which is 9 months.
+- **Resolution**: Corrected the markup and added an assertion comparing every
+  rendered duration with `Resume.formatDuration(role.start, role.end)`.
+- **State**: Resolved. Any figure derivable from the data modules should be
+  compared against them in `page-markup.test.js`.
+
 ### A5. Duplicated header and footer markup across five pages
 
 - **Context**: No build step, so the nav block is repeated in every page.
