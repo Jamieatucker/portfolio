@@ -47,7 +47,7 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--pf-space-4);
-    min-height: 4rem;
+    min-height: var(--pf-header-h);
 }
 
 .pf-brand {

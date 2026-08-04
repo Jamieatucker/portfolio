@@ -37,6 +37,8 @@
 
     --pf-measure: 68ch;
     --pf-container: 1120px;
+    /* Height of the sticky header; anything else that sticks starts below it. */
+    --pf-header-h: 4rem;
 
     --pf-transition: 180ms cubic-bezier(0.2, 0, 0.2, 1);
 }
