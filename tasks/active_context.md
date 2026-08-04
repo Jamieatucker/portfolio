@@ -4,16 +4,49 @@ _Last updated: 2026-08-04_
 
 ## Current work focus
 
-Milestones 1–4 are done: the architecture is built, the site wears the Ohio State
-palette with contrast verified by tests, and the home page is now the single proof
-surface — it carries the full work history, so the site is five pages. That page's
-length is managed by a sticky section sub-nav and a collapse for older roles.
+Milestones 1–5 are done. The architecture is built, the site wears the Ohio State
+palette with contrast verified by tests, the full work history is on the page —
+and as of Milestone 5 the site *is* one page: `index.html` holds the hero plus
+seven sections, and the header nav jumps between them.
 
 Nothing is in flight. The next work item is the P1 backlog in
 [`tasks_plan.md`](tasks_plan.md): the Open Graph image, a scarlet favicon set, a
 Lighthouse pass, and a focus-ring contract for rings drawn on scarlet buttons.
 
-## Recent changes — Milestone 4 (home page length controls, naming)
+## Recent changes — Milestone 5 (single-page architecture)
+
+1. **One document.** The About, Projects, Skills, and Contact pages were folded
+   into `index.html` as `#about`, `#work`, `#skills`, and `#contact`, laid out
+   like the sections that were already there. `pages/about|projects|skills|
+   contact/` are gone; the education panel from the About page absorbed the
+   home page's separate `#education` block, and the duplicate portrait went with
+   it.
+2. **`utils/site-nav.js` is now a section model** — an ordered list of
+   `{ key, label, hash }` plus `normalizeHash`, `resolveSectionKey`,
+   `getAdjacentSections`, and a `LEGACY_PATHS` map recording where each retired
+   page's content went. Nine unit tests.
+3. **`site.js` marks the section in view** with `aria-current`, using
+   `HomeSections.resolveActiveSection` against the live header height, and the
+   mobile menu now closes itself on a link click. The prev/next page tour is gone
+   along with its CSS, and so is the sticky sub-nav the header nav replaced.
+4. **Section assets moved under `pages/index/`**: `about.css`, `work.css`,
+   `skills.css`, `contact.css`, `work.js`, `contact.js`.
+5. **Both filters were scoped to their own containers.** The timeline and the
+   work grid share the `data-filter-chips` hook name, so a document-wide lookup
+   would have handed the timeline the work grid's chips.
+6. **Skills rows filter the timeline in place** via `data-tech`, falling back to
+   a plain `#experience` jump without JavaScript. `?tech=` still deep-links.
+7. **Tests.** `site-nav.test.js` was rewritten for the section model and
+   `page-markup.test.js` for one page: nav vs `[data-section]` targets, document
+   order, exactly one `h1`, unique ids across the merged markup, and no link to a
+   retired path. 29 assertions there, 8 suites total, all green.
+8. **Docs.** `docs/single-page-architecture.md` and
+   `diagrams/single-page-architecture.mmd` are new;
+   `diagrams/site-architecture.mmd` was retired and
+   `docs/multi-page-architecture.md` carries a superseded banner.
+
+## Earlier changes — Milestone 4 (home page length controls, naming)
+
 
 1. **Sticky section sub-nav** on the home page: five jump links (Proof, What I do,
    Selected work, Experience, Education) that mark the section in view with

@@ -7,10 +7,16 @@ not content or aesthetics — do not mix their patterns.
 
 ## Portfolio patterns (this project)
 
+- **The site is one page.** `index.html` holds the hero plus seven sections
+  (`#proof`, `#approach`, `#about`, `#work`, `#experience`, `#skills`,
+  `#contact`); the nav jumps between them. `utils/site-nav.js` is the section
+  model — add a section there, in the markup, and in the nav, or the markup test
+  fails.
 - **Three layers, one direction**: `utils/` (UMD data + pure logic) → `pages/shared/`
-  (tokens + chrome) → pages. Nothing lower depends on anything higher.
+  (tokens + chrome) → `pages/index/` section CSS and JS. Nothing lower depends on
+  anything higher.
 - **Design tokens**: every `--pf-*` token lives in `pages/shared/css/theme.css`. Link
-  order on every page is `theme.css` → `layout.css` → `pages/<name>/css/<name>.css`.
+  order is `theme.css` → `layout.css` → `pages/index/css/*.css`.
   Page CSS consumes tokens and never redeclares them. New colour = new token in both
   the `[data-theme='dark']` and `[data-theme='light']` blocks.
 - **Brand palette is Ohio State**: scarlet `#ba0c2f`, gray `#a7b1b7`, white `#ffffff`
@@ -31,8 +37,10 @@ not content or aesthetics — do not mix their patterns.
   render with JavaScript off; `utils/resume-data.js` and `utils/project-data.js` are
   the canonical record. `test/page-markup.test.js` fails when the two drift, which is
   what makes the duplication safe.
-- **Home page is root `index.html`** so the recruiter URL is `/`; its stylesheet still
-  lives at `pages/index/css/index.css` to keep the per-page asset convention.
+- **Root `index.html` is the whole site** so the recruiter URL is `/`; each
+  section keeps its own stylesheet under `pages/index/css/` (`about.css`,
+  `work.css`, `skills.css`, `contact.css`) so the CSS stays as separable as the
+  sections.
 - **UMD for anything testable.** Pure helpers export to `module.exports` and to a
   browser global (`window.SiteNav`, `window.ResumeData`, …), so Node suites and pages
   share one implementation. Cross-module deps are injected in the wrapper body.
@@ -40,13 +48,20 @@ not content or aesthetics — do not mix their patterns.
   visitors never lose content.
 - **Progressive enhancement for interaction.** Filters read tags from the DOM,
   ship `hidden`, and are unhidden by script. An unknown tag returns *all* items.
-- **Data-attribute contracts** for behaviour (`data-nav-key`, `data-tour`,
-  `data-role-tags`, `data-project-tags`, `data-copy-email`) so refactoring class
-  names never breaks JavaScript.
-- **Class prefixes follow the page that owns the markup.** When a block moves
-  between pages, rename it (`exp-role` → `home-role`) in the same commit and let
+- **Data-attribute contracts** for behaviour (`data-nav-key`, `data-section`,
+  `data-role-tags`, `data-project-tags`, `data-tech`, `data-copy-email`) so
+  refactoring class names never breaks JavaScript.
+- **Scope every shared hook to its own container.** Two sections on one page use
+  `data-filter-chips`; a `document.querySelector` would hand the second one the
+  first one's node. Query from the section container down, always.
+- **Class prefixes follow the block that owns the markup.** When a block moves,
+  rename it (`exp-role` → `home-role`) in the same commit and let
   `page-markup.test.js` assert the old prefix is gone; a stale prefix sends the
-  next reader looking for a page that no longer exists.
+  next reader looking for a page that no longer exists. Section prefixes
+  (`about-`, `proj-`, `skills-`, `contact-`) now name sections, not pages.
+- **One `h1` per document.** Folding pages together means every former page `h1`
+  becomes the `h2` that opens its section, and ids have to stay unique — both are
+  asserted.
 - **One source for sticky offsets.** `--pf-header-h` in `theme.css` feeds both the
   header's own height and anything that sticks below it, plus the
   `scroll-margin-top` that keeps jump links from landing behind the chrome.
@@ -81,18 +96,18 @@ not content or aesthetics — do not mix their patterns.
 
 ## Critical paths
 
-- Recruiter journey: `index.html` hero → `index.html#experience` timeline →
-  `pages/projects/` case studies → `pages/contact/` (LinkedIn first)
-- Nav and tour: `utils/site-nav.js` → `pages/shared/js/site.js` → `[data-nav-key]`
-  and `[data-tour]` in every page
+- Recruiter journey: `#top` hero → `#proof` → `#work` case studies →
+  `#experience` timeline → `#contact` (LinkedIn first), all in `index.html`
+- Nav: `utils/site-nav.js` `SECTIONS` → `pages/shared/js/site.js` scroll-spy →
+  `[data-nav-key]` links and `[data-section]` targets
 - Theme: `utils/theme-preference.js` → `pages/shared/js/theme-init.js` (pre-paint)
   → `[data-theme]` token blocks in `theme.css`
-- Filtering: `utils/experience-filter.js` → `pages/index/js/index.js` and
-  `pages/projects/js/projects.js`
+- Filtering: `utils/experience-filter.js` → `pages/index/js/index.js` (timeline)
+  and `pages/index/js/work.js` (case studies), each scoped to its own container
 - Card grid parity: `pages/shared/css/layout.css` `pf-grid--*` → every card section
   → `test/page-markup.test.js`
-- Home page length: `utils/home-sections.js` → `pages/index/js/index.js` →
-  `[data-home-subnav]` and `[data-role-toggle]` → `test/home-sections.test.js`
+- Page length: `utils/home-sections.js` → `pages/shared/js/site.js` (section spy)
+  and `pages/index/js/index.js` (`[data-role-toggle]`) → `test/home-sections.test.js`
 - Content integrity: `utils/resume-data.js` + `utils/project-data.js` →
   `test/page-markup.test.js`
 - Colour integrity: `theme.css` tokens ↔ `utils/color-contrast.js` `THEMES` →

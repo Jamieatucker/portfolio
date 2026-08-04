@@ -4,6 +4,71 @@ All notable changes to this project are recorded here, newest first.
 This project follows [Semantic Versioning](https://semver.org/) loosely: the site is
 private and unversioned, so entries are grouped by date and milestone.
 
+## [2.0.0] — 2026-08-04
+
+### Changed — Milestone 5: single-page architecture
+
+**The site is now one page**
+- `index.html` holds the hero plus seven sections in this order: `#proof`,
+  `#approach`, `#about`, `#work`, `#experience`, `#skills`, `#contact`. The
+  About, Projects, Skills, and Contact pages were folded in whole, keeping the
+  layout they already had, and `pages/about/`, `pages/projects/`,
+  `pages/skills/`, and `pages/contact/` were deleted.
+- Every page `<h1>` became the `<h2>` that opens its section; the hero keeps the
+  only `h1` on the page.
+- The home page's standalone `#education` block was dropped in favour of the
+  richer education panel that came with the About page, and the About portrait
+  was dropped because the hero already carries the same photo.
+- The projects page's closing "Want the detail?" call to action was dropped; the
+  `#contact` section now ends the page.
+
+**Navigation**
+- `utils/site-nav.js` was rewritten from a page model into a section model:
+  an ordered `SECTIONS` list of `{ key, label, hash }`, plus `normalizeHash`,
+  `getSection`, `resolveSectionKey`, `getSectionKeys`, `getAdjacentSections`,
+  and a `LEGACY_PATHS` map recording where each retired page's content went.
+- Header nav links are fragments; the brand returns to `#top`; the footer repeats
+  the section links.
+- `pages/shared/js/site.js` replaced page-based `aria-current` with a scroll-spy
+  built on `HomeSections.resolveActiveSection` and the live header height, and
+  the mobile menu now closes itself when a link is clicked.
+- The prev/next page tour is gone: `setupTour`, the `[data-tour]` containers, and
+  the `.pf-tour*` rules in `layout.css`.
+- The sticky home sub-nav is gone too — the header nav points at the same
+  sections, and two bars of identical links was one too many.
+
+**Section assets**
+- `pages/index/css/` now holds `index.css`, `about.css`, `work.css` (was
+  `projects.css`), `skills.css`, and `contact.css`; `pages/index/js/` holds
+  `index.js`, `work.js` (was `projects.js`), and `contact.js`.
+- Nav links lose padding between 801px and 1040px so seven labels plus the brand
+  fit before the mobile menu takes over at 800px.
+
+**Filters**
+- Both filters live on one page now, so each script resolves `data-filter-chips`
+  and `data-filter-status` inside its own container. A document-wide lookup would
+  have handed the timeline the work grid's chips.
+- Skills rows filter the timeline in place through `data-tech`, falling back to a
+  plain `#experience` jump when JavaScript is off. `?tech=` still deep-links.
+
+### Added
+- `docs/single-page-architecture.md` — feature overview with a Mermaid diagram.
+- `diagrams/single-page-architecture.mmd`.
+- `test/site-nav.test.js` rewritten: nine cases over hash normalisation, section
+  resolution, labels, document order, adjacency, and legacy paths.
+- `test/page-markup.test.js` rewritten for one page: 29 assertions including nav
+  links vs `[data-section]` targets, document order, exactly one `h1`, unique ids
+  across the merged markup, both filter hooks scoped, and no link to a retired
+  page path.
+
+### Removed
+- `diagrams/site-architecture.mmd` (replaced by the single-page diagram).
+- `docs/multi-page-architecture.md` is kept but marked superseded.
+
+### Fixed
+- The portfolio case study described itself as a "multi-page static site" in
+  `utils/project-data.js` and the markup; it is single-page now.
+
 ## [1.3.1] — 2026-08-04
 
 ### Fixed

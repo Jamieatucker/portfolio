@@ -2,10 +2,24 @@
 
 ## Current status
 
-**Milestones 1–4 are complete and tested.** The site is a five-page static
+**Milestones 1–5 are complete and tested.** The site is a single-page static
 portfolio in the Ohio State palette, with unit-tested shared logic, machine-verified
-colour contrast, and markup verification. The home page now carries the full work
-history. `npm test` runs eight suites, all passing.
+colour contrast, and markup verification. `index.html` carries the hero and seven
+sections; the header nav jumps between them. `npm test` runs eight suites, all
+passing.
+
+### Milestone 5 — single-page architecture (done)
+- [x] About, Projects, Skills, and Contact folded into `index.html` as `#about`,
+      `#work`, `#skills`, `#contact`; their page directories deleted
+- [x] `utils/site-nav.js` rewritten as a section model with a `LEGACY_PATHS` map;
+      `test/site-nav.test.js` covers nine cases
+- [x] `site.js` marks the section in view and drops the prev/next tour; the
+      sticky sub-nav retired in favour of the header nav
+- [x] Section CSS and JS relocated under `pages/index/`; both filters scoped to
+      their own containers so they cannot capture each other's chips
+- [x] Skills rows filter the timeline in place via `data-tech`
+- [x] `test/page-markup.test.js` rewritten for one page (29 assertions)
+- [x] `docs/single-page-architecture.md` + `diagrams/single-page-architecture.mmd`
 
 ### Milestone 4 — home page length controls and naming (done)
 - [x] `utils/home-sections.js` — `resolveActiveSection`, `limitRoles`,
@@ -52,32 +66,34 @@ history. `npm test` runs eight suites, all passing.
 ### Data and logic layer (`utils/`, all UMD, all unit tested)
 - [x] `resume-data.js` — profile, education, three roles, skill groups, impact metrics, date math
 - [x] `project-data.js` — eight case studies with role provenance and orphan detection
-- [x] `site-nav.js` — nav model, path normalisation, active-key resolution, prev/next tour
+- [x] `site-nav.js` — section model, hash normalisation, order, adjacency, legacy page map
 - [x] `experience-filter.js` — tag matching, `All`, unknown-tag fallback, sorting, counts
 - [x] `theme-preference.js` — saved → OS → default resolution, toggle labels
 
 ### Shared chrome (`pages/shared/`)
 - [x] `theme.css` — `--pf-*` tokens, dark and light palettes, universal font stack, reduced motion, print styles
-- [x] `layout.css` — sticky header, nav, buttons, cards, grids, tags, tour, footer, mobile menu
+- [x] `layout.css` — sticky header, nav, buttons, cards, grids, tags, footer, mobile menu
 - [x] `theme-init.js` — pre-paint theme application, adds `.pf-js`
-- [x] `site.js` — active nav, mobile menu, theme toggle, reveal on scroll, tour rendering, footer year
+- [x] `site.js` — section spy, mobile menu, theme toggle, reveal on scroll, footer year
 
-### Pages
-- [x] Home (`index.html` + `pages/index/{css,js}`) — hook, metric strip, value props, four featured projects, the full three-role timeline with technology filter and `?tech=` deep links, education, CTA, Person JSON-LD
-- [x] About — story, four working principles, education panel, interests
-- [x] Projects — eight problem/approach/outcome cards, technology filter
-- [x] Skills — four groups, honest depth labels, deep links into the home timeline filter
-- [x] Contact — LinkedIn (fastest), email + copy button, résumé, what I'm looking for
+### Sections (all in `index.html`, styled from `pages/index/`)
+- [x] Hero — hook, availability, both CTAs, Person JSON-LD
+- [x] `#proof` — four impact metrics; `#approach` — what I'm brought in to do
+- [x] `#about` — story, four working principles, education panel, interests
+- [x] `#work` — eight problem/approach/outcome cards, technology filter
+- [x] `#experience` — three-role timeline, technology filter, `?tech=` deep links, collapse
+- [x] `#skills` — four groups, honest depth labels, rows that filter the timeline
+- [x] `#contact` — LinkedIn (fastest), email + copy button, résumé, what I'm looking for
 
 ### Verification
 - [x] Eight Node suites via `test/run-all.js`
-- [x] `page-markup.test.js` — markup vs data, nav consistency across every page, grid parity, contact ordering, dead-link and `rel=noopener` checks
-- [x] Manual HTTP check: all five routes and all assets return 200
+- [x] `page-markup.test.js` — markup vs data, nav vs section targets, document order, one `h1`, unique ids, grid parity, contact ordering, dead-link and `rel=noopener` checks
+- [x] Manual HTTP check: `/` and every relocated asset return 200
 
 ### Documentation (Memory Files)
 - [x] `docs/product_requirement_docs.md`, `docs/architecture.md`, `docs/technical.md`
-- [x] `docs/multi-page-architecture.md` (feature overview, 451 words, with Mermaid)
-- [x] `diagrams/site-architecture.mmd`
+- [x] `docs/single-page-architecture.md` (feature overview, with Mermaid); `docs/multi-page-architecture.md` kept as the superseded record
+- [x] `diagrams/single-page-architecture.mmd`
 - [x] `tasks/tasks_plan.md`, `tasks/active_context.md`, `tasks/changelog.md`
 - [x] `.cursor/rules/lessons-learned.mdc` and `.cursor/rules/error-documentation.mdc` updated
 
@@ -88,7 +104,8 @@ history. `npm test` runs eight suites, all passing.
       `og:image` / `twitter:card` tags so the link previews well on LinkedIn.
 - [ ] **Real favicon set for this site.** The current icons are borrowed from the
       sibling project; generate a `JT` monogram set matching this palette.
-- [ ] **Lighthouse pass** on all five pages; record scores in `docs/technical.md`.
+- [ ] **Lighthouse pass** on the page; record scores in `docs/technical.md`. Worth
+      re-checking the payload now that everything loads at once.
 - [x] ~~Contrast audit of the light theme~~ — done in Milestone 2 and now enforced
       by `test/color-contrast.test.js` on every run.
 - [ ] **Focus-ring contrast on scarlet surfaces**: `:focus-visible` uses
@@ -96,28 +113,30 @@ history. `npm test` runs eight suites, all passing.
       against a scarlet button face and add a contract for it.
 
 ### P2 — content depth
-- [ ] Per-project detail pages (`pages/projects/html/<id>.html`) for the three
-      strongest case studies, linked from the cards.
+- [ ] Per-project detail pages for the three strongest case studies. These would
+      be the first documents besides `index.html`; decide first whether a detail
+      view should instead expand in place.
 - [ ] Testimonial or recommendation quotes on the home page (needs permission).
-- [ ] `?tech=` deep links from the projects page (the home timeline already supports it).
+- [ ] `?tech=` deep links into the `#work` filter (the timeline already supports it).
 - [x] ~~The home page is now long~~ — Milestone 4 shipped both the sticky sub-nav
       and the collapse for older roles.
 
 ### P3 — engineering polish
-- [ ] Extract the repeated header/footer block into a documented HTML partial and a
-      build-free include check, or a tiny Node prebuild that stamps them.
+- [x] ~~Extract the repeated header/footer block~~ — moot: there is one document,
+      so the block exists once.
 - [ ] Add an HTML validator and a link checker to `npm test`.
-- [ ] Add a smoke test that boots the pages in a headless browser to cover the DOM
-      wiring in `site.js` and the sub-nav scroll-spy in `index.js`, which unit
-      tests cannot reach.
-- [ ] `pages/index/css/index.css` is the largest page stylesheet now that the
-      timeline lives there. Split it if the home page grows again.
+- [ ] Add a smoke test that boots the page in a headless browser to cover the DOM
+      wiring in `site.js`, the nav scroll-spy, and both filters, which unit tests
+      cannot reach. This matters more now that two filters share hook names.
+- [ ] `index.html` is ~800 lines. It is still readable because each section is
+      fenced by a comment, but consider a tiny build step if it doubles.
 
 ## Known issues and risks
 
 | Issue | Impact | Mitigation / plan |
 | --- | --- | --- |
-| Header/footer markup is duplicated across five pages | Editing the nav means five edits | `page-markup.test.js` fails if any page drifts; P3 item to extract a partial |
+| `index.html` is ~800 lines of hand-written markup | Harder to scan than five smaller files | Every section is fenced by a comment and owns its CSS file; `page-markup.test.js` fails if the markup drifts from the data or the nav |
+| Two filters share hook names on one page | A document-wide `querySelector` would cross them | Both scripts resolve hooks inside their own container, and the markup suite asserts it |
 | Résumé content exists in both the data module and the markup | Risk of drift | Markup tests assert every string appears; edit the data module first |
 | Favicons and profile photo are copied from the sibling project | Slightly off-brand | P1 items above |
 | Token values are duplicated in `theme.css` and `utils/color-contrast.js` | A CSS-only edit could escape the audit | Tests assert the three brand values appear verbatim in `theme.css`; treat the pair as one change |

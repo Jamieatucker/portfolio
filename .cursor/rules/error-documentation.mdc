@@ -65,12 +65,12 @@ alwaysApply: false
 - **State**: Resolved. Any component with an explicit `display` needs this guard
   before `hidden` can be trusted.
 
-### A4d. The last section could never become active in the sub-nav
+### A4d. The last section could never become active in the section nav
 
 - **Context**: `resolveActiveSection` marks a section active once its top edge
-  passes the sticky header and sub-nav.
-- **Symptom**: A short trailing section (Education) sits close enough to the page
-  bottom that its top never clears the offset, so the link never lit up.
+  passes the sticky chrome.
+- **Symptom**: A short trailing section sits close enough to the page bottom that
+  its top never clears the offset, so the link never lit up.
 - **Resolution**: `resolveActiveSection` takes an `atBottom` flag and returns the
   last section when the page cannot scroll further. Covered by
   `test/home-sections.test.js`.
@@ -87,14 +87,28 @@ alwaysApply: false
 - **State**: Resolved. Any figure derivable from the data modules should be
   compared against them in `page-markup.test.js`.
 
-### A5. Duplicated header and footer markup across five pages
+### A4f. Two filters on one page fought over the same hook
 
-- **Context**: No build step, so the nav block is repeated in every page.
-- **Symptom**: Editing the nav in four of five pages is silent and easy to miss.
-- **Resolution**: `test/page-markup.test.js` asserts every page contains every
-  `NAV_LINKS` entry with the exact `data-nav-key` and `href`, and that no internal
-  link 404s. Drift now fails the build instead of shipping.
-- **State**: Mitigated. Extracting a partial is a P3 item in `tasks/tasks_plan.md`.
+- **Context**: Folding the pages together put the work grid's filter and the
+  timeline's filter in the same document. Both were written as standalone page
+  scripts using `document.querySelector('[data-filter-chips]')`.
+- **Symptom**: Latent, and caught before it shipped: the work section appears
+  first, so the timeline would have rendered its chips into the work grid's chip
+  host and left its own empty.
+- **Resolution**: Each script resolves its hooks inside its own container
+  (`[data-experience-filter]` / `[data-project-filter]`), and
+  `test/page-markup.test.js` fails if a document-wide lookup returns.
+- **State**: Resolved. When markup moves onto a shared page, re-read every
+  `document.querySelector` in the scripts that came with it.
+
+### A5. Duplicated header and footer markup across pages
+
+- **Context**: With no build step, the nav block was repeated in every page.
+- **Symptom**: Editing the nav in four of five pages was silent and easy to miss.
+- **Resolution**: `test/page-markup.test.js` asserted every page carried every nav
+  entry with the exact `data-nav-key` and `href`. The single-page rewrite removed
+  the cause: the header and footer now exist once.
+- **State**: Resolved by Milestone 5.
 
 ### A6. Root-absolute paths do not work over `file://`
 
