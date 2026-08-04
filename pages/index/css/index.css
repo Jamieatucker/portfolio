@@ -1,0 +1,189 @@
+/* index.css — home page only: hero, metric strip, career path, CTA band. */
+
+.home-hero {
+    display: grid;
+    gap: var(--pf-space-7);
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    align-items: center;
+    padding-top: var(--pf-space-8);
+}
+
+.home-hero__title {
+    margin-bottom: var(--pf-space-4);
+}
+
+.home-hero__accent {
+    background: linear-gradient(120deg, var(--pf-accent), var(--pf-highlight));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* Fallback for engines that ignore background-clip: text. */
+    -webkit-text-fill-color: transparent;
+}
+
+.home-hero__lead {
+    max-width: 46ch;
+}
+
+.home-hero__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    margin-bottom: var(--pf-space-5);
+    padding: 0.35rem 0.85rem;
+    border: 1px solid color-mix(in srgb, var(--pf-highlight) 45%, transparent);
+    border-radius: var(--pf-radius-pill);
+    background: color-mix(in srgb, var(--pf-highlight) 12%, transparent);
+    font-size: var(--pf-text-sm);
+    font-weight: 550;
+}
+
+.home-hero__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--pf-highlight);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--pf-highlight) 22%, transparent);
+}
+
+.home-hero__portrait {
+    position: relative;
+}
+
+.home-hero__portrait img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius-lg);
+    box-shadow: var(--pf-shadow);
+}
+
+.home-hero__caption {
+    margin: var(--pf-space-3) 0 0;
+    font-size: var(--pf-text-xs);
+    color: var(--pf-text-subtle);
+    text-align: center;
+}
+
+.home-metrics {
+    padding-top: var(--pf-space-7);
+}
+
+.home-metrics__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.home-metric {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-1);
+    margin: 0;
+    padding: var(--pf-space-4) var(--pf-space-5);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius);
+    background: var(--pf-surface);
+}
+
+.home-metric__value {
+    font-size: var(--pf-text-2xl);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--pf-accent);
+}
+
+.home-metric__label {
+    font-size: var(--pf-text-sm);
+    line-height: 1.45;
+    color: var(--pf-text-muted);
+}
+
+.home-more {
+    margin-top: var(--pf-space-5);
+}
+
+.home-path {
+    display: grid;
+    gap: var(--pf-space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: none;
+}
+
+.home-path__item {
+    display: grid;
+    grid-template-columns: 12rem minmax(0, 1fr);
+    gap: var(--pf-space-1) var(--pf-space-5);
+    margin: 0;
+    padding: var(--pf-space-4) 0;
+    border-top: 1px solid var(--pf-border);
+    max-width: none;
+}
+
+.home-path__item:last-child {
+    border-bottom: 1px solid var(--pf-border);
+}
+
+.home-path__date {
+    grid-row: span 2;
+    font-size: var(--pf-text-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--pf-text-subtle);
+}
+
+.home-path__role {
+    font-weight: 650;
+}
+
+.home-path__org {
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-muted);
+}
+
+.home-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--pf-space-5);
+    background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--pf-accent) 14%, transparent),
+        color-mix(in srgb, var(--pf-highlight) 10%, transparent)
+    );
+}
+
+.home-cta h2 {
+    font-size: var(--pf-text-2xl);
+}
+
+.home-cta p {
+    margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+    .home-hero {
+        grid-template-columns: minmax(0, 1fr);
+        padding-top: var(--pf-space-6);
+    }
+
+    .home-hero__portrait {
+        order: -1;
+        max-width: 18rem;
+    }
+
+    .home-hero__portrait img {
+        aspect-ratio: 1 / 1;
+    }
+
+    .home-path__item {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .home-path__date {
+        grid-row: auto;
+    }
+}

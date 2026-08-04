@@ -1,0 +1,54 @@
+/* contact.css — contact page only: channel cards and the "looking for" panel. */
+
+.contact-head {
+    padding-top: var(--pf-space-8);
+}
+
+.contact-head .pf-lead {
+    max-width: 58ch;
+}
+
+.contact-card .pf-card__title {
+    word-break: break-word;
+}
+
+.contact-card .pf-card__title a {
+    text-decoration: none;
+}
+
+.contact-card .pf-card__title a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+}
+
+.contact-card .pf-btn-row {
+    margin-top: var(--pf-space-4);
+}
+
+.contact-card__status {
+    margin: var(--pf-space-3) 0 0;
+    min-height: 1.2em;
+    font-size: var(--pf-text-xs);
+    color: var(--pf-highlight);
+}
+
+.contact-looking__list {
+    margin: 0 0 var(--pf-space-5);
+    padding-left: 1.1rem;
+}
+
+.contact-looking__list li {
+    color: var(--pf-text-muted);
+}
+
+.contact-looking__list li::marker {
+    color: var(--pf-accent);
+}
+
+.contact-looking__note {
+    margin: 0;
+    padding-top: var(--pf-space-4);
+    border-top: 1px solid var(--pf-border);
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-subtle);
+}

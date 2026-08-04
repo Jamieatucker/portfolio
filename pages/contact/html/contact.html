@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contact — Jamie Tucker</title>
+    <meta name="description" content="Contact Jamie Tucker, full-stack software engineer in Sunnyvale, CA — email, LinkedIn, and what he's looking for in his next role.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Contact — Jamie Tucker">
+    <link rel="canonical" href="/pages/contact/html/contact.html">
+    <link rel="icon" type="image/png" sizes="32x32" href="/media/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/media/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/media/icons/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/pages/shared/css/theme.css">
+    <link rel="stylesheet" href="/pages/shared/css/layout.css">
+    <link rel="stylesheet" href="/pages/contact/css/contact.css">
+    <script src="/utils/theme-preference.js"></script>
+    <script src="/pages/shared/js/theme-init.js"></script>
+</head>
+<body>
+    <a class="pf-skip-link" href="#main">Skip to content</a>
+
+    <header class="pf-header">
+        <div class="pf-shell pf-header__inner">
+            <a class="pf-brand" href="/index.html">
+                <span class="pf-brand__mark" aria-hidden="true">JT</span>
+                <span class="pf-brand__text">
+                    <span>Jamie Tucker</span>
+                    <span class="pf-brand__role">Full-Stack Software Engineer</span>
+                </span>
+            </a>
+            <nav class="pf-nav" aria-label="Primary">
+                <button class="pf-icon-btn pf-nav__toggle" type="button" data-nav-toggle aria-expanded="true" aria-controls="pf-nav-list">
+                    <span aria-hidden="true">&#9776;</span>
+                    <span class="pf-visually-hidden">Menu</span>
+                </button>
+                <ul class="pf-nav__list" id="pf-nav-list" data-collapsed="false">
+                    <li><a class="pf-nav__link" data-nav-key="home" href="/index.html">Home</a></li>
+                    <li><a class="pf-nav__link" data-nav-key="about" href="/pages/about/html/about.html">About</a></li>
+                    <li><a class="pf-nav__link" data-nav-key="experience" href="/pages/experience/html/experience.html">Experience</a></li>
+                    <li><a class="pf-nav__link" data-nav-key="projects" href="/pages/projects/html/projects.html">Projects</a></li>
+                    <li><a class="pf-nav__link" data-nav-key="skills" href="/pages/skills/html/skills.html">Skills</a></li>
+                    <li><a class="pf-nav__link" data-nav-key="contact" href="/pages/contact/html/contact.html">Contact</a></li>
+                </ul>
+                <button class="pf-icon-btn pf-theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
+                    <span aria-hidden="true">&#9788;</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pf-main" id="main">
+        <section class="pf-shell contact-head">
+            <p class="pf-eyebrow">Contact</p>
+            <h1>Let&rsquo;s talk about what you&rsquo;re building.</h1>
+            <p class="pf-lead">
+                Email is the fastest way to reach me and I reply to every message. If you already have a
+                role in mind, send the team and the problem &mdash; I&rsquo;ll tell you honestly whether
+                I&rsquo;m the right engineer for it.
+            </p>
+        </section>
+
+        <section class="pf-shell pf-section" aria-labelledby="channels-heading">
+            <h2 class="pf-visually-hidden" id="channels-heading">Ways to reach me</h2>
+            <div class="pf-grid pf-grid--2">
+                <article class="pf-card contact-card pf-reveal">
+                    <p class="pf-card__meta">Email &middot; fastest</p>
+                    <h3 class="pf-card__title">
+                        <a href="mailto:jamieatucker4@gmail.com" data-contact-email>jamieatucker4@gmail.com</a>
+                    </h3>
+                    <div class="pf-card__body">
+                        <p>Direct to my inbox. Recruiters: including the stack and location saves us both a round trip.</p>
+                    </div>
+                    <div class="pf-btn-row">
+                        <a class="pf-btn pf-btn--primary" href="mailto:jamieatucker4@gmail.com?subject=Role%20for%20Jamie%20Tucker">Compose email</a>
+                        <button class="pf-btn pf-btn--secondary" type="button" data-copy-email data-email="jamieatucker4@gmail.com" hidden>Copy address</button>
+                    </div>
+                    <p class="contact-card__status" data-copy-status role="status"></p>
+                </article>
+
+                <article class="pf-card contact-card pf-reveal">
+                    <p class="pf-card__meta">LinkedIn</p>
+                    <h3 class="pf-card__title">
+                        <a href="https://linkedin.com/in/jamieatucker" target="_blank" rel="noopener">linkedin.com/in/jamieatucker</a>
+                    </h3>
+                    <div class="pf-card__body">
+                        <p>Full work history, recommendations, and the easiest place to connect if you prefer messaging there.</p>
+                    </div>
+                    <div class="pf-btn-row">
+                        <a class="pf-btn pf-btn--secondary" href="https://linkedin.com/in/jamieatucker" target="_blank" rel="noopener">Open profile</a>
+                    </div>
+                </article>
+
+                <article class="pf-card contact-card pf-reveal">
+                    <p class="pf-card__meta">R&eacute;sum&eacute;</p>
+                    <h3 class="pf-card__title">One-page PDF</h3>
+                    <div class="pf-card__body">
+                        <p>The same content as this site, formatted for applicant tracking systems and quick forwarding.</p>
+                    </div>
+                    <div class="pf-btn-row">
+                        <a class="pf-btn pf-btn--secondary" href="/media/docs/jamie-tucker-resume.pdf" target="_blank" rel="noopener">Download r&eacute;sum&eacute;</a>
+                    </div>
+                </article>
+
+                <article class="pf-card contact-card pf-reveal">
+                    <p class="pf-card__meta">Location</p>
+                    <h3 class="pf-card__title">Sunnyvale, California</h3>
+                    <div class="pf-card__body">
+                        <p>Pacific time. Comfortable on site in the Bay Area, hybrid, or fully remote with a distributed team.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="pf-shell pf-section pf-reveal" aria-labelledby="looking-heading">
+            <div class="pf-section__head">
+                <p class="pf-eyebrow">What I&rsquo;m looking for</p>
+                <h2 id="looking-heading">The kind of role that gets the best out of me</h2>
+            </div>
+            <div class="pf-panel contact-looking">
+                <ul class="contact-looking__list">
+                    <li>Front-end or full-stack ownership of a product surface, not a ticket queue.</li>
+                    <li>A team that treats architecture decisions as a shared, reversible conversation.</li>
+                    <li>Real users on the other side of the screen, and data that tells us what they did.</li>
+                    <li>Colleagues in UX research and design who expect engineers in the room.</li>
+                </ul>
+                <p class="contact-looking__note">
+                    Not sure it&rsquo;s a fit? Send it anyway. A short, honest &lsquo;no&rsquo; costs less
+                    than a missed match.
+                </p>
+            </div>
+        </section>
+
+        <div class="pf-shell">
+            <nav class="pf-tour" data-tour aria-label="Continue the tour"></nav>
+        </div>
+    </main>
+
+    <footer class="pf-footer">
+        <div class="pf-shell pf-footer__inner">
+            <ul class="pf-footer__links">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/pages/about/html/about.html">About</a></li>
+                <li><a href="/pages/experience/html/experience.html">Experience</a></li>
+                <li><a href="/pages/projects/html/projects.html">Projects</a></li>
+                <li><a href="/pages/skills/html/skills.html">Skills</a></li>
+                <li><a href="/media/docs/jamie-tucker-resume.pdf" target="_blank" rel="noopener">R&eacute;sum&eacute;</a></li>
+            </ul>
+            <p class="pf-footer__note">
+                &copy; <span data-current-year>2026</span> Jamie Tucker &middot; Built with hand-written HTML, CSS, and JavaScript.
+            </p>
+        </div>
+    </footer>
+
+    <script src="/utils/site-nav.js"></script>
+    <script src="/pages/shared/js/site.js"></script>
+    <script src="/pages/contact/js/contact.js"></script>
+</body>
+</html>

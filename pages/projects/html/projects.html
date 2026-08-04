@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Projects — Jamie Tucker</title>
+    <meta name="description" content="Case studies from Jamie Tucker's work: generative AI game creation tooling, creator verification flows, a 30+ component design system, and Google Discover 'Notes'.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Projects — Jamie Tucker">
+    <link rel="canonical" href="/pages/projects/html/projects.html">
+    <link rel="icon" type="image/png" sizes="32x32" href="/media/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/media/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/media/icons/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/pages/shared/css/theme.css">
+    <link rel="stylesheet" href="/pages/shared/css/layout.css">
+    <link rel="stylesheet" href="/pages/projects/css/projects.css">
+    <script src="/utils/theme-preference.js"></script>
+    <script src="/pages/shared/js/theme-init.js"></script>
+</head>
+<body>
+    <a class="pf-skip-link" href="#main">Skip to content</a>
+
+    <header class="pf-header">
+        <div class="pf-shell pf-header__inner">
+            <a class="pf-brand" href="/index.html">
+                <span class="pf-brand__mark" aria-hidden="true">JT</span>
+                <span class="pf-brand__text">
+                    <span>Jamie Tucker</span>
+                    <span class="pf-brand__role">Full-Stack Software Engineer</span>
+                </span>
+            </a>
+            <nav class="pf-nav" aria-label="Primary">
+                <button class="pf-icon-btn pf-nav__toggle" type="button" data-nav-toggle aria-expanded="true" aria-controls="pf-nav-list">
+                    <span aria-hidden="true">&#9776;</span>
+                    <span class="pf-visually-hidden">Menu</span>
+                </button>
+                <ul class="pf-nav__list" id="pf-nav-list" data-collapsed="false">
+                    <li><a class="pf-nav__link" data-nav-key="home" href="/index.html">Home</a></li>
+                    <li><a class="pf-nav__link" data-nav-key="about" href="/pages/about/html/about.html">About</a></li>
+                    <li><a class="pf-nav__link" data-nav-key="experience" href="/pages/experience/html/experience.html">Experience</a></li>
+                    <li><a class="pf-nav__link" data-nav-key="projects" href="/pages/projects/html/projects.html">Projects</a></li>
+                    <li><a class="pf-nav__link" data-nav-key="skills" href="/pages/skills/html/skills.html">Skills</a></li>
+                    <li><a class="pf-nav__link" data-nav-key="contact" href="/pages/contact/html/contact.html">Contact</a></li>
+                </ul>
+                <button class="pf-icon-btn pf-theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
+                    <span aria-hidden="true">&#9788;</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pf-main" id="main">
+        <section class="pf-shell proj-head">
+            <p class="pf-eyebrow">Projects</p>
+            <h1>Eight case studies, written as problem, approach, outcome.</h1>
+            <p class="pf-lead">
+                These are the pieces of work I would want to talk through in an interview. Filter by a
+                technology to jump to the ones that match your stack.
+            </p>
+        </section>
+
+        <section class="pf-shell pf-section" aria-labelledby="case-heading">
+            <h2 class="pf-visually-hidden" id="case-heading">Case studies</h2>
+
+            <!-- Populated by projects.js; hidden until then so no-JS users see all cards. -->
+            <div class="proj-filter" data-project-filter hidden>
+                <p class="proj-filter__label" id="proj-filter-label">Filter by technology</p>
+                <div class="proj-filter__chips" data-filter-chips role="group" aria-labelledby="proj-filter-label"></div>
+                <p class="proj-filter__status" data-filter-status role="status"></p>
+            </div>
+
+            <div class="pf-grid pf-grid--2 proj-grid" data-project-list>
+                <article class="pf-card proj-card pf-reveal" data-project-tags="TypeScript,React,SASS,Gemini,RESTful APIs">
+                    <p class="pf-card__meta">YouTube &middot; Playables Game Creation</p>
+                    <h3 class="pf-card__title">Playables Game Creation Client</h3>
+                    <div class="pf-card__body proj-card__body">
+                        <p><span class="proj-label">Problem</span> A flagship generative AI game creation product had no client foundation, and multiple teams needed to ship into it at once.</p>
+                        <p><span class="proj-label">Approach</span> Designed a multi-page client architecture from scratch with clear module boundaries, then layered client-side state management for dynamic game assets and generated code files.</p>
+                        <p><span class="proj-label">Outcome</span> Shipped creation tools to 1,000+ creators, cut initial load times, lowered memory overhead, and accelerated cross-functional feature delivery.</p>
+                    </div>
+                    <ul class="pf-tags">
+                        <li><span class="pf-tag">TypeScript</span></li>
+                        <li><span class="pf-tag">React</span></li>
+                        <li><span class="pf-tag">SASS</span></li>
+                        <li><span class="pf-tag">Gemini</span></li>
+                        <li><span class="pf-tag">RESTful APIs</span></li>
+                    </ul>
+                </article>
+
+                <article class="pf-card proj-card pf-reveal" data-project-tags="TypeScript,React,HTML/CSS,Kotlin">
+                    <p class="pf-card__meta">Google &middot; Search Intelligence</p>
+                    <h3 class="pf-card__title">Creator Verification Flow</h3>
+                    <div class="pf-card__body proj-card__body">
+                        <p><span class="proj-label">Problem</span> Creators linking social accounts to Search dropped out of a confusing, multi-step onboarding flow.</p>
+                        <p><span class="proj-label">Approach</span> Engineered an intuitive front-end verification flow and overhauled its usability and accessibility with UX research from 10,000+ creators.</p>
+                        <p><span class="proj-label">Outcome</span> Streamlined account linking for 1M+ creators and improved onboarding conversion and engagement.</p>
+                    </div>
+                    <ul class="pf-tags">
+                        <li><span class="pf-tag">TypeScript</span></li>
+                        <li><span class="pf-tag">React</span></li>
+                        <li><span class="pf-tag">HTML/CSS</span></li>
+                        <li><span class="pf-tag">Kotlin</span></li>
+                    </ul>
+                </article>
+
+                <article class="pf-card proj-card pf-reveal" data-project-tags="TypeScript,React,SASS,HTML/CSS">
+                    <p class="pf-card__meta">Google &middot; Search Intelligence</p>
+                    <h3 class="pf-card__title">Verification Component Library</h3>
+                    <div class="pf-card__body proj-card__body">
+                        <p><span class="proj-label">Problem</span> Verification surfaces were rebuilt per team, producing inconsistent UI and duplicated code.</p>
+                        <p><span class="proj-label">Approach</span> Authored a reusable UI component library of 30+ elements with shared accessibility and styling contracts.</p>
+                        <p><span class="proj-label">Outcome</span> Consistent verification flows across surfaces and a measurably more maintainable codebase with less redundancy.</p>
+                    </div>
+                    <ul class="pf-tags">
+                        <li><span class="pf-tag">TypeScript</span></li>
+                        <li><span class="pf-tag">React</span></li>
+                        <li><span class="pf-tag">SASS</span></li>
+                        <li><span class="pf-tag">HTML/CSS</span></li>
+                    </ul>
+                </article>
+
+                <article class="pf-card proj-card pf-reveal" data-project-tags="Java,Kotlin,JavaScript,HTML/CSS">
+                    <p class="pf-card__meta">Google &middot; Modern Creators and Formats</p>
+                    <h3 class="pf-card__title">Google Discover &lsquo;Notes&rsquo;</h3>
+                    <div class="pf-card__body proj-card__body">
+                        <p><span class="proj-label">Problem</span> Discover readers had no way to react to articles in real time, and drafts were published without a preview of the final render.</p>
+                        <p><span class="proj-label">Approach</span> Built a pre-publish client state validation layer for live content previews and a dynamic grid layout architecture that aggregates real-time note clusters.</p>
+                        <p><span class="proj-label">Outcome</span> Supported a launch engaging 1M+ users across the US and India, with higher post completion rates and improved feed quality.</p>
+                    </div>
+                    <ul class="pf-tags">
+                        <li><span class="pf-tag">Java</span></li>
+                        <li><span class="pf-tag">Kotlin</span></li>
+                        <li><span class="pf-tag">JavaScript</span></li>
+                        <li><span class="pf-tag">HTML/CSS</span></li>
+                    </ul>
+                </article>
+
+                <article class="pf-card proj-card pf-reveal" data-project-tags="TypeScript,Java,HTML/CSS">
+                    <p class="pf-card__meta">Google &middot; Search Intelligence</p>
+                    <h3 class="pf-card__title">Trending Search Badge Labels</h3>
+                    <div class="pf-card__body proj-card__body">
+                        <p><span class="proj-label">Problem</span> Strong results below the fold went unnoticed because nothing signalled that they were trending.</p>
+                        <p><span class="proj-label">Approach</span> Developed horizontal search badge labels that surface trending results inline within the results page.</p>
+                        <p><span class="proj-label">Outcome</span> Boosted lower-page visibility and increased click-through rates for 3M+ US users.</p>
+                    </div>
+                    <ul class="pf-tags">
+                        <li><span class="pf-tag">TypeScript</span></li>
+                        <li><span class="pf-tag">Java</span></li>
+                        <li><span class="pf-tag">HTML/CSS</span></li>
+                    </ul>
+                </article>
+
+                <article class="pf-card proj-card pf-reveal" data-project-tags="SQL,Java">
+                    <p class="pf-card__meta">Google &middot; Search Intelligence</p>
+                    <h3 class="pf-card__title">Top-Rated Dining Live Experiment</h3>
+                    <div class="pf-card__body proj-card__body">
+                        <p><span class="proj-label">Problem</span> Identifying genuinely top-rated restaurants at national scale required evidence, not intuition.</p>
+                        <p><span class="proj-label">Approach</span> Led a live experiment analysing signals from 1,000+ restaurants across the United States.</p>
+                        <p><span class="proj-label">Outcome</span> Produced a ranked view of top-rated dining establishments that informed the surface&rsquo;s recommendations.</p>
+                    </div>
+                    <ul class="pf-tags">
+                        <li><span class="pf-tag">SQL</span></li>
+                        <li><span class="pf-tag">Java</span></li>
+                    </ul>
+                </article>
+
+                <article class="pf-card proj-card pf-reveal" data-project-tags="Java,Git">
+                    <p class="pf-card__meta">Google &middot; Modern Creators and Formats</p>
+                    <h3 class="pf-card__title">User-Generated Visual Validation</h3>
+                    <div class="pf-card__body proj-card__body">
+                        <p><span class="proj-label">Problem</span> User-uploaded imagery could render incorrectly across markets with no automated safety net.</p>
+                        <p><span class="proj-label">Approach</span> Conducted automated image comparison tests over user visuals as part of the release process.</p>
+                        <p><span class="proj-label">Outcome</span> Reached 95%+ accuracy validating user-generated content display before launch.</p>
+                    </div>
+                    <ul class="pf-tags">
+                        <li><span class="pf-tag">Java</span></li>
+                        <li><span class="pf-tag">Git</span></li>
+                    </ul>
+                </article>
+
+                <article class="pf-card proj-card pf-reveal" data-project-tags="JavaScript,HTML/CSS,Git">
+                    <p class="pf-card__meta">Personal project</p>
+                    <h3 class="pf-card__title">This Portfolio Site</h3>
+                    <div class="pf-card__body proj-card__body">
+                        <p><span class="proj-label">Problem</span> My work lived in a PDF, which cannot show how I structure a front end.</p>
+                        <p><span class="proj-label">Approach</span> Built a dependency-free multi-page static site where all content comes from one UMD data module shared by the browser and Node unit tests.</p>
+                        <p><span class="proj-label">Outcome</span> Zero-build, zero-runtime-dependency site with unit-tested navigation, filtering, and theming logic.</p>
+                    </div>
+                    <ul class="pf-tags">
+                        <li><span class="pf-tag">JavaScript</span></li>
+                        <li><span class="pf-tag">HTML/CSS</span></li>
+                        <li><span class="pf-tag">Git</span></li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="pf-shell pf-section pf-reveal">
+            <div class="pf-panel proj-cta">
+                <div>
+                    <h2>Want the detail behind any of these?</h2>
+                    <p>I&rsquo;m happy to walk through the trade-offs, the parts that went wrong, and what I&rsquo;d do differently.</p>
+                </div>
+                <a class="pf-btn pf-btn--primary" href="/pages/contact/html/contact.html">Start a conversation</a>
+            </div>
+        </section>
+
+        <div class="pf-shell">
+            <nav class="pf-tour" data-tour aria-label="Continue the tour"></nav>
+        </div>
+    </main>
+
+    <footer class="pf-footer">
+        <div class="pf-shell pf-footer__inner">
+            <ul class="pf-footer__links">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/pages/about/html/about.html">About</a></li>
+                <li><a href="/pages/experience/html/experience.html">Experience</a></li>
+                <li><a href="/pages/skills/html/skills.html">Skills</a></li>
+                <li><a href="/pages/contact/html/contact.html">Contact</a></li>
+                <li><a href="/media/docs/jamie-tucker-resume.pdf" target="_blank" rel="noopener">R&eacute;sum&eacute;</a></li>
+            </ul>
+            <p class="pf-footer__note">
+                &copy; <span data-current-year>2026</span> Jamie Tucker &middot; Built with hand-written HTML, CSS, and JavaScript.
+            </p>
+        </div>
+    </footer>
+
+    <script src="/utils/site-nav.js"></script>
+    <script src="/utils/resume-data.js"></script>
+    <script src="/utils/experience-filter.js"></script>
+    <script src="/pages/shared/js/site.js"></script>
+    <script src="/pages/projects/js/projects.js"></script>
+</body>
+</html>

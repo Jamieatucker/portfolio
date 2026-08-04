@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>About — Jamie Tucker</title>
+    <meta name="description" content="How Jamie Tucker went from Ohio State computer science to shipping client architecture at Google and YouTube, and how he works with a team.">
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="About — Jamie Tucker">
+    <link rel="canonical" href="/pages/about/html/about.html">
+    <link rel="icon" type="image/png" sizes="32x32" href="/media/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/media/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/media/icons/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/pages/shared/css/theme.css">
+    <link rel="stylesheet" href="/pages/shared/css/layout.css">
+    <link rel="stylesheet" href="/pages/about/css/about.css">
+    <script src="/utils/theme-preference.js"></script>
+    <script src="/pages/shared/js/theme-init.js"></script>
+</head>
+<body>
+    <a class="pf-skip-link" href="#main">Skip to content</a>
+
+    <header class="pf-header">
+        <div class="pf-shell pf-header__inner">
+            <a class="pf-brand" href="/index.html">
+                <span class="pf-brand__mark" aria-hidden="true">JT</span>
+                <span class="pf-brand__text">
+                    <span>Jamie Tucker</span>
+                    <span class="pf-brand__role">Full-Stack Software Engineer</span>
+                </span>
+            </a>
+            <nav class="pf-nav" aria-label="Primary">
+                <button class="pf-icon-btn pf-nav__toggle" type="button" data-nav-toggle aria-expanded="true" aria-controls="pf-nav-list">
+                    <span aria-hidden="true">&#9776;</span>
+                    <span class="pf-visually-hidden">Menu</span>
+                </button>
+                <ul class="pf-nav__list" id="pf-nav-list" data-collapsed="false">
+                    <li><a class="pf-nav__link" data-nav-key="home" href="/index.html">Home</a></li>
+                    <li><a class="pf-nav__link" data-nav-key="about" href="/pages/about/html/about.html">About</a></li>
+                    <li><a class="pf-nav__link" data-nav-key="experience" href="/pages/experience/html/experience.html">Experience</a></li>
+                    <li><a class="pf-nav__link" data-nav-key="projects" href="/pages/projects/html/projects.html">Projects</a></li>
+                    <li><a class="pf-nav__link" data-nav-key="skills" href="/pages/skills/html/skills.html">Skills</a></li>
+                    <li><a class="pf-nav__link" data-nav-key="contact" href="/pages/contact/html/contact.html">Contact</a></li>
+                </ul>
+                <button class="pf-icon-btn pf-theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
+                    <span aria-hidden="true">&#9788;</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pf-main" id="main">
+        <section class="pf-shell about-intro">
+            <div>
+                <p class="pf-eyebrow">About</p>
+                <h1>Engineer first, and a stubborn advocate for the person using the screen.</h1>
+                <p class="pf-lead">
+                    I&rsquo;m Jamie Tucker, a full-stack software engineer in Sunnyvale, California. I spent
+                    three years at Google and YouTube on teams where the front end was the product: if the
+                    interface was confusing or slow, nothing else we built mattered.
+                </p>
+            </div>
+            <figure class="about-portrait">
+                <img src="/media/images/profile.jpeg" width="480" height="600" alt="Portrait of Jamie Tucker">
+                <figcaption>Sunnyvale, CA</figcaption>
+            </figure>
+        </section>
+
+        <section class="pf-section pf-shell pf-reveal" aria-labelledby="story-heading">
+            <div class="pf-section__head">
+                <p class="pf-eyebrow">The short version</p>
+                <h2 id="story-heading">How I got here</h2>
+            </div>
+            <div class="about-prose">
+                <p>
+                    I was born in Florida, grew up mostly in Virginia and Michigan, and went to
+                    <strong>The Ohio State University</strong> for a B.S. in Computer Science and
+                    Engineering. On campus I was active in the National Society of Black Engineers, the
+                    Lambda Psi Engineering Honorary, and the Morrill Scholars Program &mdash; the places
+                    where I learned that engineering is a team sport before it is a technical one.
+                </p>
+                <p>
+                    I joined Google straight out of school on Modern Creators and Formats, helping launch
+                    Google Discover &lsquo;Notes&rsquo; to more than a million users in the US and India.
+                    From there I moved to Search Intelligence, where I owned creator verification flows and
+                    wrote the component library that made them consistent. Most recently I was on YouTube
+                    Playables, where I built the client foundation for a flagship generative AI game
+                    creation product from an empty repository.
+                </p>
+                <p>
+                    Across all three teams the pattern was the same: arrive early in a product&rsquo;s
+                    life, decide how the client should be structured, and make it possible for a lot of
+                    engineers to ship into it at once without the experience falling apart.
+                </p>
+            </div>
+        </section>
+
+        <section class="pf-section pf-shell pf-reveal" aria-labelledby="principles-heading">
+            <div class="pf-section__head">
+                <p class="pf-eyebrow">How I work</p>
+                <h2 id="principles-heading">Four things I believe about front-end work</h2>
+            </div>
+            <div class="pf-grid pf-grid--2">
+                <article class="pf-card">
+                    <h3 class="pf-card__title">Architecture is a people problem</h3>
+                    <div class="pf-card__body">
+                        <p>
+                            Module boundaries decide how fast a team can move. I design for the second and
+                            third engineer on the file, not just the first.
+                        </p>
+                    </div>
+                </article>
+                <article class="pf-card">
+                    <h3 class="pf-card__title">If it isn&rsquo;t logged, it didn&rsquo;t ship</h3>
+                    <div class="pf-card__body">
+                        <p>
+                            I instrument critical journeys as part of the feature, not after it. Telemetry
+                            at 90%+ reliability is how you tell a launch from a rumour.
+                        </p>
+                    </div>
+                </article>
+                <article class="pf-card">
+                    <h3 class="pf-card__title">Research beats opinion</h3>
+                    <div class="pf-card__body">
+                        <p>
+                            I sit in UX sessions and read the feedback myself. Thirty research sessions
+                            settle arguments that thirty meetings cannot.
+                        </p>
+                    </div>
+                </article>
+                <article class="pf-card">
+                    <h3 class="pf-card__title">Accessibility is table stakes</h3>
+                    <div class="pf-card__body">
+                        <p>
+                            Keyboard paths, contrast, and semantics come first. A flow that only works for
+                            some users is an unfinished flow.
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="pf-section pf-shell pf-reveal" aria-labelledby="education-heading">
+            <div class="pf-section__head">
+                <p class="pf-eyebrow">Education</p>
+                <h2 id="education-heading">The Ohio State University</h2>
+            </div>
+            <div class="pf-panel about-education">
+                <div>
+                    <h3>B.S. Computer Science and Engineering</h3>
+                    <p class="about-education__meta">2019 &ndash; 2023 &middot; Columbus, Ohio</p>
+                    <p>
+                        Coursework across systems, algorithms, and software engineering, with the
+                        electives that pushed me toward interface work and human-facing systems.
+                    </p>
+                </div>
+                <ul class="about-education__list">
+                    <li>National Society of Black Engineers</li>
+                    <li>Lambda Psi Engineering Honorary</li>
+                    <li>Morrill Scholars Program</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="pf-section pf-shell pf-reveal" aria-labelledby="offline-heading">
+            <div class="pf-section__head">
+                <p class="pf-eyebrow">Away from the keyboard</p>
+                <h2 id="offline-heading">What I&rsquo;m into</h2>
+            </div>
+            <div class="about-prose">
+                <p>
+                    I produce music mashups, edit short-form video, follow basketball closely, and I&rsquo;m
+                    a long-time anime fan. All of it is the same instinct as my day job: take pieces that
+                    already exist, find the arrangement nobody expected, and sweat the timing until it
+                    lands.
+                </p>
+            </div>
+            <div class="pf-btn-row">
+                <a class="pf-btn pf-btn--primary" href="/pages/experience/html/experience.html">See the work history</a>
+                <a class="pf-btn pf-btn--secondary" href="/media/docs/jamie-tucker-resume.pdf" target="_blank" rel="noopener">Download r&eacute;sum&eacute; (PDF)</a>
+            </div>
+        </section>
+
+        <div class="pf-shell">
+            <nav class="pf-tour" data-tour aria-label="Continue the tour"></nav>
+        </div>
+    </main>
+
+    <footer class="pf-footer">
+        <div class="pf-shell pf-footer__inner">
+            <ul class="pf-footer__links">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/pages/experience/html/experience.html">Experience</a></li>
+                <li><a href="/pages/projects/html/projects.html">Projects</a></li>
+                <li><a href="/pages/skills/html/skills.html">Skills</a></li>
+                <li><a href="/pages/contact/html/contact.html">Contact</a></li>
+                <li><a href="/media/docs/jamie-tucker-resume.pdf" target="_blank" rel="noopener">R&eacute;sum&eacute;</a></li>
+            </ul>
+            <p class="pf-footer__note">
+                &copy; <span data-current-year>2026</span> Jamie Tucker &middot; Built with hand-written HTML, CSS, and JavaScript.
+            </p>
+        </div>
+    </footer>
+
+    <script src="/utils/site-nav.js"></script>
+    <script src="/pages/shared/js/site.js"></script>
+</body>
+</html>

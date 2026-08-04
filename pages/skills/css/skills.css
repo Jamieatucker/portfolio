@@ -1,0 +1,88 @@
+/* skills.css — skills page only: skill rows with depth badges. */
+
+.skills-head {
+    padding-top: var(--pf-space-8);
+}
+
+.skills-head .pf-lead {
+    max-width: 60ch;
+}
+
+.skills-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--pf-border);
+}
+
+.skills-row {
+    display: grid;
+    grid-template-columns: 14rem 10rem minmax(0, 1fr);
+    gap: var(--pf-space-2) var(--pf-space-5);
+    align-items: baseline;
+    max-width: none;
+    margin: 0;
+    padding: var(--pf-space-4) var(--pf-space-1);
+    border-bottom: 1px solid var(--pf-border);
+}
+
+.skills-row:hover {
+    background: var(--pf-surface);
+}
+
+.skills-row__name {
+    font-size: var(--pf-text-lg);
+    font-weight: 650;
+    color: var(--pf-text);
+    text-decoration: none;
+}
+
+/* Only skills with production evidence are links, so mark them as such. */
+a.skills-row__name {
+    color: var(--pf-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+}
+
+a.skills-row__name:hover {
+    color: var(--pf-accent-strong);
+}
+
+.skills-row__level {
+    justify-self: start;
+    padding: 0.15rem 0.6rem;
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius-pill);
+    font-size: var(--pf-text-xs);
+    font-weight: 650;
+    white-space: nowrap;
+}
+
+.skills-row__level--daily {
+    border-color: color-mix(in srgb, var(--pf-highlight) 50%, transparent);
+    background: color-mix(in srgb, var(--pf-highlight) 14%, transparent);
+    color: var(--pf-text);
+}
+
+.skills-row__level--prod {
+    border-color: color-mix(in srgb, var(--pf-accent) 50%, transparent);
+    background: var(--pf-accent-soft);
+    color: var(--pf-text);
+}
+
+.skills-row__level--working {
+    color: var(--pf-text-subtle);
+}
+
+.skills-row__note {
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-muted);
+}
+
+@media (max-width: 900px) {
+    .skills-row {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--pf-space-1);
+    }
+}

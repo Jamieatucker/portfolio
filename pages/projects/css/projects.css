@@ -1,0 +1,107 @@
+/* projects.css — projects page only: filter bar and case-study card internals. */
+
+.proj-head {
+    padding-top: var(--pf-space-8);
+}
+
+.proj-head .pf-lead {
+    max-width: 58ch;
+}
+
+.proj-filter {
+    margin-bottom: var(--pf-space-6);
+    padding: var(--pf-space-4) var(--pf-space-5);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius);
+    background: var(--pf-surface);
+}
+
+.proj-filter__label {
+    margin: 0 0 var(--pf-space-3);
+    font-size: var(--pf-text-xs);
+    font-weight: 650;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pf-text-subtle);
+}
+
+.proj-filter__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pf-space-2);
+}
+
+.proj-chip {
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius-pill);
+    background: transparent;
+    color: var(--pf-text-muted);
+    font-family: inherit;
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--pf-transition), color var(--pf-transition),
+        border-color var(--pf-transition);
+}
+
+.proj-chip:hover {
+    border-color: var(--pf-border-strong);
+    color: var(--pf-text);
+}
+
+.proj-chip.is-active {
+    border-color: color-mix(in srgb, var(--pf-accent) 60%, transparent);
+    background: var(--pf-accent);
+    color: var(--pf-accent-contrast);
+}
+
+.proj-filter__status {
+    margin: var(--pf-space-3) 0 0;
+    font-size: var(--pf-text-xs);
+    color: var(--pf-text-subtle);
+}
+
+.proj-card[hidden] {
+    display: none;
+}
+
+.proj-card__body p {
+    margin-bottom: var(--pf-space-3);
+}
+
+.proj-card__body p:last-child {
+    margin-bottom: 0;
+}
+
+/* Inline label keeps problem/approach/outcome scannable without extra markup. */
+.proj-label {
+    display: inline-block;
+    margin-right: var(--pf-space-2);
+    padding: 0.1rem 0.45rem;
+    border-radius: var(--pf-radius-sm);
+    background: var(--pf-accent-soft);
+    color: var(--pf-text);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    vertical-align: 0.05em;
+}
+
+.proj-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--pf-space-5);
+}
+
+.proj-cta h2 {
+    font-size: var(--pf-text-2xl);
+}
+
+.proj-cta p {
+    margin-bottom: 0;
+    color: var(--pf-text-muted);
+}
