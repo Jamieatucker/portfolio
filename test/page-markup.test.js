@@ -250,8 +250,47 @@ test('home page hosts the filter UI the timeline needs', () => {
         .forEach((hook) => {
             assert.ok(pageText.home.indexOf(hook) !== -1, 'home is missing ' + hook);
         });
-    assert.ok(pageText.home.indexOf('/pages/index/js/index.js') !== -1);
-    assert.ok(pageText.home.indexOf('/utils/experience-filter.js') !== -1);
+    ['/pages/index/js/index.js', '/utils/experience-filter.js', '/utils/home-sections.js']
+        .forEach((src) => {
+            assert.ok(pageText.home.indexOf(src) !== -1, 'home is missing ' + src);
+        });
+});
+
+test('the timeline uses home-owned class names, not the retired exp- prefix', () => {
+    assert.ok(pageText.home.indexOf('home-role') !== -1, 'roles should use home-role');
+    PAGES.forEach((page) => {
+        assert.ok(
+            !/class="[^"]*\bexp-/.test(pageText[page.key]),
+            page.key + ' still carries an exp- class from the retired page'
+        );
+    });
+    ['index.css', 'index.js'].forEach((file) => {
+        const dir = file.endsWith('.css') ? 'css' : 'js';
+        const source = fs.readFileSync(path.join(ROOT, 'pages', 'index', dir, file), 'utf8');
+        assert.ok(source.indexOf('exp-') === -1, file + ' still references an exp- class');
+    });
+});
+
+test('every sub-nav link points at a section that exists on the page', () => {
+    const html = pageText.home;
+    const links = html.match(/data-subnav-link="([^"]+)"/g) || [];
+    assert.ok(links.length >= 4, 'the sub-nav should offer at least four jumps');
+    links.forEach((raw) => {
+        const id = raw.replace(/.*"([^"]+)"$/, '$1');
+        assert.ok(html.indexOf('href="#' + id + '"') !== -1, id + ' link is missing its href');
+        assert.ok(
+            new RegExp('id="' + id + '"[^>]*data-section').test(html),
+            id + ' has no matching [data-section] target'
+        );
+    });
+});
+
+test('the earlier-roles toggle ships hidden so no-JS readers keep every role', () => {
+    const html = pageText.home;
+    const button = (html.match(/<button[^>]*data-role-toggle[^>]*>/) || [])[0];
+    assert.ok(button, 'home page should carry the role toggle');
+    assert.ok(/\bhidden\b/.test(button), 'the toggle must ship hidden');
+    assert.ok(/aria-expanded="true"/.test(button), 'the toggle must ship expanded');
 });
 
 test('contact page exposes email, LinkedIn, and the r\u00e9sum\u00e9', () => {
