@@ -13,6 +13,18 @@ not content or aesthetics — do not mix their patterns.
   order on every page is `theme.css` → `layout.css` → `pages/<name>/css/<name>.css`.
   Page CSS consumes tokens and never redeclares them. New colour = new token in both
   the `[data-theme='dark']` and `[data-theme='light']` blocks.
+- **Brand palette is Ohio State**: scarlet `#ba0c2f`, gray `#a7b1b7`, white `#ffffff`
+  (plus BUX shades) as raw `:root` tokens. Never use a raw brand token in page CSS —
+  map it to a semantic token first, or one theme will break.
+- **Accent text and filled controls are different tokens.** `--pf-accent` is
+  theme-aware text colour (a scarlet tint in dark mode, because plain scarlet is
+  2.7:1 on dark ink). Anything that puts white text on a colour must use
+  `--pf-accent-solid`. Getting this wrong is the single easiest way to ship an
+  unreadable button.
+- **Contrast is enforced, not eyeballed.** `utils/color-contrast.js` mirrors the
+  resolved token values and `test/color-contrast.test.js` audits every rendered pair
+  at WCAG 2.1 AA (4.5:1 text, 3:1 non-text). Change a colour in CSS *and* in the
+  module, together. Decorative hairlines are 1.4.11-exempt; control borders are not.
 - **No Tailwind, no CDN CSS, no build step.** A hiring page must render correctly
   with zero third-party scripts. (The sibling project's Tailwind habits do not apply.)
 - **Content lives in HTML, data lives in `utils/`.** Pages are hand-written so they
@@ -63,3 +75,5 @@ not content or aesthetics — do not mix their patterns.
   `pages/projects/js/projects.js`
 - Content integrity: `utils/resume-data.js` + `utils/project-data.js` →
   `test/page-markup.test.js`
+- Colour integrity: `theme.css` tokens ↔ `utils/color-contrast.js` `THEMES` →
+  `test/color-contrast.test.js`

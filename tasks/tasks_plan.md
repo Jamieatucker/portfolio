@@ -2,9 +2,22 @@
 
 ## Current status
 
-**Milestone 1 (multi-page architecture) is complete and tested.** The site is a
-six-page static portfolio with unit-tested shared logic and markup verification.
-`npm test` runs six suites: 82 assertions, all passing.
+**Milestones 1 and 2 are complete and tested.** The site is a six-page static
+portfolio in the Ohio State palette, with unit-tested shared logic, machine-verified
+colour contrast, and markup verification. `npm test` runs seven suites: 105
+assertions, all passing.
+
+### Milestone 2 — Ohio State brand theme (done)
+- [x] Brand tokens in `theme.css` `:root`: scarlet `#ba0c2f`, gray `#a7b1b7`, white
+      `#ffffff`, plus BUX scarlet shades and the full gray ramp
+- [x] Dark and light themes remapped onto brand tokens, no raw colours in page CSS
+- [x] `--pf-accent-solid` / `-hover` / `-border` split so filled controls keep white
+      text on solid scarlet while dark-mode links use an accessible tint
+- [x] `utils/color-contrast.js` + `test/color-contrast.test.js`: 32 contracts, all
+      passing WCAG 2.1 AA, lowest ratio 4.61:1
+- [x] Nav subheader removed from all six pages (broke small viewports)
+- [x] Home "Four things I shipped" pinned to two columns per row
+- [x] `docs/osu-brand-theme.md` + `diagrams/theme-token-flow.mmd`
 
 ## What works
 
@@ -55,8 +68,11 @@ six-page static portfolio with unit-tested shared logic and markup verification.
 - [ ] **Real favicon set for this site.** The current icons are borrowed from the
       sibling project; generate a `JT` monogram set matching this palette.
 - [ ] **Lighthouse pass** on all six pages; record scores in `docs/technical.md`.
-- [ ] **Contrast audit** of the light theme (`--pf-text-subtle` on `--pf-surface`)
-      with an automated checker rather than by eye.
+- [x] ~~Contrast audit of the light theme~~ — done in Milestone 2 and now enforced
+      by `test/color-contrast.test.js` on every run.
+- [ ] **Focus-ring contrast on scarlet surfaces**: `:focus-visible` uses
+      `--pf-accent`, which is only checked against the page background. Verify it
+      against a scarlet button face and add a contract for it.
 
 ### P2 — content depth
 - [ ] Per-project detail pages (`pages/projects/html/<id>.html`) for the three
@@ -78,5 +94,7 @@ six-page static portfolio with unit-tested shared logic and markup verification.
 | Header/footer markup is duplicated across six pages | Editing the nav means six edits | `page-markup.test.js` fails if any page drifts; P3 item to extract a partial |
 | Résumé content exists in both the data module and the markup | Risk of drift | Markup tests assert every string appears; edit the data module first |
 | Favicons and profile photo are copied from the sibling project | Slightly off-brand | P1 items above |
+| Token values are duplicated in `theme.css` and `utils/color-contrast.js` | A CSS-only edit could escape the audit | Tests assert the three brand values appear verbatim in `theme.css`; treat the pair as one change |
+| Dark-mode links use a scarlet tint, which BUX discourages | Slight brand deviation | Unavoidable: plain scarlet is 2.7:1 on dark ink. Accessibility wins; solid scarlet is retained for filled controls |
 | `color-mix()` needs a 2023+ browser | Minor visual degradation on old engines | Tokens still resolve; borders fall back to solid colours |
 | No analytics | No visibility into recruiter traffic | Deliberate for now; revisit only with a privacy-respecting option |

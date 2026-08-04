@@ -4,16 +4,31 @@ _Last updated: 2026-08-04_
 
 ## Current work focus
 
-Milestone 1 is done: the multi-page architecture for the professional portfolio is
-built, tested, and documented. The project moved from an empty scaffold (empty
-`pages/index`, `pages/about`, `docs`, `tasks`, `test`, `utils`, `diagrams`) to a
-complete six-page site in this session.
+Milestones 1 and 2 are done: the six-page architecture is built, and the site now
+wears the Ohio State palette with contrast verified by tests rather than by eye.
 
 Nothing is in flight. The next work item is the P1 backlog in
-[`tasks_plan.md`](tasks_plan.md), starting with the Open Graph image and a proper
-favicon set, both of which matter the moment the link is shared on LinkedIn.
+[`tasks_plan.md`](tasks_plan.md): the Open Graph image, a scarlet favicon set, a
+Lighthouse pass, and a focus-ring contract for rings drawn on scarlet buttons.
 
-## Recent changes
+## Recent changes — Milestone 2 (brand theme)
+
+1. **Brand tokens.** `theme.css` `:root` now holds scarlet `#ba0c2f`, gray
+   `#a7b1b7`, white `#ffffff`, the BUX scarlet shades, the gray ramp, and
+   `--pf-ink`. Both theme blocks map onto them; page CSS names no raw colours.
+2. **Accent split.** `--pf-accent` is theme-aware *text* colour; `--pf-accent-solid`,
+   `-hover`, and `-border` drive filled controls. This exists because scarlet is
+   only 2.7:1 on dark ink, so dark mode links use the `#ff8a9c` tint while buttons
+   keep solid scarlet with white text at 6.6:1.
+3. **Contrast is now a test.** `utils/color-contrast.js` plus
+   `test/color-contrast.test.js` audit 32 pairs against WCAG 2.1 AA; the lowest
+   ratio on the site is 4.61:1.
+4. **Nav subheader removed** from all six pages, and the home page's four featured
+   cards pinned to a 2×2 grid.
+5. **Docs.** `docs/osu-brand-theme.md` (452 words, Mermaid) and
+   `diagrams/theme-token-flow.mmd`.
+
+## Earlier changes — Milestone 1 (architecture)
 
 1. **Data layer.** Five UMD modules in `utils/` hold the résumé, the case studies,
    the nav model, the filter logic, and theme resolution.
@@ -27,6 +42,15 @@ favicon set, both of which matter the moment the link is shared on LinkedIn.
    overview, the diagram source, and these task files.
 
 ## Active decisions and considerations
+
+- **Accessibility outranks brand purity.** BUX says not to use tints lighter than
+  scarlet. Dark mode does anyway for link text, because the alternative is 2.7:1
+  and illegible. Solid scarlet is preserved everywhere it can carry white text.
+- **Non-text contrast (1.4.11) applies to controls, not decoration.** Card
+  hairlines are exempt and stay subtle; button and chip borders use
+  `--pf-border-strong` and are asserted at 3:1.
+- **Token values live in two places on purpose** — the CSS renders them, the
+  contrast module proves them. Change both together or the audit is fiction.
 
 - **Home page at the repository root.** `/` is what a recruiter sees, so
   `index.html` lives at the root while its CSS stays at `pages/index/css/index.css`.

@@ -1,0 +1,51 @@
+%% Ohio State brand theme — token flow and contrast enforcement
+%% Render with: https://mermaid.live or any Mermaid-capable Markdown viewer
+flowchart LR
+    subgraph Brand["theme.css :root — brand values (theme independent)"]
+        S["--pf-scarlet #ba0c2f"]
+        SD["--pf-scarlet-dark-40 #70071c<br/>--pf-scarlet-dark-60 #4a0513"]
+        SL["--pf-scarlet-light #ff8a9c<br/>--pf-scarlet-light-strong #ffb3bf"]
+        G["--pf-gray #a7b1b7<br/>+ light-20..90 / dark-20..80"]
+        W["--pf-white #ffffff<br/>--pf-ink #17191b"]
+    end
+
+    subgraph Dark["[data-theme='dark']"]
+        DBG["--pf-bg = ink<br/>--pf-text = white"]
+        DAC["--pf-accent = scarlet-light<br/>(scarlet is 2.7:1 here: fails)"]
+        DSOL["--pf-accent-solid = scarlet<br/>--pf-accent-solid-border = scarlet-light"]
+    end
+
+    subgraph Light["[data-theme='light']"]
+        LBG["--pf-bg = gray-light-90<br/>--pf-text = gray-dark-80"]
+        LAC["--pf-accent = scarlet"]
+        LSOL["--pf-accent-solid = scarlet<br/>--pf-accent-solid-border = scarlet"]
+    end
+
+    subgraph Consumers["Consumers — never name a raw colour"]
+        LAY["pages/shared/css/layout.css<br/>nav, buttons, cards, footer"]
+        PAGE["pages/&lt;name&gt;/css/&lt;name&gt;.css<br/>hero, chips, timeline, skills"]
+    end
+
+    subgraph Proof["Contrast enforcement"]
+        UTIL["utils/color-contrast.js<br/>relativeLuminance · contrastRatio<br/>blend · auditTheme"]
+        CONTRACTS["16 CONTRACTS x 2 themes<br/>AA 4.5:1 text · 3:1 non-text"]
+        SUITE["test/color-contrast.test.js<br/>build fails below threshold"]
+    end
+
+    S --> DSOL
+    S --> LAC
+    S --> LSOL
+    SD --> DSOL
+    SD --> LAC
+    SL --> DAC
+    SL --> DSOL
+    G --> DBG
+    G --> LBG
+    W --> DBG
+    W --> LBG
+
+    Dark --> Consumers
+    Light --> Consumers
+    Dark --> UTIL
+    Light --> UTIL
+    UTIL --> CONTRACTS --> SUITE

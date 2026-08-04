@@ -61,7 +61,37 @@ alwaysApply: false
   (`npm start` or `python3 -m http.server`). Documented in `README.md`.
 - **State**: Expected behaviour, not a bug — but it surprises people, so it is noted.
 
-### A7. No linting for a zero-build project
+### A7. Scarlet is unreadable as text on a dark background
+
+- **Context**: Ohio State scarlet `#ba0c2f` applied as the accent in both themes.
+- **Symptom**: 2.67:1 against dark ink — below the 4.5:1 AA text minimum and below
+  the 3:1 non-text minimum for a button boundary.
+- **Resolution**: Split the token. `--pf-accent` is a scarlet tint (`#ff8a9c`,
+  7.86:1) for dark-mode text; `--pf-accent-solid` stays scarlet for filled controls
+  with white text (6.6:1); dark-mode primary buttons get an
+  `--pf-accent-solid-border` tint so the boundary is identifiable.
+- **State**: Resolved and locked by `test/color-contrast.test.js`.
+
+### A8. Contrast contract too strict on decorative borders
+
+- **Context**: An early audit required 3:1 for every border token.
+- **Symptom**: Card hairlines failed, pushing the design toward heavy outlines.
+- **Resolution**: WCAG 1.4.11 covers boundaries that *identify a control*, not
+  decorative dividers. `--pf-border` is decorative and exempt; `--pf-border-strong`
+  marks controls and is asserted at 3:1 against both the page and card surfaces
+  (which forced light mode down to `gray-dark-40`, since `gray-dark-20` was 2.89:1).
+- **State**: Resolved.
+
+### A9. `auto-fit` grids orphan the last card
+
+- **Context**: The home page's four featured cards used `pf-grid--2`
+  (`auto-fit, minmax(min(100%, 20rem), 1fr)`).
+- **Symptom**: At container width three cards fit per row, leaving a lone fourth.
+- **Resolution**: `.home-featured` pins `repeat(2, minmax(0, 1fr))` above 700px.
+  When a fixed card count needs a fixed shape, do not use `auto-fit`.
+- **State**: Resolved and asserted in `test/page-markup.test.js`.
+
+### A10. No linting for a zero-build project
 
 - **Context**: A stray newline inside a `.pf-visually-hidden` declaration produced an
   invalid property that no tool flagged.

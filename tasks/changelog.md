@@ -4,6 +4,51 @@ All notable changes to this project are recorded here, newest first.
 This project follows [Semantic Versioning](https://semver.org/) loosely: the site is
 private and unversioned, so entries are grouped by date and milestone.
 
+## [1.1.0] — 2026-08-04
+
+### Changed — Milestone 2: Ohio State brand theme, WCAG 2.1 AA verified
+
+**Palette**
+- `pages/shared/css/theme.css` now declares the official Ohio State primary
+  colours as `:root` brand tokens — `--pf-scarlet: #ba0c2f`, `--pf-gray: #a7b1b7`,
+  `--pf-white: #ffffff` — plus the BUX scarlet shades (`dark-40`, `dark-60`), the
+  full gray tint and shade ramp, and `--pf-ink` for dark-mode depth.
+- Both `[data-theme]` blocks were remapped onto those tokens, replacing the
+  previous blue and teal palette. Page CSS was not touched beyond the token
+  changes noted below, because it consumes semantic tokens only.
+- New tokens `--pf-accent-solid`, `--pf-accent-solid-hover`, and
+  `--pf-accent-solid-border` separate *filled* scarlet controls from *accent
+  text*. Dark mode needs the split: scarlet is only 2.7:1 on dark ink, so links
+  use the `#ff8a9c` tint while buttons keep solid scarlet with white text.
+- Primary buttons, the skip link, `::selection`, and active filter chips moved to
+  `--pf-accent-solid` so white label text is never placed on a light tint.
+- Dark-mode primary buttons gained a scarlet-tint border so the control boundary
+  clears WCAG 1.4.11 against the page (solid scarlet alone is 2.7:1).
+- Interactive borders (`--pf-border-strong`) darkened to `gray-dark-20` (dark) and
+  `gray-dark-40` (light) to clear 3:1 on every surface they appear on.
+
+**Accessibility verification**
+- Added `utils/color-contrast.js`: WCAG relative luminance, contrast ratio,
+  truncation that refuses to round 4.49 up to a pass, alpha compositing for
+  translucent surfaces, the brand palette, the resolved token values for both
+  themes, and 16 real foreground/background contracts.
+- Added `test/color-contrast.test.js` (21 assertions) auditing all 32 contracts.
+  Lowest ratio on the site is now 4.61:1; body text clears AAA in both themes.
+
+**Layout fixes**
+- Removed the `pf-brand__role` "Full-Stack Software Engineer" subheader from the
+  navigation on all six pages; it wrapped badly on small viewports. `.pf-brand__text`
+  is now a single centred line.
+- Home page "Four things I shipped" pins to two columns via the new
+  `.home-featured` rule, collapsing to one column below 700px. Plain `auto-fit`
+  packed three cards across at container width and orphaned the fourth.
+
+**Documentation**
+- `docs/osu-brand-theme.md` — 452-word feature overview with a Mermaid diagram.
+- `diagrams/theme-token-flow.mmd` — brand token flow and contrast enforcement.
+- Updated `tasks/tasks_plan.md`, `tasks/active_context.md`, and
+  `.cursor/rules/lessons-learned.mdc`.
+
 ## [1.0.0] — 2026-08-04
 
 ### Added — Milestone 1: multi-page portfolio architecture
