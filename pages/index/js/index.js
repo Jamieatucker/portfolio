@@ -1,5 +1,5 @@
 /*
- * experience.js — progressive enhancement for the work-history timeline.
+ * index.js — progressive enhancement for the home page work-history timeline.
  * The roles are already in the HTML; this only adds the technology filter,
  * so the page is complete with JavaScript disabled.
  * Filtering rules live in /utils/experience-filter.js and are unit tested.
@@ -89,6 +89,11 @@
             return Filter.normalizeTag(tag) === Filter.normalizeTag(requested);
         })[0];
         apply(canonical || Filter.ALL_TAG);
+        // Arriving from a skills page link: the timeline is far down the home
+        // page, so bring it into view rather than landing on the hero.
+        if (container.scrollIntoView) {
+            container.scrollIntoView({ block: 'start' });
+        }
     } else {
         apply(Filter.ALL_TAG);
     }

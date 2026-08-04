@@ -16,7 +16,8 @@
     var NAV_LINKS = [
         { key: 'home', label: 'Home', href: '/index.html' },
         { key: 'about', label: 'About', href: '/pages/about/html/about.html' },
-        { key: 'experience', label: 'Experience', href: '/pages/experience/html/experience.html' },
+        // The work history lives in the #experience section of the home page;
+        // there is no standalone experience route any more.
         { key: 'projects', label: 'Projects', href: '/pages/projects/html/projects.html' },
         { key: 'skills', label: 'Skills', href: '/pages/skills/html/skills.html' },
         { key: 'contact', label: 'Contact', href: '/pages/contact/html/contact.html' }

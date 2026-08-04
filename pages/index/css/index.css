@@ -107,53 +107,154 @@
     color: var(--pf-text-muted);
 }
 
-/* The four featured cards must read as a 2x2 block. Plain auto-fit packs
-   three across at container width and leaves a lone orphan on the last row. */
-.home-featured {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
 .home-more {
     margin-top: var(--pf-space-5);
 }
 
-.home-path {
-    display: grid;
-    gap: var(--pf-space-3);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    counter-reset: none;
+/* ---------- Experience timeline (moved here from the retired experience page;
+   the exp-* names are kept so the markup, JS, and CSS still read as one block) */
+
+.exp-filter {
+    margin-bottom: var(--pf-space-6);
+    padding: var(--pf-space-4) var(--pf-space-5);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius);
+    background: var(--pf-surface);
 }
 
-.home-path__item {
-    display: grid;
-    grid-template-columns: 12rem minmax(0, 1fr);
-    gap: var(--pf-space-1) var(--pf-space-5);
-    margin: 0;
-    padding: var(--pf-space-4) 0;
-    border-top: 1px solid var(--pf-border);
-    max-width: none;
-}
-
-.home-path__item:last-child {
-    border-bottom: 1px solid var(--pf-border);
-}
-
-.home-path__date {
-    grid-row: span 2;
-    font-size: var(--pf-text-sm);
-    font-variant-numeric: tabular-nums;
+.exp-filter__label {
+    margin: 0 0 var(--pf-space-3);
+    font-size: var(--pf-text-xs);
+    font-weight: 650;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     color: var(--pf-text-subtle);
 }
 
-.home-path__role {
-    font-weight: 650;
+.exp-filter__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pf-space-2);
 }
 
-.home-path__org {
-    font-size: var(--pf-text-sm);
+.exp-chip {
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius-pill);
+    background: transparent;
     color: var(--pf-text-muted);
+    font-family: inherit;
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--pf-transition), color var(--pf-transition),
+        border-color var(--pf-transition);
+}
+
+.exp-chip:hover {
+    border-color: var(--pf-border-strong);
+    color: var(--pf-text);
+}
+
+.exp-chip.is-active {
+    border-color: var(--pf-accent-solid-border);
+    background: var(--pf-accent-solid);
+    color: var(--pf-accent-contrast);
+}
+
+.exp-filter__status {
+    margin: var(--pf-space-3) 0 0;
+    font-size: var(--pf-text-xs);
+    color: var(--pf-text-subtle);
+}
+
+.exp-timeline {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.exp-role {
+    display: grid;
+    gap: var(--pf-space-2) var(--pf-space-6);
+    grid-template-columns: 13rem minmax(0, 1fr);
+    max-width: none;
+    margin: 0;
+    padding: var(--pf-space-6) 0;
+    border-top: 1px solid var(--pf-border);
+}
+
+.exp-role:last-child {
+    border-bottom: 1px solid var(--pf-border);
+}
+
+.exp-role[hidden] {
+    display: none;
+}
+
+.exp-role__aside {
+    padding-top: 0.15rem;
+}
+
+.exp-role__dates {
+    margin: 0;
+    font-size: var(--pf-text-sm);
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+    color: var(--pf-text);
+}
+
+.exp-role__duration {
+    margin: 0;
+    font-size: var(--pf-text-xs);
+    color: var(--pf-text-subtle);
+}
+
+.exp-role__title {
+    margin-bottom: var(--pf-space-1);
+}
+
+.exp-role__org {
+    margin-bottom: var(--pf-space-3);
+    font-size: var(--pf-text-sm);
+    font-weight: 600;
+    color: var(--pf-accent);
+}
+
+.exp-role__summary {
+    color: var(--pf-text-muted);
+}
+
+.exp-role__highlights {
+    margin-bottom: 0;
+    padding-left: 1.1rem;
+}
+
+.exp-role__highlights li {
+    color: var(--pf-text-muted);
+    font-size: var(--pf-text-sm);
+}
+
+.exp-role__highlights li::marker {
+    color: var(--pf-accent);
+}
+
+.exp-education {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--pf-space-4);
+}
+
+.exp-education h3 {
+    margin-bottom: var(--pf-space-1);
+}
+
+.exp-education__meta {
+    margin: 0;
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-subtle);
 }
 
 .home-cta {
@@ -177,13 +278,12 @@
     margin-bottom: 0;
 }
 
-@media (max-width: 700px) {
-    .home-featured {
-        grid-template-columns: minmax(0, 1fr);
-    }
-}
-
 @media (max-width: 900px) {
+    .exp-role {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--pf-space-3);
+    }
+
     .home-hero {
         grid-template-columns: minmax(0, 1fr);
         padding-top: var(--pf-space-6);
@@ -198,11 +298,4 @@
         aspect-ratio: 1 / 1;
     }
 
-    .home-path__item {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .home-path__date {
-        grid-row: auto;
-    }
 }
