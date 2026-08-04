@@ -43,6 +43,17 @@ not content or aesthetics — do not mix their patterns.
 - **Data-attribute contracts** for behaviour (`data-nav-key`, `data-tour`,
   `data-role-tags`, `data-project-tags`, `data-copy-email`) so refactoring class
   names never breaks JavaScript.
+- **Class prefixes follow the page that owns the markup.** When a block moves
+  between pages, rename it (`exp-role` → `home-role`) in the same commit and let
+  `page-markup.test.js` assert the old prefix is gone; a stale prefix sends the
+  next reader looking for a page that no longer exists.
+- **One source for sticky offsets.** `--pf-header-h` in `theme.css` feeds both the
+  header's own height and anything that sticks below it, plus the
+  `scroll-margin-top` that keeps jump links from landing behind the chrome.
+- **Enhancement controls ship `hidden`.** A collapse button is a lie without
+  JavaScript, so the markup ships it hidden with all content visible and the
+  script unhides it. Note `.pf-btn` sets `display: inline-flex`, which beats the
+  `hidden` attribute — add an explicit `[hidden] { display: none }` guard.
 - **No `auto-fit` for card grids.** `repeat(auto-fit, minmax(...))` picks a column
   count from available width and regularly strands one card alone on the last row.
   Pin the column count per breakpoint, and let a trailing card at an odd index
@@ -80,6 +91,8 @@ not content or aesthetics — do not mix their patterns.
   `pages/projects/js/projects.js`
 - Card grid parity: `pages/shared/css/layout.css` `pf-grid--*` → every card section
   → `test/page-markup.test.js`
+- Home page length: `utils/home-sections.js` → `pages/index/js/index.js` →
+  `[data-home-subnav]` and `[data-role-toggle]` → `test/home-sections.test.js`
 - Content integrity: `utils/resume-data.js` + `utils/project-data.js` →
   `test/page-markup.test.js`
 - Colour integrity: `theme.css` tokens ↔ `utils/color-contrast.js` `THEMES` →

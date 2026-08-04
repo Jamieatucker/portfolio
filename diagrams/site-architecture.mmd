@@ -28,11 +28,12 @@ flowchart LR
         PROJDATA["project-data.js"]
         NAV["site-nav.js"]
         FILTER["experience-filter.js"]
+        SECTIONS["home-sections.js"]
         THEMEPREF["theme-preference.js"]
     end
 
     subgraph TestGroup["test/ — node assert suites"]
-        UNIT["5 unit suites"]
+        UNIT["7 unit suites"]
         MARKUP["page-markup.test.js<br/>markup vs data + link check"]
     end
 
@@ -62,11 +63,13 @@ flowchart LR
     RESUME --> PR
     FILTER --> IDX
     FILTER --> PR
+    SECTIONS --> IDX
 
     RESUME --> UNIT
     PROJDATA --> UNIT
     NAV --> UNIT
     FILTER --> UNIT
+    SECTIONS --> UNIT
     THEMEPREF --> UNIT
     IDX --> MARKUP
     PagesGroup --> MARKUP

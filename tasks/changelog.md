@@ -4,6 +4,54 @@ All notable changes to this project are recorded here, newest first.
 This project follows [Semantic Versioning](https://semver.org/) loosely: the site is
 private and unversioned, so entries are grouped by date and milestone.
 
+## [1.3.0] — 2026-08-04
+
+### Added — Milestone 4: home page length controls
+
+**Sticky section sub-nav**
+- `index.html` gained a `[data-home-subnav]` bar under the header with five jump
+  links — Proof, What I do, Selected work, Experience, Education — and each target
+  section now carries an `id` plus `data-section`.
+- `pages/index/js/index.js` marks the section in view with `aria-current="true"`,
+  re-measuring section tops on each painted frame because the collapse and the
+  filter both move them. The links are plain anchors, so they work without
+  JavaScript and before the script runs.
+- `pages/index/css/index.css` styles the bar and pins it with
+  `top: var(--pf-header-h)`; `[data-section]` gets `scroll-margin-top` so a jump
+  link does not land behind the two sticky bars. The label is dropped below 620px
+  and the whole bar is hidden in print.
+- New `--pf-header-h: 4rem` token in `pages/shared/css/theme.css` is now the one
+  source for the header height, consumed by `layout.css` and `index.css`.
+
+**Collapsed earlier roles**
+- The timeline opens with the newest role only and a "Show 2 earlier roles"
+  button. Applying a technology filter overrides the collapse, since a filtered
+  view was explicitly requested. The status line reports what is hidden.
+- The button ships with the `hidden` attribute, so with JavaScript disabled every
+  role stays on the page and no dead control appears.
+
+**New pure logic and tests**
+- `utils/home-sections.js` (UMD) holds `resolveActiveSection`, `limitRoles`, and
+  `describeRoleToggle`, plus `COLLAPSED_ROLE_COUNT`.
+- `test/home-sections.test.js` covers 10 cases: activation thresholds against the
+  sticky offset, the page-bottom case where a short trailing section never clears
+  the offset, filter-overrides-collapse, defensive handling of empty and negative
+  input, and every toggle label. Registered in `test/run-all.js` (eight suites).
+
+### Changed
+- The timeline's `exp-*` classes — inherited from the deleted experience page —
+  were renamed to `home-*` (`home-role`, `home-timeline`, `home-chip`,
+  `home-filter`, `home-education`) across `index.html`,
+  `pages/index/css/index.css`, and `pages/index/js/index.js`.
+- `test/page-markup.test.js` gained four checks: `home-sections.js` is loaded, no
+  page or home asset carries an `exp-` class, every `data-subnav-link` has both an
+  `href` and a matching `[data-section]` target, and the role toggle ships hidden
+  and expanded.
+- Added `docs/home-page-length-controls.md`; updated
+  `diagrams/home-timeline-flow.mmd`, `diagrams/site-architecture.mmd`,
+  `docs/architecture.md`, `docs/technical.md`,
+  `docs/multi-page-architecture.md`, `README.md`, and the task files.
+
 ## [1.2.0] — 2026-08-04
 
 ### Changed — Milestone 3: home page holds the proof, grids never orphan a card

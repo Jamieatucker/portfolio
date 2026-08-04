@@ -1,19 +1,27 @@
-%% Home page as the single proof surface, plus the card-grid parity rule
+%% Home page as the single proof surface: length controls + card-grid parity
 %% Render with: https://mermaid.live or any Mermaid-capable Markdown viewer
 flowchart TD
     SK["skills.html<br/>/index.html?tech=React"] --> IDX
 
     subgraph IDX["/index.html"]
         HERO["Hero: claim + metrics"]
-        FEAT["Selected work — pf-grid--2 (4 cards)"]
-        TL["#experience — full role timeline<br/>all bullets + technology tags"]
-        EDU["Education panel"]
-        HERO --> FEAT --> TL --> EDU
+        SUB["Sticky sub-nav [data-home-subnav]<br/>Proof · What I do · Selected work<br/>Experience · Education"]
+        FEAT["#work — pf-grid--2 (4 cards)"]
+        TL["#experience — full role timeline<br/>newest role open, earlier collapsed"]
+        BTN["[data-role-toggle]<br/>Show 2 earlier roles"]
+        EDU["#education"]
+        HERO --> SUB --> FEAT --> TL --> BTN --> EDU
     end
 
-    IDX --> JS["pages/index/js/index.js<br/>reads ?tech=, builds chips, scrolls to #experience"]
+    IDX --> JS["pages/index/js/index.js<br/>chips, collapse, scroll-spy, ?tech="]
     JS --> FILT["utils/experience-filter.js<br/>matchesTag / filterRolesByTag"]
+    JS --> SECT["utils/home-sections.js<br/>resolveActiveSection<br/>limitRoles · describeRoleToggle"]
     FILT --> TL
+    SECT --> TL
+    SECT -- "aria-current" --> SUB
+    SECT -- "label + aria-expanded" --> BTN
+
+    THEMETOK["theme.css --pf-header-h"] --> SUB
 
     subgraph GRID["Card grid parity — pages/shared/css/layout.css"]
         G1["pf-grid--2 pins 2 columns"]
@@ -27,5 +35,6 @@ flowchart TD
     CONTACT["contact.html channels (3)<br/>LinkedIn first = fastest"] -.-> GRID
     PROJ["projects.html case studies (8, filterable)"] -.-> GRID
 
-    TEST["test/page-markup.test.js<br/>grid parity, timeline content,<br/>contact order, no /pages/experience/"] --> IDX
+    UNIT["test/home-sections.test.js<br/>scroll-spy + collapse edge cases"] --> SECT
+    TEST["test/page-markup.test.js<br/>grid parity, sub-nav targets,<br/>hidden toggle, no exp- names"] --> IDX
     TEST --> GRID

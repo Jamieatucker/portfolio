@@ -54,6 +54,28 @@ alwaysApply: false
   when the match count is odd; a `:has()` rule makes the static selector yield.
 - **State**: Resolved.
 
+### A4c. The `hidden` attribute does nothing on a `.pf-btn`
+
+- **Context**: The earlier-roles toggle ships with `hidden` so no-JS readers never
+  see a dead control.
+- **Symptom**: It rendered anyway. `.pf-btn` sets `display: inline-flex`, and an
+  author-level `display` beats the UA rule behind the `hidden` attribute.
+- **Resolution**: `.home-timeline__more [hidden] { display: none; }` in
+  `pages/index/css/index.css`.
+- **State**: Resolved. Any component with an explicit `display` needs this guard
+  before `hidden` can be trusted.
+
+### A4d. The last section could never become active in the sub-nav
+
+- **Context**: `resolveActiveSection` marks a section active once its top edge
+  passes the sticky header and sub-nav.
+- **Symptom**: A short trailing section (Education) sits close enough to the page
+  bottom that its top never clears the offset, so the link never lit up.
+- **Resolution**: `resolveActiveSection` takes an `atBottom` flag and returns the
+  last section when the page cannot scroll further. Covered by
+  `test/home-sections.test.js`.
+- **State**: Resolved.
+
 ### A5. Duplicated header and footer markup across five pages
 
 - **Context**: No build step, so the nav block is repeated in every page.

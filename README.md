@@ -25,7 +25,7 @@ Then open <http://localhost:8099/>.
 npm test
 ```
 
-Seven Node suites covering the shared logic in `utils/`, the WCAG contrast of the
+Eight Node suites covering the shared logic in `utils/`, the WCAG contrast of the
 palette, and the static markup against both — including a dead-link check across
 every page.
 
@@ -36,7 +36,7 @@ index.html              home page: the hook + the #experience timeline — serve
 pages/
   shared/css/           theme.css (design tokens) + layout.css (page chrome)
   shared/js/            theme-init.js (pre-paint theme) + site.js (nav, tour, reveal)
-  index/css/, index/js/ home page styles + the timeline technology filter
+  index/css/, index/js/ home page styles + timeline filter, collapse, sub-nav
   about|projects|skills|contact/
                         html/ + css/ (+ js/ where the page has behaviour)
 utils/                  UMD data & pure logic, shared by browser and Node tests
@@ -57,6 +57,7 @@ media/                  résumé PDF, profile photo, favicons
 | Header, footer, cards, buttons | `pages/shared/css/layout.css` |
 | One page's layout | `pages/<name>/css/<name>.css` |
 | Navigation | `NAV_LINKS` in `utils/site-nav.js`, then the nav block on every page |
+| Home sub-nav or how many roles start collapsed | `utils/home-sections.js` + the `[data-section]` ids in `index.html` |
 
 Run `npm test` after any content change — the suites name the exact page and string
 when markup and data drift apart.

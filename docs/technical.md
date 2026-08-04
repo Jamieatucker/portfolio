@@ -19,7 +19,7 @@ correct, and the token system in `theme.css` covers what Tailwind was doing ther
 
 ```bash
 # from the Portfolio directory
-npm test          # run all seven test suites
+npm test          # run all eight test suites
 npx serve .       # or: python3 -m http.server 8099
 ```
 
@@ -98,6 +98,7 @@ deep link degrades to the full page.
 | `site-nav.test.js` | Path normalisation, active-key resolution, tour ends |
 | `experience-filter.test.js` | Tag matching, `All`, unknown tags, sorting, counts |
 | `theme-preference.test.js` | Resolution order, corrupt storage, toggle labels |
+| `home-sections.test.js` | Active-section thresholds, page bottom, role collapse, toggle labels |
 | `project-data.test.js` | Case-study shape, provenance, orphan detection |
 | `page-markup.test.js` | Markup vs data, nav consistency, dead links, `rel=noopener` |
 

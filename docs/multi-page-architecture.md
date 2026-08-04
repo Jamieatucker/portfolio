@@ -17,10 +17,10 @@ Three layers, no build step, no runtime dependencies.
 
 ```mermaid
 flowchart TD
-    A["utils/ — UMD data + pure logic<br/>resume-data · project-data · site-nav<br/>experience-filter · theme-preference"]
+    A["utils/ — UMD data + pure logic<br/>resume-data · project-data · site-nav<br/>experience-filter · home-sections · theme-preference"]
     B["pages/shared/ — chrome<br/>theme.css tokens · layout.css<br/>theme-init.js · site.js"]
     C["Pages — index.html + pages/&lt;name&gt;/<br/>hand-written HTML, own CSS/JS"]
-    D["test/ — 6 node suites<br/>unit logic + markup/link checks"]
+    D["test/ — 8 node suites<br/>unit logic + contrast + markup/link checks"]
     A --> B --> C
     A --> D
     C --> D

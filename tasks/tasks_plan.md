@@ -2,10 +2,19 @@
 
 ## Current status
 
-**Milestones 1–3 are complete and tested.** The site is a five-page static
+**Milestones 1–4 are complete and tested.** The site is a five-page static
 portfolio in the Ohio State palette, with unit-tested shared logic, machine-verified
 colour contrast, and markup verification. The home page now carries the full work
-history. `npm test` runs seven suites, all passing.
+history. `npm test` runs eight suites, all passing.
+
+### Milestone 4 — home page length controls and naming (done)
+- [x] `utils/home-sections.js` — `resolveActiveSection`, `limitRoles`,
+      `describeRoleToggle`; `test/home-sections.test.js` covers 10 cases
+- [x] Sticky section sub-nav with `aria-current` scroll-spy, plain anchors first
+- [x] Earlier roles collapsed behind a filter-aware toggle that ships `hidden`
+- [x] `exp-*` classes renamed to `home-*`; the markup test guards the rename
+- [x] `--pf-header-h` token so the header height has one source
+- [x] `docs/home-page-length-controls.md` + updated `diagrams/home-timeline-flow.mmd`
 
 ### Milestone 3 — home consolidation and grid parity (done)
 - [x] Full work-history timeline (bullets, tags, technology filter) moved into
@@ -61,7 +70,7 @@ history. `npm test` runs seven suites, all passing.
 - [x] Contact — LinkedIn (fastest), email + copy button, résumé, what I'm looking for
 
 ### Verification
-- [x] Seven Node suites via `test/run-all.js`
+- [x] Eight Node suites via `test/run-all.js`
 - [x] `page-markup.test.js` — markup vs data, nav consistency across every page, grid parity, contact ordering, dead-link and `rel=noopener` checks
 - [x] Manual HTTP check: all five routes and all assets return 200
 
@@ -91,15 +100,18 @@ history. `npm test` runs seven suites, all passing.
       strongest case studies, linked from the cards.
 - [ ] Testimonial or recommendation quotes on the home page (needs permission).
 - [ ] `?tech=` deep links from the projects page (the home timeline already supports it).
-- [ ] The home page is now long. Consider a sticky in-page sub-nav or a collapse
-      control for older roles if the scroll depth tests badly.
+- [x] ~~The home page is now long~~ — Milestone 4 shipped both the sticky sub-nav
+      and the collapse for older roles.
 
 ### P3 — engineering polish
 - [ ] Extract the repeated header/footer block into a documented HTML partial and a
       build-free include check, or a tiny Node prebuild that stamps them.
 - [ ] Add an HTML validator and a link checker to `npm test`.
 - [ ] Add a smoke test that boots the pages in a headless browser to cover the DOM
-      wiring in `site.js`, which unit tests cannot reach.
+      wiring in `site.js` and the sub-nav scroll-spy in `index.js`, which unit
+      tests cannot reach.
+- [ ] `pages/index/css/index.css` is the largest page stylesheet now that the
+      timeline lives there. Split it if the home page grows again.
 
 ## Known issues and risks
 

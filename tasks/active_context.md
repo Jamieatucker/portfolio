@@ -4,15 +4,34 @@ _Last updated: 2026-08-04_
 
 ## Current work focus
 
-Milestones 1–3 are done: the architecture is built, the site wears the Ohio State
+Milestones 1–4 are done: the architecture is built, the site wears the Ohio State
 palette with contrast verified by tests, and the home page is now the single proof
-surface — it carries the full work history, so the site is five pages.
+surface — it carries the full work history, so the site is five pages. That page's
+length is managed by a sticky section sub-nav and a collapse for older roles.
 
 Nothing is in flight. The next work item is the P1 backlog in
 [`tasks_plan.md`](tasks_plan.md): the Open Graph image, a scarlet favicon set, a
 Lighthouse pass, and a focus-ring contract for rings drawn on scarlet buttons.
 
-## Recent changes — Milestone 3 (home consolidation, grid parity)
+## Recent changes — Milestone 4 (home page length controls, naming)
+
+1. **Sticky section sub-nav** on the home page: five jump links (Proof, What I do,
+   Selected work, Experience, Education) that mark the section in view with
+   `aria-current`. Plain anchors, so they work without JavaScript.
+2. **Earlier roles collapse.** The timeline opens with the newest role and a
+   "Show 2 earlier roles" button. A technology filter overrides the collapse, and
+   the button ships `hidden` so no-JS readers keep every role.
+3. **`utils/home-sections.js`** holds the arithmetic — `resolveActiveSection`,
+   `limitRoles`, `describeRoleToggle` — with 10 unit tests, including the page
+   bottom case where a short trailing section never clears the sticky offset.
+4. **`exp-*` → `home-*`** across the timeline markup, CSS, and JS; the markup test
+   now fails if an `exp-` class reappears.
+5. **`--pf-header-h`** in `theme.css` is the single source for the header height,
+   consumed by `layout.css` and by the sub-nav's `position: sticky; top`.
+6. **Docs.** `docs/home-page-length-controls.md`, and
+   `diagrams/home-timeline-flow.mmd` now shows both controls.
+
+## Earlier changes — Milestone 3 (home consolidation, grid parity)
 
 1. **The Experience page is gone.** Its timeline — all bullets, tags, and the
    technology filter — now lives at `index.html#experience`; its script became

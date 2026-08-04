@@ -26,6 +26,7 @@ flowchart TD
         PD[project-data.js<br/>case studies, provenance]
         SN[site-nav.js<br/>nav model, active key, tour]
         EF[experience-filter.js<br/>tag filter, sort, counts]
+        HSX[home-sections.js<br/>scroll-spy, role collapse]
         TP[theme-preference.js<br/>theme resolution]
     end
 
@@ -37,7 +38,7 @@ flowchart TD
     end
 
     subgraph Pages["Page layer"]
-        HOME[index.html + pages/index/ css and js<br/>hook + #experience timeline + filter]
+        HOME[index.html + pages/index/ css and js<br/>hook + sticky sub-nav<br/>#experience timeline + filter + collapse]
         ABOUT[pages/about/]
         PROJ[pages/projects/ + js filter]
         SKILL[pages/skills/]
