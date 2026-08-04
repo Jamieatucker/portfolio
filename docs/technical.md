@@ -4,7 +4,7 @@
 
 | Concern | Choice | Why |
 | --- | --- | --- |
-| Markup | Hand-written HTML5, one file per page | Content is crawlable and renders with JS off |
+| Markup | One hand-written HTML5 document | Content is crawlable and renders with JS off |
 | Styling | Plain CSS with custom properties | No build step, no framework payload, full control |
 | Scripting | ES5-compatible browser JS in IIFEs | Works everywhere without transpiling |
 | Shared logic | UMD modules in `utils/` | One implementation for browser and Node tests |
@@ -24,17 +24,28 @@ npx serve .       # or: python3 -m http.server 8099
 ```
 
 Serve from the **repository root**. All internal references are root-absolute
-(`/pages/...`, `/media/...`, `/utils/...`), so opening a page directly from the
+(`/pages/...`, `/media/...`, `/utils/...`), so opening the file directly from the
 filesystem with `file://` will not resolve CSS or JS.
 
 ## 3. Key technical decisions
 
-### 3.1 Home page lives at the repository root
+### 3.1 One page at the repository root
 
-`index.html` sits at the root rather than `pages/index/html/index.html`, so the
-canonical URL a recruiter sees is `/`. Its CSS still lives at
-`pages/index/css/index.css`, keeping the per-page asset convention intact. This is
-a deliberate, documented deviation from the sibling project's layout.
+`index.html` sits at the root and is the entire site: every former page is a
+`<section>` in it, and the nav moves between sections by fragment. Its CSS and JS
+live under `pages/index/`, one file per section (`about.css`, `work.css`,
+`skills.css`, `contact.css`, `work.js`, `contact.js`), so the assets stay as
+separable as the sections are.
+
+The trade accepted here: the whole site is one HTTP response, which is a larger
+first payload than a single page of a multi-page site, but there is no navigation
+cost afterwards and no repeated header/footer markup to keep in sync. At this
+content volume the page is still well under the size of one photograph.
+
+Old page URLs (`/pages/about/html/about.html` and friends) are gone rather than
+redirected: the site had not been shared publicly, so no bookmarks exist.
+`SiteNav.LEGACY_PATHS` records where each one's content went, and the markup test
+uses it to prove nothing still links to a retired path.
 
 ### 3.2 Content in HTML, data in modules
 
@@ -77,8 +88,10 @@ deep link degrades to the full page.
 - **UMD module + factory** for every shared helper (browser global or CommonJS).
 - **Single source of truth** for the nav (`site-nav.js`) and résumé (`resume-data.js`).
 - **Pure core, thin shell**: decisions live in `utils/`; DOM code only wires them.
-- **Data attribute contracts** (`data-nav-key`, `data-tour`, `data-role-tags`,
-  `data-copy-email`) so CSS and JS never depend on class names for behaviour.
+- **Data attribute contracts** (`data-nav-key`, `data-section`, `data-role-tags`,
+  `data-tech`, `data-copy-email`) so CSS and JS never depend on class names for
+  behaviour. Hooks shared by two sections (`data-filter-chips`) are always
+  resolved inside their own container, never document-wide.
 - **Referential integrity check** (`findOrphanProjects`) instead of trusting comments.
 
 ## 5. Constraints
@@ -95,12 +108,12 @@ deep link degrades to the full page.
 | Suite | Covers |
 | --- | --- |
 | `resume-data.test.js` | Date math, duration formatting, tag de-duplication, data shape |
-| `site-nav.test.js` | Path normalisation, active-key resolution, tour ends |
+| `site-nav.test.js` | Hash normalisation, section resolution, order, adjacency, legacy paths |
 | `experience-filter.test.js` | Tag matching, `All`, unknown tags, sorting, counts |
 | `theme-preference.test.js` | Resolution order, corrupt storage, toggle labels |
 | `home-sections.test.js` | Active-section thresholds, page bottom, role collapse, toggle labels |
 | `project-data.test.js` | Case-study shape, provenance, orphan detection |
-| `page-markup.test.js` | Markup vs data, nav consistency, dead links, `rel=noopener` |
+| `page-markup.test.js` | Markup vs data, nav vs sections, unique ids, dead links, `rel=noopener` |
 
 Run everything with `npm test`; `test/run-all.js` exits non-zero if any suite fails.
 
@@ -108,4 +121,5 @@ Run everything with `npm test`; `test/run-all.js` exits non-zero if any suite fa
 
 Any static host (GitHub Pages, Netlify, Cloudflare Pages, S3) serving the repository
 root. No environment variables, no redirects required beyond the host's default
-`index.html` handling.
+`index.html` handling. Since the site is one document, a host-level 404 rule is
+optional: every route a visitor can reach from the page is a fragment of `/`.

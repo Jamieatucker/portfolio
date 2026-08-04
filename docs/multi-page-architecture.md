@@ -1,3 +1,8 @@
+> **Superseded.** The site became a single page in Milestone 5. This file is
+> kept as the record of the multi-page structure it replaced; see
+> [`single-page-architecture.md`](single-page-architecture.md) for how the site
+> works now.
+
 # Feature Overview — Multi-Page Portfolio Architecture
 
 ## What it does
@@ -54,4 +59,4 @@ The tests are the guardrail: they fail with the exact page and missing string wh
 markup and data drift apart, or when a nav link is forgotten on one page.
 
 Run locally with `npx serve .` from the repository root (root-absolute paths need a
-server, not `file://`). Diagram source: `diagrams/site-architecture.mmd`.
+server, not `file://`). Diagram source: `diagrams/single-page-architecture.mmd`.

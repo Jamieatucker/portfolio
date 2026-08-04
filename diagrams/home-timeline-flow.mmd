@@ -1,40 +1,43 @@
-%% Home page as the single proof surface: length controls + card-grid parity
+%% The one page as the proof surface: length controls + card-grid parity
 %% Render with: https://mermaid.live or any Mermaid-capable Markdown viewer
 flowchart TD
-    SK["skills.html<br/>/index.html?tech=React"] --> IDX
+    NAV["Header nav [data-nav-key]<br/>Proof · What I do · About · Work<br/>Experience · Skills · Contact"] --> IDX
 
-    subgraph IDX["/index.html"]
-        HERO["Hero: claim + metrics"]
-        SUB["Sticky sub-nav [data-home-subnav]<br/>Proof · What I do · Selected work<br/>Experience · Education"]
-        FEAT["#work — pf-grid--2 (4 cards)"]
+    subgraph IDX["/index.html — the whole site"]
+        HERO["#top hero: claim + metrics"]
+        ABOUT["#about"]
+        FEAT["#work — pf-grid--2 (8 case studies)"]
         TL["#experience — full role timeline<br/>newest role open, earlier collapsed"]
         BTN["[data-role-toggle]<br/>Show 2 earlier roles"]
-        EDU["#education"]
-        HERO --> SUB --> FEAT --> TL --> BTN --> EDU
+        SKILLS["#skills — rows carry data-tech"]
+        CONTACT["#contact"]
+        HERO --> ABOUT --> FEAT --> TL --> BTN --> SKILLS --> CONTACT
     end
 
-    IDX --> JS["pages/index/js/index.js<br/>chips, collapse, scroll-spy, ?tech="]
+    SKILLS -- "data-tech click" --> TL
+
+    IDX --> JS["pages/index/js/index.js<br/>chips, collapse, data-tech, ?tech="]
     JS --> FILT["utils/experience-filter.js<br/>matchesTag / filterRolesByTag"]
     JS --> SECT["utils/home-sections.js<br/>resolveActiveSection<br/>limitRoles · describeRoleToggle"]
     FILT --> TL
     SECT --> TL
-    SECT -- "aria-current" --> SUB
+    SECT --> SITE["pages/shared/js/site.js"]
+    SITE -- "aria-current" --> NAV
     SECT -- "label + aria-expanded" --> BTN
 
-    THEMETOK["theme.css --pf-header-h"] --> SUB
+    THEMETOK["theme.css --pf-header-h"] --> NAV
 
     subgraph GRID["Card grid parity — pages/shared/css/layout.css"]
         G1["pf-grid--2 pins 2 columns"]
         G2["last child at an odd index spans 1 / -1"]
-        G3["projects.js marks .is-last-visible after filtering"]
+        G3["work.js marks .is-last-visible after filtering"]
         G1 --> G2 --> G3
     end
 
     FEAT -.-> GRID
-    ABOUT["about.html principles (4)"] -.-> GRID
-    CONTACT["contact.html channels (3)<br/>LinkedIn first = fastest"] -.-> GRID
-    PROJ["projects.html case studies (8, filterable)"] -.-> GRID
+    ABOUT -.-> GRID
+    CONTACT -.-> GRID
 
     UNIT["test/home-sections.test.js<br/>scroll-spy + collapse edge cases"] --> SECT
-    TEST["test/page-markup.test.js<br/>grid parity, sub-nav targets,<br/>hidden toggle, no exp- names"] --> IDX
+    TEST["test/page-markup.test.js<br/>grid parity, nav targets,<br/>hidden toggle, no exp- names"] --> IDX
     TEST --> GRID

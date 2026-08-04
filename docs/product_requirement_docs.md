@@ -36,22 +36,24 @@ whether the other two ever see it.
 
 ### Functional
 
-- **FR-1** Multi-page static architecture: Home (including the work-history
-  timeline at `#experience`), About, Projects,
-  Skills, Contact. Each page owns its own CSS (and JS where it has behaviour).
-- **FR-2** The home page must open with a hook: a one-line claim, a proof strip of
+- **FR-1** Single-page static architecture: one document at `/` holding the hero
+  plus seven sections — Proof, What I do, About, Work, Experience, Skills,
+  Contact. Each section owns its own CSS (and JS where it has behaviour) under
+  `pages/index/`.
+- **FR-2** The page must open with a hook: a one-line claim, a proof strip of
   hard numbers, an availability status, and both primary calls to action
   (see impact / download résumé) above the fold on a laptop.
 - **FR-3** Content is drawn from the attached résumé and must never overstate it.
-- **FR-4** The home page timeline presents roles newest-first with the outcome of each
+- **FR-4** The timeline presents roles newest-first with the outcome of each
   bullet, filterable by technology, deep-linkable via `?tech=`.
-- **FR-5** Projects page presents each piece of work as problem → approach → outcome.
-- **FR-6** Skills page labels depth honestly (daily driver / production / working
-  knowledge) and links each technology to its evidence.
-- **FR-7** Contact page offers email (with copy-to-clipboard), LinkedIn, résumé
-  download, and location. No contact form — there is no backend to receive it.
-- **FR-8** Every page renders the full navigation, marks the current page, and
-  offers a previous/next tour link.
+- **FR-5** The work section presents each piece of work as problem → approach →
+  outcome, filterable by technology.
+- **FR-6** The skills section labels depth honestly (daily driver / production /
+  working knowledge) and each technology filters the timeline to its evidence.
+- **FR-7** The contact section offers email (with copy-to-clipboard), LinkedIn,
+  and the résumé. No contact form — there is no backend to receive it.
+- **FR-8** Every nav link jumps to a section, and the nav marks the section
+  currently in view.
 
 ### Non-functional
 
@@ -60,8 +62,9 @@ whether the other two ever see it.
   must look correct if the web font never loads.
 - **NFR-2 Zero runtime dependencies.** No frameworks, no CDN CSS, no build step.
   The site must work when opened from a plain static host.
-- **NFR-3 Works without JavaScript.** All content is in the HTML. JavaScript adds
-  filtering, theming, the tour, and reveal animation — never content.
+- **NFR-3 Works without JavaScript.** All content is in the HTML, and every nav
+  link is a real fragment. JavaScript adds filtering, theming, the collapse, the
+  section spy, and reveal animation — never content.
 - **NFR-4 Accessible:** landmarks, skip link, visible focus, keyboard-operable
   controls, `prefers-reduced-motion` and `prefers-color-scheme` respected,
   AA-level contrast in both themes.
@@ -78,7 +81,9 @@ whether the other two ever see it.
 ## 6. Success criteria
 
 - A recruiter can find title, location, stack, availability, and the résumé within
-  one screen of the home page.
+  one screen of the page.
+- Every section is reachable in one click from the header, on a phone and on a
+  laptop.
 - `npm test` passes and fails loudly if content, links, or nav markup drift.
-- Every page scores well on Lighthouse accessibility and needs no network beyond
+- The page scores well on Lighthouse accessibility and needs no network beyond
   the optional web font.

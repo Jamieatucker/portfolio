@@ -1,0 +1,66 @@
+%% Jamie Tucker Portfolio — single-page architecture
+%% Render with: https://mermaid.live or any Mermaid-capable Markdown viewer
+flowchart LR
+    R([Recruiter or hiring manager]) --> IDX
+
+    subgraph IDX["/index.html — the whole site"]
+        TOP["#top — hero hook + CTAs"]
+        PROOF["#proof — four impact metrics"]
+        APPR["#approach — what I'm brought in to do"]
+        ABOUT["#about — story, principles, degree, interests"]
+        WORK["#work — 8 case studies + technology filter"]
+        EXP["#experience — role timeline + filter + collapse"]
+        SKILLS["#skills — 4 groups, rows filter the timeline"]
+        CONTACT["#contact — LinkedIn, email, resume"]
+        TOP --> PROOF --> APPR --> ABOUT --> WORK --> EXP --> SKILLS --> CONTACT
+    end
+
+    subgraph SharedGroup["pages/shared/ — chrome"]
+        THEME["css/theme.css — --pf-* tokens"]
+        LAYOUT["css/layout.css — nav, cards, grids, footer"]
+        TINIT["js/theme-init.js — set data-theme pre-paint"]
+        SITE["js/site.js — section spy, menu, theme, reveal"]
+    end
+
+    subgraph PageGroup["pages/index/ — the page's own CSS and JS"]
+        CSS["index.css · about.css · work.css<br/>skills.css · contact.css"]
+        JS["index.js (timeline) · work.js (case studies)<br/>contact.js (copy email)"]
+    end
+
+    subgraph UtilsGroup["utils/ — UMD data and pure logic"]
+        NAVU["site-nav.js — SECTIONS model"]
+        SECT["home-sections.js — active section, collapse"]
+        RESUME["resume-data.js"]
+        PROJDATA["project-data.js"]
+        FILTER["experience-filter.js"]
+        THEMEPREF["theme-preference.js"]
+        CONTRAST["color-contrast.js"]
+    end
+
+    subgraph TestGroup["test/ — node assert suites"]
+        UNIT["7 unit suites"]
+        MARKUP["page-markup.test.js<br/>nav vs sections, unique ids,<br/>data vs markup, dead links"]
+    end
+
+    THEME --> LAYOUT --> IDX
+    CSS --> IDX
+    THEMEPREF --> TINIT --> IDX
+    NAVU --> SITE
+    SECT --> SITE
+    SITE -- "aria-current on the section in view" --> IDX
+    JS --> IDX
+    RESUME --> IDX
+    PROJDATA --> WORK
+    FILTER --> EXP
+    FILTER --> WORK
+    SKILLS -- "data-tech click filters" --> EXP
+
+    NAVU --> UNIT
+    SECT --> UNIT
+    RESUME --> UNIT
+    PROJDATA --> UNIT
+    FILTER --> UNIT
+    THEMEPREF --> UNIT
+    CONTRAST --> UNIT
+    IDX --> MARKUP
+    NAVU --> MARKUP
