@@ -37,9 +37,8 @@ flowchart TD
     end
 
     subgraph Pages["Page layer"]
-        HOME[index.html + pages/index/css]
+        HOME[index.html + pages/index/ css and js<br/>hook + #experience timeline + filter]
         ABOUT[pages/about/]
-        EXP[pages/experience/ + js filter]
         PROJ[pages/projects/ + js filter]
         SKILL[pages/skills/]
         CONTACT[pages/contact/ + js copy]
@@ -85,7 +84,7 @@ sequenceDiagram
     H->>S: load site-nav.js then site.js at end of body
     S->>S: resolveActiveNavKey(location.pathname)
     S-->>H: aria-current on nav, collapse mobile menu,<br/>wire theme toggle, reveal sections, render tour
-    H->>P: load page script (experience / projects / contact)
+    H->>P: load page script (index / projects / contact)
     P->>P: build filter chips from DOM tags via ExperienceFilter
     P-->>H: unhide filter UI, apply All (or ?tech= deep link)
 ```
@@ -99,7 +98,7 @@ sequenceDiagram
   active-page resolution, and the prev/next tour. The markup repeats the links (for
   crawlers and no-JS visitors) and `page-markup.test.js` asserts the repetition
   matches `NAV_LINKS` exactly.
-- **Filtering is shared.** Both the experience timeline and the projects grid use
+- **Filtering is shared.** Both the home timeline and the projects grid use
   `experience-filter.js`. They differ only in the attribute they read
   (`data-role-tags` vs `data-project-tags`) and the status wording.
 - **Theme is applied twice on purpose.** `theme-init.js` sets it before paint to
@@ -111,10 +110,10 @@ sequenceDiagram
 
 | Step | Where it happens |
 | --- | --- |
-| Visitor lands on `/` | `index.html` hero, metric strip, featured work, career path |
-| Wants proof | Experience page timeline, optionally filtered by `?tech=` |
+| Visitor lands on `/` | `index.html` hero, metric strip, featured work |
+| Wants proof | Same page: `#experience` timeline, optionally filtered by `?tech=` |
 | Wants depth | Projects page case studies (problem / approach / outcome) |
-| Wants stack match | Skills page rows, each deep-linking to the experience filter |
+| Wants stack match | Skills page rows, each deep-linking to `/index.html?tech=` |
 | Wants to talk | Contact page email / copy button / LinkedIn / résumé PDF |
 | Any page, any time | Header nav, footer sitemap, prev/next tour |
 

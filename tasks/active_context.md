@@ -4,14 +4,32 @@ _Last updated: 2026-08-04_
 
 ## Current work focus
 
-Milestones 1 and 2 are done: the six-page architecture is built, and the site now
-wears the Ohio State palette with contrast verified by tests rather than by eye.
+Milestones 1–3 are done: the architecture is built, the site wears the Ohio State
+palette with contrast verified by tests, and the home page is now the single proof
+surface — it carries the full work history, so the site is five pages.
 
 Nothing is in flight. The next work item is the P1 backlog in
 [`tasks_plan.md`](tasks_plan.md): the Open Graph image, a scarlet favicon set, a
 Lighthouse pass, and a focus-ring contract for rings drawn on scarlet buttons.
 
-## Recent changes — Milestone 2 (brand theme)
+## Recent changes — Milestone 3 (home consolidation, grid parity)
+
+1. **The Experience page is gone.** Its timeline — all bullets, tags, and the
+   technology filter — now lives at `index.html#experience`; its script became
+   `pages/index/js/index.js` and its CSS moved into `pages/index/css/index.css`.
+   `site-nav.js` lost the route, so the nav, footer, and tour shrank to five pages
+   without touching page markup beyond the removed links.
+2. **Skills deep links repointed** to `/index.html?tech=<Tech>`, and `index.js`
+   scrolls the timeline into view when it honours the parameter.
+3. **Grid parity.** `pf-grid--2/3/4` pin fixed column counts and span an odd
+   trailing card across the row, so no card is ever stranded alone. `projects.js`
+   marks the real last visible card because `:last-child` counts hidden ones.
+4. **Contact.** LinkedIn is first and labelled fastest; the Location card was
+   removed and its content folded into the "What I'm looking for" panel.
+5. **Docs.** `docs/home-timeline-and-grid-parity.md` and
+   `diagrams/home-timeline-flow.mmd`.
+
+## Earlier changes — Milestone 2 (brand theme)
 
 1. **Brand tokens.** `theme.css` `:root` now holds scarlet `#ba0c2f`, gray
    `#a7b1b7`, white `#ffffff`, the BUX scarlet shades, the gray ramp, and
@@ -23,7 +41,7 @@ Lighthouse pass, and a focus-ring contract for rings drawn on scarlet buttons.
 3. **Contrast is now a test.** `utils/color-contrast.js` plus
    `test/color-contrast.test.js` audit 32 pairs against WCAG 2.1 AA; the lowest
    ratio on the site is 4.61:1.
-4. **Nav subheader removed** from all six pages, and the home page's four featured
+4. **Nav subheader removed** from every page, and the home page's four featured
    cards pinned to a 2×2 grid.
 5. **Docs.** `docs/osu-brand-theme.md` (452 words, Mermaid) and
    `diagrams/theme-token-flow.mmd`.
@@ -35,7 +53,8 @@ Lighthouse pass, and a focus-ring contract for rings drawn on scarlet buttons.
 2. **Shared chrome.** `theme.css` (tokens, dark + light, universal font stack) and
    `layout.css` (header, cards, footer, tour) plus `theme-init.js` and `site.js`.
 3. **Six pages.** Root `index.html` as the home page, and `about`, `experience`,
-   `projects`, `skills`, `contact` under `pages/<name>/html/`.
+   `projects`, `skills`, `contact` under `pages/<name>/html/`. (Experience was
+   folded into the home page in Milestone 3.)
 4. **Six test suites.** Five unit suites plus `page-markup.test.js`, which verifies
    the hand-written markup against the data modules and catches dead links.
 5. **Docs.** PRD, architecture (with Mermaid), technical notes, a 451-word feature
@@ -71,7 +90,7 @@ Lighthouse pass, and a focus-ring contract for rings drawn on scarlet buttons.
 
 ## Next steps
 
-1. Generate `og-card.png` and add Open Graph / Twitter card image tags to all six pages.
+1. Generate `og-card.png` and add Open Graph / Twitter card image tags to all five pages.
 2. Produce a `JT` favicon set in this palette to replace the borrowed icons.
 3. Run Lighthouse on every page and record the scores in `docs/technical.md`.
 4. Audit light-theme contrast with a checker, adjusting `--pf-text-subtle` if needed.

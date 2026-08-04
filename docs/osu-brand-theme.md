@@ -50,7 +50,7 @@ flowchart TD
 | A brand colour | the `:root` block in `theme.css` **and** `BRAND` in `utils/color-contrast.js` | `npm test` |
 | A theme mapping | the `[data-theme='…']` block **and** the matching `THEMES` entry | `npm test` |
 | A new coloured pairing | add a row to `CONTRACTS` with its WCAG level | `npm test` |
-| Featured card columns | `.home-featured` in `pages/index/css/index.css` | reload |
+| Featured card columns | `.pf-grid--2` in `pages/shared/css/layout.css` | reload |
 
 The two sources must stay in step: the CSS renders the colour, the module proves
 it is legible. If a change drops a pair below its threshold, the suite names the

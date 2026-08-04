@@ -28,7 +28,7 @@ whether the other two ever see it.
 1. **No proof of craft.** The site itself is a work sample: hand-written HTML, CSS,
    and JavaScript with unit-tested logic and no build step.
 2. **Unverifiable claims.** Every skill links to the role where it was used; every
-   headline number traces back to a résumé bullet on the experience page.
+   headline number traces back to a résumé bullet in the home page timeline.
 3. **Dead ends.** A reader who lands on any page can always reach the next one,
    the résumé PDF, or the email address without using the browser back button.
 
@@ -36,13 +36,14 @@ whether the other two ever see it.
 
 ### Functional
 
-- **FR-1** Multi-page static architecture: Home, About, Experience, Projects,
+- **FR-1** Multi-page static architecture: Home (including the work-history
+  timeline at `#experience`), About, Projects,
   Skills, Contact. Each page owns its own CSS (and JS where it has behaviour).
 - **FR-2** The home page must open with a hook: a one-line claim, a proof strip of
   hard numbers, an availability status, and both primary calls to action
   (see impact / download résumé) above the fold on a laptop.
 - **FR-3** Content is drawn from the attached résumé and must never overstate it.
-- **FR-4** Experience page presents roles newest-first with the outcome of each
+- **FR-4** The home page timeline presents roles newest-first with the outcome of each
   bullet, filterable by technology, deep-linkable via `?tech=`.
 - **FR-5** Projects page presents each piece of work as problem → approach → outcome.
 - **FR-6** Skills page labels depth honestly (daily driver / production / working

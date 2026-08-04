@@ -4,6 +4,57 @@ All notable changes to this project are recorded here, newest first.
 This project follows [Semantic Versioning](https://semver.org/) loosely: the site is
 private and unversioned, so entries are grouped by date and milestone.
 
+## [1.2.0] — 2026-08-04
+
+### Changed — Milestone 3: home page holds the proof, grids never orphan a card
+
+**Work history moved to the home page**
+- `index.html` replaced the thin "Career path" list (dates and titles only) with
+  the complete timeline under `id="experience"`: all three roles, every résumé
+  bullet, technology tags, and the technology filter. An education panel follows.
+- `pages/experience/` was deleted. `experience.js` became
+  `pages/index/js/index.js` unchanged, and the timeline CSS moved into
+  `pages/index/css/index.css`. The `exp-*` class names were kept so the markup,
+  CSS, and JS still read as one block.
+- `utils/site-nav.js` dropped the `experience` entry, which shrinks the header
+  nav, footer sitemap, and prev/next tour to five pages automatically.
+- `pages/skills/html/skills.html` now deep-links to `/index.html?tech=<Tech>`
+  (12 links). `index.js` scrolls the timeline into view when it honours a `?tech=`
+  parameter, since the timeline sits far below the hero.
+- `pages/about/html/about.html` "See the work history" points at
+  `/index.html#experience`; the home hero CTA points at `#experience`.
+
+**Card grid parity**
+- `pf-grid--2`, `--3`, and `--4` in `pages/shared/css/layout.css` pin fixed column
+  counts instead of `auto-fit`, which used to pick a count from available width
+  and leave one card alone on the last row (the About page's fourth principle,
+  "Accessibility is table stakes", was the visible symptom).
+- A trailing card at an odd index spans `1 / -1`, so a genuinely odd grid — the
+  Contact page now has three channels — reads as intentional.
+- `projects.js` adds `.is-last-visible` to the real trailing card after
+  filtering, because `:last-child` still counts hidden cards.
+- `.home-featured` was removed; the shared `pf-grid--2` rule covers it.
+
+**Contact page**
+- LinkedIn is the first card and carries the "fastest" label with the primary
+  button; email is second with a secondary button. The page lead was reworded.
+- The "Location / Sunnyvale, California" card was removed; the location, time
+  zone, and on-site/hybrid/remote stance moved into the "What I'm looking for"
+  panel so no information was lost.
+
+**Tests, docs, diagrams**
+- `test/page-markup.test.js` gained five checks: the retired route is gone and
+  unlinked, the home page carries the filter hooks and scripts, grids pin two
+  columns with an odd-card fallback, every grid holds at least two cards,
+  LinkedIn precedes email and is labelled fastest, and the location survives as
+  prose. Existing timeline assertions were repointed from `experience` to `home`.
+- `test/site-nav.test.js` asserts the five-page tour and that the experience key
+  and path resolve to nothing.
+- Added `docs/home-timeline-and-grid-parity.md` (feature overview, Mermaid) and
+  `diagrams/home-timeline-flow.mmd`; updated `docs/architecture.md`,
+  `docs/product_requirement_docs.md`, `docs/multi-page-architecture.md`,
+  `diagrams/site-architecture.mmd`, and `README.md`.
+
 ## [1.1.0] — 2026-08-04
 
 ### Changed — Milestone 2: Ohio State brand theme, WCAG 2.1 AA verified

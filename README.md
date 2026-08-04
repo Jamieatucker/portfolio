@@ -1,6 +1,6 @@
 # Jamie Tucker — Software Engineering Portfolio
 
-A six-page static portfolio built to answer a recruiter's questions in the first
+A five-page static portfolio built to answer a recruiter's questions in the first
 twenty seconds: what I do, who I did it for, and how to reach me.
 
 Hand-written HTML, CSS, and JavaScript. No framework, no build step, no runtime
@@ -25,18 +25,19 @@ Then open <http://localhost:8099/>.
 npm test
 ```
 
-Six Node suites (82 assertions) covering the shared logic in `utils/` and verifying
-the static markup against it — including a dead-link check across every page.
+Seven Node suites covering the shared logic in `utils/`, the WCAG contrast of the
+palette, and the static markup against both — including a dead-link check across
+every page.
 
 ## Structure
 
 ```
-index.html              home page (the hook) — served at /
+index.html              home page: the hook + the #experience timeline — served at /
 pages/
   shared/css/           theme.css (design tokens) + layout.css (page chrome)
   shared/js/            theme-init.js (pre-paint theme) + site.js (nav, tour, reveal)
-  index/css/            home page styles
-  about|experience|projects|skills|contact/
+  index/css/, index/js/ home page styles + the timeline technology filter
+  about|projects|skills|contact/
                         html/ + css/ (+ js/ where the page has behaviour)
 utils/                  UMD data & pure logic, shared by browser and Node tests
 test/                   node assert suites, run via test/run-all.js

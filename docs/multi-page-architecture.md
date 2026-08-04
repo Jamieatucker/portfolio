@@ -2,14 +2,14 @@
 
 ## What it does
 
-Turns the résumé into a six-page recruiter-facing site: **Home** (the hook),
-**About**, **Experience**, **Projects**, **Skills**, **Contact**. Every page shares
-one header, footer, theme, and prev/next tour, so a visitor can never reach a dead
-end. The home page leads with a single claim, four proof numbers, an availability
-badge, and two calls to action. Experience and Projects can be filtered by
-technology; Skills deep-links each technology to the role that proves it
-(`experience.html?tech=React`). Contact offers email with copy-to-clipboard,
-LinkedIn, and the résumé PDF.
+Turns the résumé into a five-page recruiter-facing site: **Home** (the hook and
+the full work history), **About**, **Projects**, **Skills**, **Contact**. Every
+page shares one header, footer, theme, and prev/next tour, so a visitor can never
+reach a dead end. The home page leads with a single claim, four proof numbers, an
+availability badge, two calls to action, and the `#experience` timeline. That
+timeline and the Projects grid can be filtered by technology; Skills deep-links
+each technology to the role that proves it (`/index.html?tech=React`). Contact
+leads with LinkedIn, then email with copy-to-clipboard and the résumé PDF.
 
 ## How it was implemented
 

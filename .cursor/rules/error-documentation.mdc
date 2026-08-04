@@ -40,14 +40,24 @@ alwaysApply: false
 - **Context**: Filter chips toggle `hidden` on cards that also carry `.pf-reveal`.
 - **Symptom**: An item hidden before its IntersectionObserver callback fires stays at
   `opacity: 0` after being un-hidden, so it appears blank.
-- **Resolution**: `experience.js` and `projects.js` add `is-visible` to every item
+- **Resolution**: `index.js` and `projects.js` add `is-visible` to every item
   when a filter is applied, independent of the observer.
 - **State**: Resolved.
 
-### A5. Duplicated header and footer markup across six pages
+### A4b. A filtered grid spans the wrong card
+
+- **Context**: `pf-grid--2` spans a trailing card at an odd index across both
+  columns so it is not stranded alone.
+- **Symptom**: CSS `:last-child` counts cards hidden by the filter, so after
+  filtering the span landed on an invisible card while a visible one sat alone.
+- **Resolution**: `projects.js` adds `.is-last-visible` to the real trailing card
+  when the match count is odd; a `:has()` rule makes the static selector yield.
+- **State**: Resolved.
+
+### A5. Duplicated header and footer markup across five pages
 
 - **Context**: No build step, so the nav block is repeated in every page.
-- **Symptom**: Editing the nav in five of six pages is silent and easy to miss.
+- **Symptom**: Editing the nav in four of five pages is silent and easy to miss.
 - **Resolution**: `test/page-markup.test.js` asserts every page contains every
   `NAV_LINKS` entry with the exact `data-nav-key` and `href`, and that no internal
   link 404s. Drift now fails the build instead of shipping.
@@ -87,7 +97,8 @@ alwaysApply: false
 - **Context**: The home page's four featured cards used `pf-grid--2`
   (`auto-fit, minmax(min(100%, 20rem), 1fr)`).
 - **Symptom**: At container width three cards fit per row, leaving a lone fourth.
-- **Resolution**: `.home-featured` pins `repeat(2, minmax(0, 1fr))` above 700px.
+- **Resolution**: `.pf-grid--2` pins `repeat(2, minmax(0, 1fr))` above 700px for
+  every card grid on the site, not just the home page.
   When a fixed card count needs a fixed shape, do not use `auto-fit`.
 - **State**: Resolved and asserted in `test/page-markup.test.js`.
 

@@ -1,0 +1,31 @@
+%% Home page as the single proof surface, plus the card-grid parity rule
+%% Render with: https://mermaid.live or any Mermaid-capable Markdown viewer
+flowchart TD
+    SK["skills.html<br/>/index.html?tech=React"] --> IDX
+
+    subgraph IDX["/index.html"]
+        HERO["Hero: claim + metrics"]
+        FEAT["Selected work — pf-grid--2 (4 cards)"]
+        TL["#experience — full role timeline<br/>all bullets + technology tags"]
+        EDU["Education panel"]
+        HERO --> FEAT --> TL --> EDU
+    end
+
+    IDX --> JS["pages/index/js/index.js<br/>reads ?tech=, builds chips, scrolls to #experience"]
+    JS --> FILT["utils/experience-filter.js<br/>matchesTag / filterRolesByTag"]
+    FILT --> TL
+
+    subgraph GRID["Card grid parity — pages/shared/css/layout.css"]
+        G1["pf-grid--2 pins 2 columns"]
+        G2["last child at an odd index spans 1 / -1"]
+        G3["projects.js marks .is-last-visible after filtering"]
+        G1 --> G2 --> G3
+    end
+
+    FEAT -.-> GRID
+    ABOUT["about.html principles (4)"] -.-> GRID
+    CONTACT["contact.html channels (3)<br/>LinkedIn first = fastest"] -.-> GRID
+    PROJ["projects.html case studies (8, filterable)"] -.-> GRID
+
+    TEST["test/page-markup.test.js<br/>grid parity, timeline content,<br/>contact order, no /pages/experience/"] --> IDX
+    TEST --> GRID

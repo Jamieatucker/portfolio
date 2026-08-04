@@ -6,12 +6,11 @@ flowchart LR
     end
 
     subgraph Entry["Entry point"]
-        IDX["/index.html<br/>hook + metrics + featured work"]
+        IDX["/index.html<br/>hook + metrics + featured work<br/>#experience timeline + ?tech= filter"]
     end
 
     subgraph PagesGroup["pages/ — one folder per route"]
         AB["about/html/about.html<br/>story, principles, education"]
-        EX["experience/html/experience.html<br/>timeline + ?tech= filter"]
         PR["projects/html/projects.html<br/>problem / approach / outcome"]
         SK["skills/html/skills.html<br/>depth labels + deep links"]
         CT["contact/html/contact.html<br/>email, LinkedIn, resume"]
@@ -44,11 +43,10 @@ flowchart LR
 
     R --> IDX
     IDX --> AB
-    IDX --> EX
     IDX --> PR
     IDX --> CT
-    SK -- "?tech=React" --> EX
-    EX --> PR
+    SK -- "?tech=React#experience" --> IDX
+    AB --> IDX
     PR --> CT
     IDX --> PDF
     IDX --> IMG
@@ -60,9 +58,9 @@ flowchart LR
     TINIT --> PagesGroup
     NAV --> SITE
     SITE --> PagesGroup
-    RESUME --> EX
+    RESUME --> IDX
     RESUME --> PR
-    FILTER --> EX
+    FILTER --> IDX
     FILTER --> PR
 
     RESUME --> UNIT

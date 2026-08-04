@@ -19,7 +19,7 @@ correct, and the token system in `theme.css` covers what Tailwind was doing ther
 
 ```bash
 # from the Portfolio directory
-npm test          # run all six test suites
+npm test          # run all seven test suites
 npx serve .       # or: python3 -m http.server 8099
 ```
 

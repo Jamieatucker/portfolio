@@ -2,10 +2,23 @@
 
 ## Current status
 
-**Milestones 1 and 2 are complete and tested.** The site is a six-page static
+**Milestones 1–3 are complete and tested.** The site is a five-page static
 portfolio in the Ohio State palette, with unit-tested shared logic, machine-verified
-colour contrast, and markup verification. `npm test` runs seven suites: 105
-assertions, all passing.
+colour contrast, and markup verification. The home page now carries the full work
+history. `npm test` runs seven suites, all passing.
+
+### Milestone 3 — home consolidation and grid parity (done)
+- [x] Full work-history timeline (bullets, tags, technology filter) moved into
+      `index.html#experience`; `pages/experience/` deleted
+- [x] `experience.js` → `pages/index/js/index.js`; timeline CSS → `index.css`
+- [x] `site-nav.js` reduced to five routes; nav, footer, and tour follow
+- [x] Skills deep links repointed to `/index.html?tech=`; the filter scrolls the
+      timeline into view
+- [x] `pf-grid--2/3/4` pin fixed columns and span an odd trailing card, so no card
+      is ever alone on a row; `projects.js` marks the last visible card
+- [x] Contact: LinkedIn first and labelled fastest, Location card removed and its
+      content folded into "What I'm looking for"
+- [x] `docs/home-timeline-and-grid-parity.md` + `diagrams/home-timeline-flow.mmd`
 
 ### Milestone 2 — Ohio State brand theme (done)
 - [x] Brand tokens in `theme.css` `:root`: scarlet `#ba0c2f`, gray `#a7b1b7`, white
@@ -41,17 +54,16 @@ assertions, all passing.
 - [x] `site.js` — active nav, mobile menu, theme toggle, reveal on scroll, tour rendering, footer year
 
 ### Pages
-- [x] Home (`index.html` + `pages/index/css`) — hook, metric strip, value props, four featured projects, career path, CTA, Person JSON-LD
+- [x] Home (`index.html` + `pages/index/{css,js}`) — hook, metric strip, value props, four featured projects, the full three-role timeline with technology filter and `?tech=` deep links, education, CTA, Person JSON-LD
 - [x] About — story, four working principles, education panel, interests
-- [x] Experience — three-role timeline, all résumé bullets, technology filter, `?tech=` deep links
 - [x] Projects — eight problem/approach/outcome cards, technology filter
-- [x] Skills — four groups, honest depth labels, deep links into the experience filter
-- [x] Contact — email + copy button, LinkedIn, résumé, location, what I'm looking for
+- [x] Skills — four groups, honest depth labels, deep links into the home timeline filter
+- [x] Contact — LinkedIn (fastest), email + copy button, résumé, what I'm looking for
 
 ### Verification
-- [x] Six Node suites via `test/run-all.js`
-- [x] `page-markup.test.js` — markup vs data, nav consistency across all six pages, dead-link and `rel=noopener` checks
-- [x] Manual HTTP check: all six routes and all assets return 200
+- [x] Seven Node suites via `test/run-all.js`
+- [x] `page-markup.test.js` — markup vs data, nav consistency across every page, grid parity, contact ordering, dead-link and `rel=noopener` checks
+- [x] Manual HTTP check: all five routes and all assets return 200
 
 ### Documentation (Memory Files)
 - [x] `docs/product_requirement_docs.md`, `docs/architecture.md`, `docs/technical.md`
@@ -67,7 +79,7 @@ assertions, all passing.
       `og:image` / `twitter:card` tags so the link previews well on LinkedIn.
 - [ ] **Real favicon set for this site.** The current icons are borrowed from the
       sibling project; generate a `JT` monogram set matching this palette.
-- [ ] **Lighthouse pass** on all six pages; record scores in `docs/technical.md`.
+- [ ] **Lighthouse pass** on all five pages; record scores in `docs/technical.md`.
 - [x] ~~Contrast audit of the light theme~~ — done in Milestone 2 and now enforced
       by `test/color-contrast.test.js` on every run.
 - [ ] **Focus-ring contrast on scarlet surfaces**: `:focus-visible` uses
@@ -78,7 +90,9 @@ assertions, all passing.
 - [ ] Per-project detail pages (`pages/projects/html/<id>.html`) for the three
       strongest case studies, linked from the cards.
 - [ ] Testimonial or recommendation quotes on the home page (needs permission).
-- [ ] `?tech=` deep links from the projects page (experience page already supports it).
+- [ ] `?tech=` deep links from the projects page (the home timeline already supports it).
+- [ ] The home page is now long. Consider a sticky in-page sub-nav or a collapse
+      control for older roles if the scroll depth tests badly.
 
 ### P3 — engineering polish
 - [ ] Extract the repeated header/footer block into a documented HTML partial and a
@@ -91,7 +105,7 @@ assertions, all passing.
 
 | Issue | Impact | Mitigation / plan |
 | --- | --- | --- |
-| Header/footer markup is duplicated across six pages | Editing the nav means six edits | `page-markup.test.js` fails if any page drifts; P3 item to extract a partial |
+| Header/footer markup is duplicated across five pages | Editing the nav means five edits | `page-markup.test.js` fails if any page drifts; P3 item to extract a partial |
 | Résumé content exists in both the data module and the markup | Risk of drift | Markup tests assert every string appears; edit the data module first |
 | Favicons and profile photo are copied from the sibling project | Slightly off-brand | P1 items above |
 | Token values are duplicated in `theme.css` and `utils/color-contrast.js` | A CSS-only edit could escape the audit | Tests assert the three brand values appear verbatim in `theme.css`; treat the pair as one change |
