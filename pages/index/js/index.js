@@ -1,20 +1,27 @@
 /*
- * index.js — progressive enhancement for the home page work-history timeline.
- * The roles are already in the HTML; this only adds the technology filter,
- * so the page is complete with JavaScript disabled.
- * Filtering rules live in /utils/experience-filter.js and are unit tested.
+ * index.js — progressive enhancement for the home page.
+ *
+ * Everything here is optional: the roles, their bullets, and the section links
+ * are all in the HTML, so the page is complete with JavaScript disabled. This
+ * adds three things — the technology filter, a collapse that hides older roles
+ * until asked for, and a sub-nav that marks the section in view.
+ *
+ * Filtering rules live in /utils/experience-filter.js; the collapse and
+ * scroll-spy arithmetic lives in /utils/home-sections.js. Both are unit tested.
  */
 (function () {
     'use strict';
 
     var Filter = window.ExperienceFilter;
     var Resume = window.ResumeData;
-    if (!Filter || !Resume) return;
+    var Sections = window.HomeSections;
+    if (!Filter || !Resume || !Sections) return;
 
     var container = document.querySelector('[data-experience-filter]');
     var chipHost = document.querySelector('[data-filter-chips]');
     var status = document.querySelector('[data-filter-status]');
     var list = document.querySelector('[data-role-list]');
+    var toggle = document.querySelector('[data-role-toggle]');
     if (!container || !chipHost || !list) return;
 
     var roleNodes = Array.prototype.slice.call(list.querySelectorAll('[data-role-tags]'));
@@ -37,18 +44,35 @@
     var counts = Filter.countRolesByTag(roles);
     var tags = [Filter.ALL_TAG].concat(Resume.getAllSkillTags(roles));
 
-    function setStatus(tag, visibleCount) {
+    // Older roles start collapsed so the page opens at a readable length.
+    var collapsed = roles.length > Sections.COLLAPSED_ROLE_COUNT;
+    var activeTag = Filter.ALL_TAG;
+
+    function setStatus(tag, matchedCount, shownCount) {
         if (!status) return;
         var isAll = Filter.normalizeTag(tag) === Filter.normalizeTag(Filter.ALL_TAG);
-        status.textContent = isAll
-            ? 'Showing all ' + visibleCount + ' roles.'
-            : 'Showing ' + visibleCount + ' of ' + roles.length + ' roles that used ' + tag + '.';
+        if (!isAll) {
+            status.textContent =
+                'Showing ' + matchedCount + ' of ' + roles.length + ' roles that used ' + tag + '.';
+        } else if (shownCount < matchedCount) {
+            var hiddenCount = matchedCount - shownCount;
+            status.textContent =
+                'Showing the ' + (shownCount === 1 ? 'newest role' : shownCount + ' newest roles') +
+                '. ' + hiddenCount + ' earlier ' + (hiddenCount === 1 ? 'role is' : 'roles are') +
+                ' hidden.';
+        } else {
+            status.textContent = 'Showing all ' + matchedCount + ' roles.';
+        }
     }
 
     function apply(tag) {
+        activeTag = tag;
+        var filtered = Filter.normalizeTag(tag) !== Filter.normalizeTag(Filter.ALL_TAG);
         var matched = Filter.filterRolesByTag(roles, tag);
+        var shown = Sections.limitRoles(matched, collapsed, filtered);
+
         roles.forEach(function (role) {
-            var visible = matched.indexOf(role) !== -1;
+            var visible = shown.indexOf(role) !== -1;
             role.node.hidden = !visible;
             role.node.classList.add('is-visible');
         });
@@ -59,14 +83,34 @@
             chip.classList.toggle('is-active', isActive);
         });
 
-        setStatus(tag, matched.length);
+        if (toggle) {
+            var state = Sections.describeRoleToggle(matched.length, collapsed, filtered);
+            toggle.hidden = state.hidden;
+            toggle.setAttribute('aria-expanded', state.expanded ? 'true' : 'false');
+            if (state.label) toggle.textContent = state.label;
+        }
+
+        setStatus(tag, matched.length, shown.length);
+    }
+
+    if (toggle) {
+        toggle.addEventListener('click', function () {
+            collapsed = !collapsed;
+            apply(activeTag);
+            // Expanding inserts roles above the button, pushing it down the page.
+            // Keep focus on it and follow it, but only if it left the viewport.
+            toggle.focus();
+            if (toggle.scrollIntoView) {
+                toggle.scrollIntoView({ block: 'nearest' });
+            }
+        });
     }
 
     tags.forEach(function (tag) {
         var chip = document.createElement('button');
         var count = counts[Filter.normalizeTag(tag)];
         chip.type = 'button';
-        chip.className = 'exp-chip';
+        chip.className = 'home-chip';
         chip.setAttribute('data-tag', tag);
         chip.setAttribute('aria-pressed', 'false');
         chip.textContent = count ? tag + ' (' + count + ')' : tag;
@@ -96,5 +140,61 @@
         }
     } else {
         apply(Filter.ALL_TAG);
+    }
+
+    /* ---------- Sub-nav: mark the section currently in view ---------- */
+
+    var subnav = document.querySelector('[data-home-subnav]');
+    var sectionNodes = Array.prototype.slice.call(document.querySelectorAll('[data-section]'));
+    var links = {};
+    if (subnav) {
+        Array.prototype.forEach.call(subnav.querySelectorAll('[data-subnav-link]'), function (link) {
+            links[link.getAttribute('data-subnav-link')] = link;
+        });
+    }
+
+    if (subnav && sectionNodes.length && Object.keys(links).length) {
+        var pending = false;
+        var header = document.querySelector('.pf-header');
+
+        /** Measure on every pass: the collapse and filter both change offsets. */
+        function measure() {
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+            return sectionNodes.map(function (node) {
+                return { id: node.id, top: node.getBoundingClientRect().top + scrollTop };
+            });
+        }
+
+        function paint() {
+            pending = false;
+            var doc = document.documentElement;
+            var scrollTop = window.pageYOffset || doc.scrollTop || 0;
+            var atBottom = scrollTop + window.innerHeight >= doc.scrollHeight - 2;
+            var offset = (subnav.getBoundingClientRect().height || 0) +
+                (header ? header.offsetHeight : 0);
+            var active = Sections.resolveActiveSection(measure(), scrollTop, offset, atBottom);
+
+            Object.keys(links).forEach(function (id) {
+                if (id === active) {
+                    links[id].setAttribute('aria-current', 'true');
+                } else {
+                    links[id].removeAttribute('aria-current');
+                }
+            });
+        }
+
+        function schedule() {
+            if (pending) return;
+            pending = true;
+            if (window.requestAnimationFrame) {
+                window.requestAnimationFrame(paint);
+            } else {
+                paint();
+            }
+        }
+
+        window.addEventListener('scroll', schedule, { passive: true });
+        window.addEventListener('resize', schedule);
+        schedule();
     }
 })();

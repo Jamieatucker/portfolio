@@ -71,17 +71,31 @@
                 <div class="pf-btn-row">
                     <a class="pf-btn pf-btn--primary" href="#experience">See my impact</a>
                     <a class="pf-btn pf-btn--secondary" href="/media/docs/jamie-tucker-resume.pdf" target="_blank" rel="noopener">Download r&eacute;sum&eacute; (PDF)</a>
-                    <a class="pf-btn pf-btn--ghost" href="mailto:jamieatucker4@gmail.com">jamieatucker4@gmail.com</a>
                 </div>
             </div>
             <div class="home-hero__portrait">
                 <img src="/media/images/profile.jpeg" width="640" height="800" alt="Portrait of Jamie Tucker" fetchpriority="high">
-                <p class="home-hero__caption">B.S. Computer Science &amp; Engineering, The Ohio State University</p>
             </div>
         </section>
 
-        <!-- Proof strip: every number traces to a bullet on the experience page. -->
-        <section class="pf-shell home-metrics" aria-label="Impact at a glance">
+        <!-- This page carries the whole work history, so it is long: these links
+             let a reader jump straight to what they came for. Plain anchors, so
+             they work before index.js marks the section in view. -->
+        <div class="home-subnav" data-home-subnav>
+            <nav class="pf-shell" aria-label="Sections of this page">
+                <ul class="home-subnav__list">
+                    <li><span class="home-subnav__label">On this page</span></li>
+                    <li><a class="home-subnav__link" href="#proof" data-subnav-link="proof">Proof</a></li>
+                    <li><a class="home-subnav__link" href="#approach" data-subnav-link="approach">What I do</a></li>
+                    <li><a class="home-subnav__link" href="#work" data-subnav-link="work">Selected work</a></li>
+                    <li><a class="home-subnav__link" href="#experience" data-subnav-link="experience">Experience</a></li>
+                    <li><a class="home-subnav__link" href="#education" data-subnav-link="education">Education</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Proof strip: every number traces to a bullet in the timeline below. -->
+        <section class="pf-shell home-metrics" id="proof" data-section aria-label="Impact at a glance">
             <ul class="pf-grid pf-grid--4 home-metrics__list">
                 <li class="home-metric">
                     <span class="home-metric__value">3M+</span>
@@ -102,7 +116,7 @@
             </ul>
         </section>
 
-        <section class="pf-shell pf-section pf-reveal" aria-labelledby="value-heading">
+        <section class="pf-shell pf-section pf-reveal" id="approach" data-section aria-labelledby="value-heading">
             <div class="pf-section__head">
                 <p class="pf-eyebrow">Why teams keep me on the critical path</p>
                 <h2 id="value-heading">What I&rsquo;m brought in to do</h2>
@@ -141,7 +155,7 @@
             </div>
         </section>
 
-        <section class="pf-shell pf-section pf-reveal" aria-labelledby="featured-heading">
+        <section class="pf-shell pf-section pf-reveal" id="work" data-section aria-labelledby="featured-heading">
             <div class="pf-section__head">
                 <p class="pf-eyebrow">Selected work</p>
                 <h2 id="featured-heading">Four products I've helped ship</h2>
@@ -214,7 +228,7 @@
             </div>
         </section>
 
-        <section class="pf-shell pf-section" id="experience" aria-labelledby="path-heading">
+        <section class="pf-shell pf-section" id="experience" data-section aria-labelledby="path-heading">
             <div class="pf-section__head">
                 <p class="pf-eyebrow">Career path</p>
                 <h2 id="path-heading">Three years, three teams, one job: make the client hold up.</h2>
@@ -225,26 +239,26 @@
             </div>
 
             <!-- Populated by index.js; hidden until then so no-JS users see all roles. -->
-            <div class="exp-filter" data-experience-filter hidden>
-                <p class="exp-filter__label" id="exp-filter-label">Filter by technology</p>
-                <div class="exp-filter__chips" data-filter-chips role="group" aria-labelledby="exp-filter-label"></div>
-                <p class="exp-filter__status" data-filter-status role="status"></p>
+            <div class="home-filter" data-experience-filter hidden>
+                <p class="home-filter__label" id="home-filter-label">Filter by technology</p>
+                <div class="home-filter__chips" data-filter-chips role="group" aria-labelledby="home-filter-label"></div>
+                <p class="home-filter__status" data-filter-status role="status"></p>
             </div>
 
-            <ol class="exp-timeline" data-role-list>
-                <li class="exp-role" id="youtube-playables" data-role-tags="Gemini,TypeScript,React,SASS,RESTful APIs,C++,SQL">
-                    <div class="exp-role__aside">
-                        <p class="exp-role__dates">Oct 2025 &ndash; Jul 2026</p>
-                        <p class="exp-role__duration">1 yr 9 mo &middot; Mountain View, CA</p>
+            <ol class="home-timeline" data-role-list>
+                <li class="home-role" id="youtube-playables" data-role-tags="Gemini,TypeScript,React,SASS,RESTful APIs,C++,SQL">
+                    <div class="home-role__aside">
+                        <p class="home-role__dates">Oct 2025 &ndash; Jul 2026</p>
+                        <p class="home-role__duration">1 yr 9 mo &middot; Mountain View, CA</p>
                     </div>
-                    <div class="exp-role__body">
-                        <h3 class="exp-role__title">Full-Stack Software Engineer</h3>
-                        <p class="exp-role__org">YouTube &middot; Playables Game Creation</p>
-                        <p class="exp-role__summary">
+                    <div class="home-role__body">
+                        <h3 class="home-role__title">Full-Stack Software Engineer</h3>
+                        <p class="home-role__org">YouTube &middot; Playables Game Creation</p>
+                        <p class="home-role__summary">
                             Owned end-to-end client infrastructure for a flagship generative AI game
                             creation product used by creators across the US.
                         </p>
-                        <ul class="exp-role__highlights">
+                        <ul class="home-role__highlights">
                             <li>Established end-to-end client infrastructure for a flagship generative AI product, driving robust game creation tools for over 1,000 creators across the US.</li>
                             <li>Designed a multi-page client architecture from scratch, increasing code modularity and accelerating cross-functional feature delivery speed.</li>
                             <li>Engineered client-side state management for dynamic game assets and code files, reducing initial load times and minimizing memory overhead.</li>
@@ -263,19 +277,19 @@
                     </div>
                 </li>
 
-                <li class="exp-role" id="google-search-intelligence" data-role-tags="TypeScript,React,Kotlin,Java,HTML/CSS">
-                    <div class="exp-role__aside">
-                        <p class="exp-role__dates">Jul 2024 &ndash; Oct 2025</p>
-                        <p class="exp-role__duration">1 yr 3 mo &middot; Mountain View, CA</p>
+                <li class="home-role" id="google-search-intelligence" data-role-tags="TypeScript,React,Kotlin,Java,HTML/CSS">
+                    <div class="home-role__aside">
+                        <p class="home-role__dates">Jul 2024 &ndash; Oct 2025</p>
+                        <p class="home-role__duration">1 yr 3 mo &middot; Mountain View, CA</p>
                     </div>
-                    <div class="exp-role__body">
-                        <h3 class="exp-role__title">Full-Stack Software Engineer</h3>
-                        <p class="exp-role__org">Google &middot; Search Intelligence</p>
-                        <p class="exp-role__summary">
+                    <div class="home-role__body">
+                        <h3 class="home-role__title">Full-Stack Software Engineer</h3>
+                        <p class="home-role__org">Google &middot; Search Intelligence</p>
+                        <p class="home-role__summary">
                             Built verification and discovery surfaces in Search for creators and millions of
                             daily users.
                         </p>
-                        <ul class="exp-role__highlights">
+                        <ul class="home-role__highlights">
                             <li>Engineered an intuitive front-end verification flow, streamlining social account linking for 1M+ creators and improving onboarding conversion.</li>
                             <li>Collaborated with UX researchers and designers to overhaul the UI architecture&rsquo;s usability and accessibility using feedback from 10,000+ creators, increasing user engagement.</li>
                             <li>Developed a reusable UI component library with 30+ elements to create consistent verification flows, improving maintainability by reducing redundancy.</li>
@@ -292,19 +306,19 @@
                     </div>
                 </li>
 
-                <li class="exp-role" id="google-modern-creators" data-role-tags="Java,Kotlin,HTML/CSS,JavaScript,Git">
-                    <div class="exp-role__aside">
-                        <p class="exp-role__dates">Oct 2023 &ndash; Jul 2024</p>
-                        <p class="exp-role__duration">9 mo &middot; Mountain View, CA</p>
+                <li class="home-role" id="google-modern-creators" data-role-tags="Java,Kotlin,HTML/CSS,JavaScript,Git">
+                    <div class="home-role__aside">
+                        <p class="home-role__dates">Oct 2023 &ndash; Jul 2024</p>
+                        <p class="home-role__duration">9 mo &middot; Mountain View, CA</p>
                     </div>
-                    <div class="exp-role__body">
-                        <h3 class="exp-role__title">Front-End Software Engineer</h3>
-                        <p class="exp-role__org">Google &middot; Modern Creators and Formats</p>
-                        <p class="exp-role__summary">
+                    <div class="home-role__body">
+                        <h3 class="home-role__title">Front-End Software Engineer</h3>
+                        <p class="home-role__org">Google &middot; Modern Creators and Formats</p>
+                        <p class="home-role__summary">
                             Helped launch Google Discover &lsquo;Notes&rsquo;, a real-time article feedback
                             surface for readers in the US and India.
                         </p>
-                        <ul class="exp-role__highlights">
+                        <ul class="home-role__highlights">
                             <li>Supported the release of the Google Discover &lsquo;Notes&rsquo; feature, engaging 1M+ users in the US and India with real-time article feedback.</li>
                             <li>Developed a pre-publish client state validation layer on Discover to render live content previews, driving higher post completion rates and improving feed quality.</li>
                             <li>Engineered dynamic grid layout architecture to aggregate real-time &lsquo;Notes&rsquo; clusters, optimizing client-side rendering for 1M+ active users across global markets.</li>
@@ -320,17 +334,25 @@
                     </div>
                 </li>
             </ol>
+
+            <!-- Unhidden by index.js, which then collapses the older roles. With
+                 no JavaScript every role stays on the page and this stays away. -->
+            <div class="home-timeline__more">
+                <button class="pf-btn pf-btn--secondary" type="button" data-role-toggle aria-expanded="true" hidden>
+                    Show earlier roles
+                </button>
+            </div>
         </section>
 
-        <section class="pf-shell pf-section pf-reveal" aria-labelledby="edu-heading">
+        <section class="pf-shell pf-section pf-reveal" id="education" data-section aria-labelledby="edu-heading">
             <div class="pf-section__head">
                 <p class="pf-eyebrow">Education</p>
                 <h2 id="edu-heading">Before the industry</h2>
             </div>
-            <div class="pf-panel exp-education">
+            <div class="pf-panel home-education">
                 <div>
                     <h3>B.S. Computer Science and Engineering</h3>
-                    <p class="exp-education__meta">The Ohio State University &middot; 2019 &ndash; 2023 &middot; Columbus, Ohio</p>
+                    <p class="home-education__meta">The Ohio State University &middot; 2019 &ndash; 2023 &middot; Columbus, Ohio</p>
                 </div>
                 <a class="pf-btn pf-btn--secondary" href="/pages/about/html/about.html">More about me</a>
             </div>
@@ -384,6 +406,7 @@
     <script src="/utils/site-nav.js"></script>
     <script src="/utils/resume-data.js"></script>
     <script src="/utils/experience-filter.js"></script>
+    <script src="/utils/home-sections.js"></script>
     <script src="/pages/shared/js/site.js"></script>
     <script src="/pages/index/js/index.js"></script>
 </body>

@@ -111,10 +111,66 @@
     margin-top: var(--pf-space-5);
 }
 
-/* ---------- Experience timeline (moved here from the retired experience page;
-   the exp-* names are kept so the markup, JS, and CSS still read as one block) */
+/* ---------- Section sub-nav: the home page carries the whole work history, so
+   it is long. These links let a reader jump instead of scroll. */
 
-.exp-filter {
+.home-subnav {
+    position: sticky;
+    top: var(--pf-header-h);
+    z-index: 40;
+    margin-bottom: var(--pf-space-2);
+    padding: var(--pf-space-2) 0;
+    background: color-mix(in srgb, var(--pf-bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--pf-border);
+}
+
+.home-subnav__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pf-space-1) var(--pf-space-4);
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.home-subnav__list li {
+    margin: 0;
+}
+
+.home-subnav__label {
+    font-size: var(--pf-text-xs);
+    font-weight: 650;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pf-text-subtle);
+}
+
+.home-subnav__link {
+    display: inline-block;
+    padding: 0.25rem 0;
+    border-bottom: 2px solid transparent;
+    color: var(--pf-text-muted);
+    font-size: var(--pf-text-sm);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.home-subnav__link:hover {
+    color: var(--pf-text);
+}
+
+.home-subnav__link[aria-current='true'] {
+    border-bottom-color: var(--pf-accent-solid);
+    color: var(--pf-text);
+}
+
+/* ---------- Work history timeline (moved here from the retired experience
+   page; the home-* names keep the markup, CSS, and JS reading as one block) */
+
+.home-filter {
     margin-bottom: var(--pf-space-6);
     padding: var(--pf-space-4) var(--pf-space-5);
     border: 1px solid var(--pf-border);
@@ -122,7 +178,7 @@
     background: var(--pf-surface);
 }
 
-.exp-filter__label {
+.home-filter__label {
     margin: 0 0 var(--pf-space-3);
     font-size: var(--pf-text-xs);
     font-weight: 650;
@@ -131,13 +187,13 @@
     color: var(--pf-text-subtle);
 }
 
-.exp-filter__chips {
+.home-filter__chips {
     display: flex;
     flex-wrap: wrap;
     gap: var(--pf-space-2);
 }
 
-.exp-chip {
+.home-chip {
     padding: 0.35rem 0.8rem;
     border: 1px solid var(--pf-border);
     border-radius: var(--pf-radius-pill);
@@ -151,30 +207,46 @@
         border-color var(--pf-transition);
 }
 
-.exp-chip:hover {
+.home-chip:hover {
     border-color: var(--pf-border-strong);
     color: var(--pf-text);
 }
 
-.exp-chip.is-active {
+.home-chip.is-active {
     border-color: var(--pf-accent-solid-border);
     background: var(--pf-accent-solid);
     color: var(--pf-accent-contrast);
 }
 
-.exp-filter__status {
+.home-filter__status {
     margin: var(--pf-space-3) 0 0;
     font-size: var(--pf-text-xs);
     color: var(--pf-text-subtle);
 }
 
-.exp-timeline {
+.home-timeline {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.exp-role {
+.home-timeline__more {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--pf-space-5);
+}
+
+/* .pf-btn sets inline-flex, which would otherwise beat the hidden attribute. */
+.home-timeline__more [hidden] {
+    display: none;
+}
+
+/* Jump links land under two sticky bars unless the target reserves room. */
+[data-section] {
+    scroll-margin-top: calc(var(--pf-header-h) + 3.25rem);
+}
+
+.home-role {
     display: grid;
     gap: var(--pf-space-2) var(--pf-space-6);
     grid-template-columns: 13rem minmax(0, 1fr);
@@ -184,19 +256,19 @@
     border-top: 1px solid var(--pf-border);
 }
 
-.exp-role:last-child {
+.home-role:last-child {
     border-bottom: 1px solid var(--pf-border);
 }
 
-.exp-role[hidden] {
+.home-role[hidden] {
     display: none;
 }
 
-.exp-role__aside {
+.home-role__aside {
     padding-top: 0.15rem;
 }
 
-.exp-role__dates {
+.home-role__dates {
     margin: 0;
     font-size: var(--pf-text-sm);
     font-weight: 650;
@@ -204,42 +276,42 @@
     color: var(--pf-text);
 }
 
-.exp-role__duration {
+.home-role__duration {
     margin: 0;
     font-size: var(--pf-text-xs);
     color: var(--pf-text-subtle);
 }
 
-.exp-role__title {
+.home-role__title {
     margin-bottom: var(--pf-space-1);
 }
 
-.exp-role__org {
+.home-role__org {
     margin-bottom: var(--pf-space-3);
     font-size: var(--pf-text-sm);
     font-weight: 600;
     color: var(--pf-accent);
 }
 
-.exp-role__summary {
+.home-role__summary {
     color: var(--pf-text-muted);
 }
 
-.exp-role__highlights {
+.home-role__highlights {
     margin-bottom: 0;
     padding-left: 1.1rem;
 }
 
-.exp-role__highlights li {
+.home-role__highlights li {
     color: var(--pf-text-muted);
     font-size: var(--pf-text-sm);
 }
 
-.exp-role__highlights li::marker {
+.home-role__highlights li::marker {
     color: var(--pf-accent);
 }
 
-.exp-education {
+.home-education {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -247,11 +319,11 @@
     gap: var(--pf-space-4);
 }
 
-.exp-education h3 {
+.home-education h3 {
     margin-bottom: var(--pf-space-1);
 }
 
-.exp-education__meta {
+.home-education__meta {
     margin: 0;
     font-size: var(--pf-text-sm);
     color: var(--pf-text-subtle);
@@ -278,8 +350,25 @@
     margin-bottom: 0;
 }
 
+@media (max-width: 620px) {
+    /* Five links plus a label wrap to three rows on a phone; the label goes. */
+    .home-subnav__label {
+        display: none;
+    }
+
+    .home-subnav__list {
+        gap: var(--pf-space-1) var(--pf-space-3);
+    }
+}
+
+@media print {
+    .home-subnav {
+        display: none;
+    }
+}
+
 @media (max-width: 900px) {
-    .exp-role {
+    .home-role {
         grid-template-columns: minmax(0, 1fr);
         gap: var(--pf-space-3);
     }
