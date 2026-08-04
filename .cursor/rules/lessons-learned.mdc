@@ -1,0 +1,65 @@
+# Lessons Learned
+
+This workspace holds the **Portfolio** project: Jamie Tucker's recruiter-facing
+software engineering portfolio. A sibling folder, `PersonalWebsite`, holds a
+separate Y2K-styled creative site (music, reels, photos). They share conventions,
+not content or aesthetics — do not mix their patterns.
+
+## Portfolio patterns (this project)
+
+- **Three layers, one direction**: `utils/` (UMD data + pure logic) → `pages/shared/`
+  (tokens + chrome) → pages. Nothing lower depends on anything higher.
+- **Design tokens**: every `--pf-*` token lives in `pages/shared/css/theme.css`. Link
+  order on every page is `theme.css` → `layout.css` → `pages/<name>/css/<name>.css`.
+  Page CSS consumes tokens and never redeclares them. New colour = new token in both
+  the `[data-theme='dark']` and `[data-theme='light']` blocks.
+- **No Tailwind, no CDN CSS, no build step.** A hiring page must render correctly
+  with zero third-party scripts. (The sibling project's Tailwind habits do not apply.)
+- **Content lives in HTML, data lives in `utils/`.** Pages are hand-written so they
+  render with JavaScript off; `utils/resume-data.js` and `utils/project-data.js` are
+  the canonical record. `test/page-markup.test.js` fails when the two drift, which is
+  what makes the duplication safe.
+- **Home page is root `index.html`** so the recruiter URL is `/`; its stylesheet still
+  lives at `pages/index/css/index.css` to keep the per-page asset convention.
+- **UMD for anything testable.** Pure helpers export to `module.exports` and to a
+  browser global (`window.SiteNav`, `window.ResumeData`, …), so Node suites and pages
+  share one implementation. Cross-module deps are injected in the wrapper body.
+- **Gate every hiding rule behind `.pf-js`** (added by `theme-init.js`), so no-JS
+  visitors never lose content.
+- **Progressive enhancement for interaction.** Filters read tags from the DOM,
+  ship `hidden`, and are unhidden by script. An unknown tag returns *all* items.
+- **Data-attribute contracts** for behaviour (`data-nav-key`, `data-tour`,
+  `data-role-tags`, `data-project-tags`, `data-copy-email`) so refactoring class
+  names never breaks JavaScript.
+- **Honest content only.** Every home page metric traces to a résumé bullet on the
+  experience page; skill depth is labelled daily driver / production / working
+  knowledge rather than invented percentages. Availability wording must match the
+  actual end date of the most recent role.
+- **Universal font stack**: Inter as a progressive enhancement over the system UI
+  fonts, base `1.0625rem` at `1.65` line height, `68ch` measure.
+
+## User preferences
+
+- Follow the Memory Files workflow in `.cursor/rules/memory.mdc` plus the plan and
+  implement rules; update `docs/` and `tasks/` in the same session as the code.
+- Update `tasks/changelog.md`, `tasks/tasks_plan.md`, and `tasks/active_context.md`
+  whenever work ships.
+- Feature overviews in `docs/` stay ≤500 words and include a Mermaid diagram;
+  standalone diagram sources belong in `diagrams/`.
+- Prefer parallel commits for independent concerns (data layer vs chrome vs pages vs
+  docs) over one large commit.
+- Every new feature needs at least one unit test covering its edge cases, in `test/`.
+- Node is v16 locally: no `node:test`, use the harness in `test/lib/test-runner.js`.
+
+## Critical paths
+
+- Recruiter journey: `index.html` hero → `pages/experience/` timeline →
+  `pages/projects/` case studies → `pages/contact/`
+- Nav and tour: `utils/site-nav.js` → `pages/shared/js/site.js` → `[data-nav-key]`
+  and `[data-tour]` in every page
+- Theme: `utils/theme-preference.js` → `pages/shared/js/theme-init.js` (pre-paint)
+  → `[data-theme]` token blocks in `theme.css`
+- Filtering: `utils/experience-filter.js` → `pages/experience/js/experience.js` and
+  `pages/projects/js/projects.js`
+- Content integrity: `utils/resume-data.js` + `utils/project-data.js` →
+  `test/page-markup.test.js`

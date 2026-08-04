@@ -1,0 +1,94 @@
+---
+description: Document major failure points in this project and they were solved. To be filled by AI.
+globs: 
+alwaysApply: false
+---
+
+# Error Documentation
+
+## Part A — Portfolio (this project)
+
+### A1. Node 16 has no stable `node:test`
+
+- **Context**: `node --version` is v16.16.0; `node:test` landed in 16.17/18.
+- **Symptom**: `node --test` fails with `bad option: --test`.
+- **Resolution**: Shared assert-based harness at `test/lib/test-runner.js`, suites run
+  through `test/run-all.js` (`npm test`), which exits non-zero on any failure.
+- **State**: Resolved. Revisit only if the toolchain moves to Node 18+.
+
+### A2. UMD module depending on another UMD module
+
+- **Context**: `utils/project-data.js` needs `resume-data.js` for role provenance.
+- **Symptom**: Reaching for `globalThis` inside the factory argument list resolves
+  the wrong `this` and yields `undefined` in the browser.
+- **Resolution**: Pass the dependency in from the wrapper body, choosing
+  `require('./resume-data.js')` under CommonJS and `root.ResumeData` in the browser.
+  In HTML, load `resume-data.js` **before** `project-data.js`.
+- **State**: Resolved. Apply the same shape to any future cross-module util.
+
+### A3. JS-dependent CSS can blank the page for no-JS visitors
+
+- **Context**: `.pf-reveal` starts at `opacity: 0` for the scroll animation, and the
+  mobile nav list is hidden when collapsed.
+- **Symptom**: With JavaScript disabled, hidden content would never be revealed.
+- **Resolution**: `theme-init.js` adds `.pf-js` to `<html>`, and every hiding rule is
+  scoped under `.pf-js`. No JS means nothing is hidden.
+- **State**: Resolved. Never write a hiding rule that is not gated by `.pf-js`.
+
+### A4. Filtered items never fade in
+
+- **Context**: Filter chips toggle `hidden` on cards that also carry `.pf-reveal`.
+- **Symptom**: An item hidden before its IntersectionObserver callback fires stays at
+  `opacity: 0` after being un-hidden, so it appears blank.
+- **Resolution**: `experience.js` and `projects.js` add `is-visible` to every item
+  when a filter is applied, independent of the observer.
+- **State**: Resolved.
+
+### A5. Duplicated header and footer markup across six pages
+
+- **Context**: No build step, so the nav block is repeated in every page.
+- **Symptom**: Editing the nav in five of six pages is silent and easy to miss.
+- **Resolution**: `test/page-markup.test.js` asserts every page contains every
+  `NAV_LINKS` entry with the exact `data-nav-key` and `href`, and that no internal
+  link 404s. Drift now fails the build instead of shipping.
+- **State**: Mitigated. Extracting a partial is a P3 item in `tasks/tasks_plan.md`.
+
+### A6. Root-absolute paths do not work over `file://`
+
+- **Context**: All references use `/pages/...`, `/utils/...`, `/media/...`.
+- **Symptom**: Opening `index.html` by double-clicking renders unstyled HTML.
+- **Resolution**: Always preview through a server from the repository root
+  (`npm start` or `python3 -m http.server`). Documented in `README.md`.
+- **State**: Expected behaviour, not a bug — but it surprises people, so it is noted.
+
+### A7. No linting for a zero-build project
+
+- **Context**: A stray newline inside a `.pf-visually-hidden` declaration produced an
+  invalid property that no tool flagged.
+- **Symptom**: Silently dropped CSS rule.
+- **Resolution**: Caught by review. An HTML/CSS validator step in `npm test` is a P3
+  backlog item; until then, changed CSS gets read back before commit.
+- **State**: Open (low severity, backlog item).
+
+## Part B — Inherited from the sibling `PersonalWebsite` project
+
+Kept because the lessons still apply to any static site in this workspace.
+
+### B1. Audio file with a space in its name fails to load
+
+- **Resolution**: Kebab-case media filenames; `%20` encoding if a space is unavoidable.
+
+### B2. Sticky mini-player covers the footer
+
+- **Resolution**: Add body padding while the player is expanded; collapse to a corner
+  chip when minimised.
+
+### B3. Uneven card heights in media grids
+
+- **Resolution**: Grid `align-items: stretch`, cards `height: 100%` with
+  `display: flex; flex-direction: column`, media region `flex: 1`.
+
+### B4. Tailwind body utilities hide a shared background image
+
+- **Resolution**: Keep the backdrop only in `theme.css`; never put `bg-*` utilities
+  on `<body>`. (Not applicable here — this project ships no Tailwind.)
