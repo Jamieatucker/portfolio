@@ -8,6 +8,7 @@ const SUITES = [
     'site-nav.test.js',
     'experience-filter.test.js',
     'theme-preference.test.js',
+    'home-sections.test.js',
     'project-data.test.js',
     'color-contrast.test.js',
     'page-markup.test.js'
