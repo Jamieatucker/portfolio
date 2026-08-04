@@ -8,11 +8,16 @@ const { createSuite } = require(path.join(__dirname, 'lib', 'test-runner.js'));
 
 const { test, finish } = createSuite('site-nav');
 
-test('nav exposes the six pages in tour order', () => {
+test('nav exposes the five pages in tour order', () => {
     assert.deepEqual(
         SiteNav.NAV_LINKS.map((link) => link.key),
-        ['home', 'about', 'experience', 'projects', 'skills', 'contact']
+        ['home', 'about', 'projects', 'skills', 'contact']
     );
+});
+
+test('the retired experience route is gone from the nav', () => {
+    assert.equal(SiteNav.getNavLink('experience'), null);
+    assert.equal(SiteNav.resolveActiveNavKey('/pages/experience/html/experience.html'), null);
 });
 
 test('every nav href is root-absolute so any page can link to any page', () => {
@@ -75,8 +80,8 @@ test('getNavLink finds known keys and returns null otherwise', () => {
 
 test('getAdjacentLinks walks the tour and stops at both ends', () => {
     assert.equal(SiteNav.getAdjacentLinks('about').previous, null);
-    assert.equal(SiteNav.getAdjacentLinks('about').next.key, 'experience');
-    assert.equal(SiteNav.getAdjacentLinks('projects').previous.key, 'experience');
+    assert.equal(SiteNav.getAdjacentLinks('about').next.key, 'projects');
+    assert.equal(SiteNav.getAdjacentLinks('projects').previous.key, 'about');
     assert.equal(SiteNav.getAdjacentLinks('contact').next, null);
 });
 

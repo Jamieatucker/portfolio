@@ -173,8 +173,8 @@ test('home page states the r\u00e9sum\u00e9 download and the email address', () 
     assert.ok(pageText.home.indexOf(Resume.PROFILE.email) !== -1);
 });
 
-test('experience page renders every role, date range, and highlight', () => {
-    const html = pageText.experience;
+test('home page renders every role, date range, and highlight', () => {
+    const html = pageText.home;
     Resume.EXPERIENCE.forEach((role) => {
         assert.ok(html.indexOf('id="' + role.id + '"') !== -1, 'missing anchor for ' + role.id);
         assert.ok(html.indexOf(role.company) !== -1, 'missing company ' + role.company);
@@ -192,8 +192,8 @@ test('experience page renders every role, date range, and highlight', () => {
     });
 });
 
-test('experience roles expose the tags their filter needs', () => {
-    const html = pageText.experience;
+test('home roles expose the tags their filter needs', () => {
+    const html = pageText.home;
     Resume.EXPERIENCE.forEach((role) => {
         assert.ok(
             html.indexOf('data-role-tags="' + role.tags.join(',') + '"') !== -1,
@@ -225,14 +225,33 @@ test('skills page lists every skill in every group', () => {
     });
 });
 
-test('skills page deep-links technologies to the experience filter', () => {
+test('skills page deep-links technologies to the home timeline filter', () => {
     const html = pageText.skills;
     ['TypeScript', 'React', 'Java', 'Kotlin'].forEach((tech) => {
         assert.ok(
-            html.indexOf('experience.html?tech=' + tech) !== -1,
+            html.indexOf('/index.html?tech=' + tech) !== -1,
             'skills page should deep-link ' + tech
         );
     });
+});
+
+test('the retired experience page is gone and nothing still links to it', () => {
+    assert.ok(!fs.existsSync(path.join(ROOT, 'pages', 'experience')));
+    PAGES.forEach((page) => {
+        assert.ok(
+            pageText[page.key].indexOf('/pages/experience/') === -1,
+            page.key + ' still links to the removed experience page'
+        );
+    });
+});
+
+test('home page hosts the filter UI the timeline needs', () => {
+    ['data-experience-filter', 'data-filter-chips', 'data-role-list', 'id="experience"']
+        .forEach((hook) => {
+            assert.ok(pageText.home.indexOf(hook) !== -1, 'home is missing ' + hook);
+        });
+    assert.ok(pageText.home.indexOf('/pages/index/js/index.js') !== -1);
+    assert.ok(pageText.home.indexOf('/utils/experience-filter.js') !== -1);
 });
 
 test('contact page exposes email, LinkedIn, and the r\u00e9sum\u00e9', () => {
@@ -240,6 +259,22 @@ test('contact page exposes email, LinkedIn, and the r\u00e9sum\u00e9', () => {
     assert.ok(html.indexOf('mailto:' + Resume.PROFILE.email) !== -1);
     assert.ok(html.indexOf(Resume.PROFILE.linkedin) !== -1);
     assert.ok(html.indexOf(Resume.PROFILE.resumePath) !== -1);
+});
+
+test('LinkedIn is the first and fastest contact channel', () => {
+    const html = pageText.contact;
+    assert.ok(html.indexOf('LinkedIn \u00b7 fastest') !== -1, 'LinkedIn must be labelled fastest');
+    assert.ok(
+        html.indexOf('LinkedIn \u00b7 fastest') < html.indexOf('>Email<'),
+        'the LinkedIn card must come before the email card'
+    );
+    assert.ok(html.indexOf('Email \u00b7 fastest') === -1, 'email must no longer claim fastest');
+});
+
+test('the location card is gone but the location itself is not lost', () => {
+    const html = pageText.contact;
+    assert.ok(html.indexOf('>Location<') === -1, 'location card should be removed');
+    assert.ok(html.indexOf('Sunnyvale, California') !== -1, 'location should survive as prose');
 });
 
 test('external links are safe: target=_blank always pairs with rel=noopener', () => {
@@ -270,21 +305,36 @@ test('no page carries the job-title subheader that broke small viewports', () =>
     });
 });
 
-test('the four featured home cards are laid out two per row', () => {
+test('card grids pin two columns and never strand a lone card', () => {
+    const css = fs.readFileSync(path.join(ROOT, 'pages', 'shared', 'css', 'layout.css'), 'utf8');
     assert.ok(
-        pageText.home.indexOf('pf-grid pf-grid--2 home-featured') !== -1,
-        'home featured grid needs the home-featured class'
+        /\.pf-grid--2\s*\{[^}]*grid-template-columns:\s*repeat\(2,/.test(css),
+        'pf-grid--2 must pin two columns instead of auto-fit'
     );
-    const css = fs.readFileSync(path.join(ROOT, 'pages', 'index', 'css', 'index.css'), 'utf8');
     assert.ok(
-        /\.home-featured\s*\{[^}]*grid-template-columns:\s*repeat\(2,/.test(css),
-        'home-featured must pin two columns on large screens'
+        /:last-child:nth-child\(odd\)[\s\S]{0,120}grid-column:\s*1 \/ -1/.test(css),
+        'an odd trailing card must span the full row'
     );
+});
+
+test('every card grid holds at least two cards', () => {
+    PAGES.forEach((page) => {
+        const html = fs.readFileSync(page.file, 'utf8');
+        const blocks = html.split('pf-grid--2').slice(1);
+        blocks.forEach((block, index) => {
+            const body = block.split('</section>')[0];
+            const cards = (body.match(/<article\b/g) || []).length;
+            assert.ok(
+                cards >= 2,
+                page.key + ' grid ' + (index + 1) + ' has only ' + cards + ' card(s)'
+            );
+        });
+    });
 });
 
 test('page scripts referenced by each page exist', () => {
     const expected = {
-        experience: '/pages/experience/js/experience.js',
+        home: '/pages/index/js/index.js',
         projects: '/pages/projects/js/projects.js',
         contact: '/pages/contact/js/contact.js'
     };
