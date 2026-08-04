@@ -51,8 +51,8 @@
 }
 
 .exp-chip.is-active {
-    border-color: color-mix(in srgb, var(--pf-accent) 60%, transparent);
-    background: var(--pf-accent);
+    border-color: var(--pf-accent-solid-border);
+    background: var(--pf-accent-solid);
     color: var(--pf-accent-contrast);
 }
 

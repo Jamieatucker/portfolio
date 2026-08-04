@@ -41,56 +41,98 @@
     --pf-transition: 180ms cubic-bezier(0.2, 0, 0.2, 1);
 }
 
+/*
+ * Ohio State brand palette — https://bux.osu.edu/color/primary-colors/
+ * These are raw brand values and are theme-independent. Never use them
+ * directly in page CSS; use the semantic --pf-* tokens below so both themes
+ * keep working. Every semantic pair is contrast-tested in
+ * utils/color-contrast.js and test/color-contrast.test.js.
+ */
+:root {
+    --pf-scarlet: #ba0c2f;
+    --pf-scarlet-dark-40: #70071c;
+    --pf-scarlet-dark-60: #4a0513;
+    /* Scarlet reads at only 2.7:1 on dark ink, so dark mode uses these tints
+       for link and accent TEXT. Solid scarlet stays for filled controls. */
+    --pf-scarlet-light: #ff8a9c;
+    --pf-scarlet-light-strong: #ffb3bf;
+
+    --pf-gray: #a7b1b7;
+    --pf-gray-light-20: #bfc6cb;
+    --pf-gray-light-40: #cfd4d8;
+    --pf-gray-light-60: #dfe3e5;
+    --pf-gray-light-80: #eff1f2;
+    --pf-gray-light-90: #f6f7f8;
+    --pf-gray-dark-20: #868e92;
+    --pf-gray-dark-40: #646a6e;
+    --pf-gray-dark-60: #3f4443;
+    --pf-gray-dark-80: #212325;
+
+    --pf-white: #ffffff;
+    /* One step below gray-dark-80, for dark-mode page background depth. */
+    --pf-ink: #17191b;
+}
+
 /* Dark is the default theme; [data-theme] on <html> overrides it. */
 :root,
 [data-theme='dark'] {
     color-scheme: dark;
-    --pf-bg: #0a0f1d;
-    --pf-bg-elevated: #111a2e;
-    --pf-surface: rgba(255, 255, 255, 0.045);
-    --pf-surface-strong: rgba(255, 255, 255, 0.08);
-    --pf-border: rgba(255, 255, 255, 0.12);
-    --pf-border-strong: rgba(255, 255, 255, 0.24);
-    --pf-text: #f2f5fb;
-    --pf-text-muted: #b6c0d4;
-    --pf-text-subtle: #8b97ae;
-    --pf-accent: #6f9dff;
-    --pf-accent-strong: #4f7fff;
-    --pf-accent-contrast: #05091a;
-    --pf-accent-soft: rgba(111, 157, 255, 0.16);
-    --pf-highlight: #3fd9b0;
+    --pf-bg: var(--pf-ink);
+    --pf-bg-elevated: var(--pf-gray-dark-80);
+    --pf-surface: rgba(255, 255, 255, 0.05);
+    --pf-surface-strong: rgba(255, 255, 255, 0.09);
+    /* --pf-border is a decorative hairline (WCAG 1.4.11 exempt);
+       --pf-border-strong marks interactive controls and must clear 3:1. */
+    --pf-border: rgba(255, 255, 255, 0.16);
+    --pf-border-strong: var(--pf-gray-dark-20);
+    --pf-text: var(--pf-white);
+    --pf-text-muted: var(--pf-gray-light-40);
+    --pf-text-subtle: var(--pf-gray);
+    --pf-accent: var(--pf-scarlet-light);
+    --pf-accent-strong: var(--pf-scarlet-light-strong);
+    --pf-accent-solid: var(--pf-scarlet);
+    --pf-accent-solid-hover: var(--pf-scarlet-dark-40);
+    --pf-accent-solid-border: var(--pf-scarlet-light);
+    --pf-accent-contrast: var(--pf-white);
+    --pf-accent-soft: rgba(186, 12, 47, 0.28);
+    --pf-highlight: var(--pf-gray);
     --pf-shadow: 0 18px 40px -24px rgba(0, 0, 0, 0.9);
     --pf-glow: radial-gradient(
             60% 60% at 15% 0%,
-            rgba(111, 157, 255, 0.22) 0%,
+            rgba(186, 12, 47, 0.34) 0%,
             transparent 70%
         ),
-        radial-gradient(50% 50% at 95% 10%, rgba(63, 217, 176, 0.14) 0%, transparent 70%);
+        radial-gradient(50% 50% at 95% 10%, rgba(167, 177, 183, 0.12) 0%, transparent 70%);
 }
 
 [data-theme='light'] {
     color-scheme: light;
-    --pf-bg: #f6f8fc;
-    --pf-bg-elevated: #ffffff;
-    --pf-surface: rgba(15, 30, 60, 0.035);
-    --pf-surface-strong: rgba(15, 30, 60, 0.07);
-    --pf-border: rgba(15, 30, 60, 0.14);
-    --pf-border-strong: rgba(15, 30, 60, 0.28);
-    --pf-text: #101728;
-    --pf-text-muted: #414d66;
-    --pf-text-subtle: #5c6880;
-    --pf-accent: #2a55d8;
-    --pf-accent-strong: #1e42b8;
-    --pf-accent-contrast: #ffffff;
-    --pf-accent-soft: rgba(42, 85, 216, 0.1);
-    --pf-highlight: #0f8a6c;
-    --pf-shadow: 0 18px 40px -28px rgba(16, 23, 40, 0.4);
+    --pf-bg: var(--pf-gray-light-90);
+    --pf-bg-elevated: var(--pf-white);
+    --pf-surface: rgba(33, 35, 37, 0.04);
+    --pf-surface-strong: rgba(33, 35, 37, 0.08);
+    --pf-border: rgba(33, 35, 37, 0.16);
+    /* gray-dark-20 is 2.89:1 on the light card surface, so controls use the
+       next shade down to clear 1.4.11 wherever they sit. */
+    --pf-border-strong: var(--pf-gray-dark-40);
+    --pf-text: var(--pf-gray-dark-80);
+    --pf-text-muted: var(--pf-gray-dark-60);
+    --pf-text-subtle: var(--pf-gray-dark-40);
+    --pf-accent: var(--pf-scarlet);
+    --pf-accent-strong: var(--pf-scarlet-dark-40);
+    --pf-accent-solid: var(--pf-scarlet);
+    --pf-accent-solid-hover: var(--pf-scarlet-dark-40);
+    --pf-accent-solid-border: var(--pf-scarlet);
+    --pf-accent-contrast: var(--pf-white);
+    --pf-accent-soft: rgba(186, 12, 47, 0.12);
+    --pf-highlight: var(--pf-gray-dark-40);
+    --pf-shadow: 0 18px 40px -28px rgba(33, 35, 37, 0.4);
     --pf-glow: radial-gradient(
             60% 60% at 15% 0%,
-            rgba(42, 85, 216, 0.12) 0%,
+            rgba(186, 12, 47, 0.12) 0%,
             transparent 70%
         ),
-        radial-gradient(50% 50% at 95% 10%, rgba(15, 138, 108, 0.1) 0%, transparent 70%);
+        radial-gradient(50% 50% at 95% 10%, rgba(167, 177, 183, 0.22) 0%, transparent 70%);
 }
 
 *,
@@ -192,8 +234,10 @@ kbd {
     border-radius: var(--pf-radius-sm);
 }
 
+/* Solid scarlet, not the theme accent: the dark-mode accent is a light tint
+   that would leave white selection text unreadable. */
 ::selection {
-    background: var(--pf-accent);
+    background: var(--pf-accent-solid);
     color: var(--pf-accent-contrast);
 }
 
