@@ -1,5 +1,5 @@
 /*
- * site.js — shared page chrome behaviour, loaded with `defer` on every page.
+ * site.js — shared chrome behaviour for the single page, loaded with `defer`.
  * All decision logic lives in the unit-tested modules under /utils; this file
  * only wires that logic to the DOM.
  */
@@ -7,22 +7,75 @@
     'use strict';
 
     var SiteNav = window.SiteNav;
+    var Sections = window.HomeSections;
     var ThemePreference = window.ThemePreference;
     var MOBILE_QUERY = '(max-width: 800px)';
 
-    /** Mark the current page in the nav and expose it for per-page scripts. */
-    function markActiveNavLink() {
-        if (!SiteNav) return null;
-        var key = SiteNav.resolveActiveNavKey(window.location.pathname);
-        var links = document.querySelectorAll('[data-nav-key]');
-        Array.prototype.forEach.call(links, function (link) {
-            if (link.getAttribute('data-nav-key') === key) {
-                link.setAttribute('aria-current', 'page');
-            } else {
-                link.removeAttribute('aria-current');
-            }
+    /**
+     * Mark the section in view in the nav.
+     *
+     * The nav used to mark the current page; on one page it tracks scroll
+     * position instead. Sections are re-measured on every painted frame
+     * because the timeline collapse and both filters change their offsets.
+     */
+    function setupSectionSpy() {
+        if (!SiteNav || !Sections) return;
+
+        var links = {};
+        Array.prototype.forEach.call(document.querySelectorAll('[data-nav-key]'), function (link) {
+            links[link.getAttribute('data-nav-key')] = link;
         });
-        return key;
+
+        var nodes = SiteNav.SECTIONS.map(function (section) {
+            return { key: section.key, node: document.getElementById(section.key) };
+        }).filter(function (entry) {
+            return entry.node;
+        });
+        if (!nodes.length || !Object.keys(links).length) return;
+
+        var header = document.querySelector('.pf-header');
+        var pending = false;
+
+        function paint() {
+            pending = false;
+            var doc = document.documentElement;
+            var scrollTop = window.pageYOffset || doc.scrollTop || 0;
+            var atBottom = scrollTop + window.innerHeight >= doc.scrollHeight - 2;
+            var measured = nodes.map(function (entry) {
+                return {
+                    id: entry.key,
+                    top: entry.node.getBoundingClientRect().top + scrollTop
+                };
+            });
+            var active = Sections.resolveActiveSection(
+                measured,
+                scrollTop,
+                header ? header.offsetHeight : 0,
+                atBottom
+            );
+
+            Object.keys(links).forEach(function (key) {
+                if (key === active) {
+                    links[key].setAttribute('aria-current', 'true');
+                } else {
+                    links[key].removeAttribute('aria-current');
+                }
+            });
+        }
+
+        function schedule() {
+            if (pending) return;
+            pending = true;
+            if (window.requestAnimationFrame) {
+                window.requestAnimationFrame(paint);
+            } else {
+                paint();
+            }
+        }
+
+        window.addEventListener('scroll', schedule, { passive: true });
+        window.addEventListener('resize', schedule);
+        schedule();
     }
 
     function isMobile() {
@@ -45,6 +98,12 @@
 
         toggle.addEventListener('click', function () {
             collapse(list.getAttribute('data-collapsed') !== 'true');
+        });
+
+        // Section links no longer load a new page, so the menu has to close
+        // itself or it would cover the section the reader just asked for.
+        list.addEventListener('click', function (event) {
+            if (event.target.closest('a') && isMobile()) collapse(true);
         });
 
         document.addEventListener('keydown', function (event) {
@@ -115,32 +174,6 @@
         });
     }
 
-    /** Render the prev/next tour control from the nav order. */
-    function setupTour(activeKey) {
-        var container = document.querySelector('[data-tour]');
-        if (!container || !SiteNav || !activeKey) return;
-
-        var adjacent = SiteNav.getAdjacentLinks(activeKey);
-        var html = '';
-        if (adjacent.previous) {
-            html +=
-                '<a class="pf-tour__link pf-tour__link--previous" href="' +
-                adjacent.previous.href +
-                '"><span class="pf-tour__hint">Previous</span><span>' +
-                adjacent.previous.label +
-                '</span></a>';
-        }
-        if (adjacent.next) {
-            html +=
-                '<a class="pf-tour__link pf-tour__link--next" href="' +
-                adjacent.next.href +
-                '"><span class="pf-tour__hint">Next</span><span>' +
-                adjacent.next.label +
-                '</span></a>';
-        }
-        container.innerHTML = html;
-    }
-
     function stampYear() {
         var slots = document.querySelectorAll('[data-current-year]');
         Array.prototype.forEach.call(slots, function (slot) {
@@ -148,10 +181,9 @@
         });
     }
 
-    var activeKey = markActiveNavLink();
+    setupSectionSpy();
     setupMobileNav();
     setupThemeToggle();
     setupReveal();
-    setupTour(activeKey);
     stampYear();
 })();
