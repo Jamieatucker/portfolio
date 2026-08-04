@@ -48,7 +48,13 @@
             var visible = matched.indexOf(card) !== -1;
             card.node.hidden = !visible;
             card.node.classList.add('is-visible');
+            card.node.classList.remove('is-last-visible');
         });
+        // CSS spans a lone trailing card across both columns, but :last-child
+        // counts hidden cards too, so the filter marks the real last one.
+        if (matched.length % 2 === 1) {
+            matched[matched.length - 1].node.classList.add('is-last-visible');
+        }
 
         Array.prototype.forEach.call(chipHost.querySelectorAll('[data-tag]'), function (chip) {
             var isActive = chip.getAttribute('data-tag') === tag;
