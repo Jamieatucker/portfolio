@@ -18,8 +18,10 @@
     if (!Filter || !Resume || !Sections) return;
 
     var container = document.querySelector('[data-experience-filter]');
-    var chipHost = document.querySelector('[data-filter-chips]');
-    var status = document.querySelector('[data-filter-status]');
+    // The work section runs the same kind of filter, so scope these lookups to
+    // the timeline's own container instead of taking the document's first match.
+    var chipHost = container ? container.querySelector('[data-filter-chips]') : null;
+    var status = container ? container.querySelector('[data-filter-status]') : null;
     var list = document.querySelector('[data-role-list]');
     var toggle = document.querySelector('[data-role-toggle]');
     if (!container || !chipHost || !list) return;
@@ -128,73 +130,40 @@
         requested = new window.URLSearchParams(window.location.search).get('tech');
     }
 
-    if (requested && Filter.isKnownTag(roles, requested)) {
-        var canonical = Resume.getAllSkillTags(roles).filter(function (tag) {
-            return Filter.normalizeTag(tag) === Filter.normalizeTag(requested);
+    /** Resolve a requested tag to the exact casing the chips use. */
+    function canonicalTag(requestedTag) {
+        return Resume.getAllSkillTags(roles).filter(function (tag) {
+            return Filter.normalizeTag(tag) === Filter.normalizeTag(requestedTag);
         })[0];
-        apply(canonical || Filter.ALL_TAG);
-        // Arriving from a skills page link: the timeline is far down the home
-        // page, so bring it into view rather than landing on the hero.
+    }
+
+    function showTimeline(tag) {
+        apply(tag);
+        // The timeline sits far below the skills rows and the hero, so a filter
+        // that arrives from elsewhere on the page has to bring it into view.
         if (container.scrollIntoView) {
             container.scrollIntoView({ block: 'start' });
         }
+    }
+
+    if (requested && Filter.isKnownTag(roles, requested)) {
+        showTimeline(canonicalTag(requested) || Filter.ALL_TAG);
     } else {
         apply(Filter.ALL_TAG);
     }
 
-    /* ---------- Sub-nav: mark the section currently in view ---------- */
-
-    var subnav = document.querySelector('[data-home-subnav]');
-    var sectionNodes = Array.prototype.slice.call(document.querySelectorAll('[data-section]'));
-    var links = {};
-    if (subnav) {
-        Array.prototype.forEach.call(subnav.querySelectorAll('[data-subnav-link]'), function (link) {
-            links[link.getAttribute('data-subnav-link')] = link;
+    /*
+     * Skills rows filter the timeline in place. Each row is a real link to
+     * #experience, so it still works if this listener never runs; the handler
+     * only saves the reader from scrolling back up to pick a chip.
+     */
+    Array.prototype.forEach.call(document.querySelectorAll('[data-tech]'), function (link) {
+        link.addEventListener('click', function (event) {
+            var tag = link.getAttribute('data-tech');
+            if (!Filter.isKnownTag(roles, tag)) return;
+            event.preventDefault();
+            showTimeline(canonicalTag(tag) || Filter.ALL_TAG);
         });
-    }
+    });
 
-    if (subnav && sectionNodes.length && Object.keys(links).length) {
-        var pending = false;
-        var header = document.querySelector('.pf-header');
-
-        /** Measure on every pass: the collapse and filter both change offsets. */
-        function measure() {
-            var scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
-            return sectionNodes.map(function (node) {
-                return { id: node.id, top: node.getBoundingClientRect().top + scrollTop };
-            });
-        }
-
-        function paint() {
-            pending = false;
-            var doc = document.documentElement;
-            var scrollTop = window.pageYOffset || doc.scrollTop || 0;
-            var atBottom = scrollTop + window.innerHeight >= doc.scrollHeight - 2;
-            var offset = (subnav.getBoundingClientRect().height || 0) +
-                (header ? header.offsetHeight : 0);
-            var active = Sections.resolveActiveSection(measure(), scrollTop, offset, atBottom);
-
-            Object.keys(links).forEach(function (id) {
-                if (id === active) {
-                    links[id].setAttribute('aria-current', 'true');
-                } else {
-                    links[id].removeAttribute('aria-current');
-                }
-            });
-        }
-
-        function schedule() {
-            if (pending) return;
-            pending = true;
-            if (window.requestAnimationFrame) {
-                window.requestAnimationFrame(paint);
-            } else {
-                paint();
-            }
-        }
-
-        window.addEventListener('scroll', schedule, { passive: true });
-        window.addEventListener('resize', schedule);
-        schedule();
-    }
 })();

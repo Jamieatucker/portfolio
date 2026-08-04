@@ -1,31 +1,8 @@
-/* about.css — about page only: intro split, prose measure, education panel. */
+/* about.css — the #about section: intro, prose measure, education panel.
+   The portrait lives in the hero now; one page needs only one of them. */
 
 .about-intro {
-    display: grid;
-    gap: var(--pf-space-6);
-    grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.9fr);
-    align-items: start;
     padding-top: var(--pf-space-8);
-}
-
-.about-portrait {
-    margin: 0;
-}
-
-.about-portrait img {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    border: 1px solid var(--pf-border);
-    border-radius: var(--pf-radius-lg);
-    box-shadow: var(--pf-shadow);
-}
-
-.about-portrait figcaption {
-    margin-top: var(--pf-space-2);
-    font-size: var(--pf-text-xs);
-    color: var(--pf-text-subtle);
-    text-align: center;
 }
 
 .about-prose p {
@@ -68,12 +45,7 @@
 }
 
 @media (max-width: 900px) {
-    .about-intro,
     .about-education {
         grid-template-columns: minmax(0, 1fr);
-    }
-
-    .about-portrait {
-        max-width: 16rem;
     }
 }

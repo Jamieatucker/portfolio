@@ -114,60 +114,15 @@
     margin-top: var(--pf-space-5);
 }
 
-/* ---------- Section sub-nav: the home page carries the whole work history, so
-   it is long. These links let a reader jump instead of scroll. */
-
-.home-subnav {
-    position: sticky;
-    top: var(--pf-header-h);
-    z-index: 40;
-    margin-bottom: var(--pf-space-2);
-    padding: var(--pf-space-2) 0;
-    background: color-mix(in srgb, var(--pf-bg) 88%, transparent);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--pf-border);
-}
-
-.home-subnav__list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--pf-space-1) var(--pf-space-4);
-    align-items: center;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.home-subnav__list li {
-    margin: 0;
-}
-
-.home-subnav__label {
-    font-size: var(--pf-text-xs);
-    font-weight: 650;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--pf-text-subtle);
-}
-
-.home-subnav__link {
-    display: inline-block;
-    padding: 0.25rem 0;
-    border-bottom: 2px solid transparent;
-    color: var(--pf-text-muted);
-    font-size: var(--pf-text-sm);
-    font-weight: 600;
-    text-decoration: none;
-    white-space: nowrap;
-}
-
-.home-subnav__link:hover {
-    color: var(--pf-text);
-}
-
-.home-subnav__link[aria-current='true'] {
-    border-bottom-color: var(--pf-accent-solid);
-    color: var(--pf-text);
+/* Each folded-in section opens with what used to be that page's h1. Only the
+   hero keeps an h1 on a single-page site, so these are h2s sized to still read
+   as the start of a section rather than as a subheading inside one. */
+.about-intro h2,
+.proj-head h2,
+.skills-head h2,
+.contact-head h2 {
+    font-size: var(--pf-text-3xl);
+    line-height: 1.15;
 }
 
 /* ---------- Work history timeline (moved here from the retired experience
@@ -244,9 +199,9 @@
     display: none;
 }
 
-/* Jump links land under two sticky bars unless the target reserves room. */
+/* A jump link lands under the sticky header unless the target reserves room. */
 [data-section] {
-    scroll-margin-top: calc(var(--pf-header-h) + 3.25rem);
+    scroll-margin-top: calc(var(--pf-header-h) + var(--pf-space-3));
 }
 
 .home-role {
@@ -351,23 +306,6 @@
 
 .home-cta p {
     margin-bottom: 0;
-}
-
-@media (max-width: 620px) {
-    /* Five links plus a label wrap to three rows on a phone; the label goes. */
-    .home-subnav__label {
-        display: none;
-    }
-
-    .home-subnav__list {
-        gap: var(--pf-space-1) var(--pf-space-3);
-    }
-}
-
-@media print {
-    .home-subnav {
-        display: none;
-    }
 }
 
 @media (max-width: 900px) {

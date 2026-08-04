@@ -1,7 +1,10 @@
 /*
- * projects.js — technology filter for the case-study grid.
+ * work.js — technology filter for the case-study grid in the #work section.
  * Cards are already in the HTML; this is enhancement only, and it reuses the
- * same unit-tested helpers as the experience page filter.
+ * same unit-tested helpers as the timeline filter in index.js.
+ *
+ * Both filters live on one page now, so every hook is looked up inside this
+ * section's own container rather than across the document.
  */
 (function () {
     'use strict';
@@ -11,8 +14,8 @@
     if (!Filter || !Resume) return;
 
     var container = document.querySelector('[data-project-filter]');
-    var chipHost = document.querySelector('[data-filter-chips]');
-    var status = document.querySelector('[data-filter-status]');
+    var chipHost = container ? container.querySelector('[data-filter-chips]') : null;
+    var status = container ? container.querySelector('[data-filter-status]') : null;
     var list = document.querySelector('[data-project-list]');
     if (!container || !chipHost || !list) return;
 
