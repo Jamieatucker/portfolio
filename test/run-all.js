@@ -9,6 +9,7 @@ const SUITES = [
     'experience-filter.test.js',
     'theme-preference.test.js',
     'project-data.test.js',
+    'color-contrast.test.js',
     'page-markup.test.js'
 ];
 
