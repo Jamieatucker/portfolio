@@ -21,7 +21,7 @@
     var PROJECTS = [
         {
             id: 'playables-client-architecture',
-            name: 'Playables Game Creation Client',
+            name: 'Playables Game Creation',
             roleId: 'youtube-playables',
             category: 'Client Architecture',
             featured: true,
