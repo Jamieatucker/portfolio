@@ -183,6 +183,11 @@ test('home page renders every role, date range, and highlight', () => {
             html.indexOf(Resume.formatDateRange(role.start, role.end)) !== -1,
             'missing date range for ' + role.id
         );
+        // The tenure is hand-written next to the dates, so it can contradict them.
+        assert.ok(
+            html.indexOf(Resume.formatDuration(role.start, role.end) + ' \u00b7 ' + role.location) !== -1,
+            role.id + ' should read ' + Resume.formatDuration(role.start, role.end)
+        );
         role.highlights.forEach((highlight) => {
             assert.ok(
                 html.indexOf(highlight.replace(/\s+/g, ' ')) !== -1,

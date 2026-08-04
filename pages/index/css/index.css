@@ -107,7 +107,10 @@
     color: var(--pf-text-muted);
 }
 
+/* Centred to match the timeline's own "show earlier roles" control, so the two
+   section-closing buttons sit on the same axis. */
 .home-more {
+    justify-content: center;
     margin-top: var(--pf-space-5);
 }
 
