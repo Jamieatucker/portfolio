@@ -1,0 +1,10 @@
+{
+  "name": "jamie-tucker-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Jamie Tucker software engineering portfolio (static multi-page HTML/CSS/JS)",
+  "scripts": {
+    "test": "node test/run-all.js",
+    "start": "npx serve ."
+  }
+}
