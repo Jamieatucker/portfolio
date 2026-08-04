@@ -12,13 +12,20 @@
     margin-bottom: var(--pf-space-4);
 }
 
+/* Plain accent colour by default; only clip the gradient where it is supported,
+   otherwise transparent fill would render the headline invisible. */
 .home-hero__accent {
-    background: linear-gradient(120deg, var(--pf-accent), var(--pf-highlight));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    /* Fallback for engines that ignore background-clip: text. */
-    -webkit-text-fill-color: transparent;
+    color: var(--pf-accent);
+}
+
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+    .home-hero__accent {
+        background: linear-gradient(120deg, var(--pf-accent), var(--pf-highlight));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+    }
 }
 
 .home-hero__lead {
