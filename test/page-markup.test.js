@@ -257,6 +257,31 @@ test('external links are safe: target=_blank always pairs with rel=noopener', ()
     });
 });
 
+test('no page carries the job-title subheader that broke small viewports', () => {
+    PAGES.forEach((page) => {
+        assert.ok(
+            pageText[page.key].indexOf('pf-brand__role') === -1,
+            page.key + ' still renders the nav subheader'
+        );
+        assert.ok(
+            pageText[page.key].indexOf('<span class="pf-brand__text">Jamie Tucker</span>') !== -1,
+            page.key + ' lost the brand name'
+        );
+    });
+});
+
+test('the four featured home cards are laid out two per row', () => {
+    assert.ok(
+        pageText.home.indexOf('pf-grid pf-grid--2 home-featured') !== -1,
+        'home featured grid needs the home-featured class'
+    );
+    const css = fs.readFileSync(path.join(ROOT, 'pages', 'index', 'css', 'index.css'), 'utf8');
+    assert.ok(
+        /\.home-featured\s*\{[^}]*grid-template-columns:\s*repeat\(2,/.test(css),
+        'home-featured must pin two columns on large screens'
+    );
+});
+
 test('page scripts referenced by each page exist', () => {
     const expected = {
         experience: '/pages/experience/js/experience.js',
