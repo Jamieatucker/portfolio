@@ -1,9 +1,10 @@
 'use strict';
 
 /**
- * Static-site integration checks. The page content is hand-written HTML (so it
+ * Static-site integration checks. The site is one hand-written page (so it
  * renders without JavaScript), which means it can drift from the data modules.
- * These tests fail if that happens, and if any internal link or asset 404s.
+ * These tests fail if that happens, if a nav link points at a section that does
+ * not exist, or if any internal link or asset 404s.
  */
 
 const assert = require('assert').strict;
@@ -18,12 +19,7 @@ const { createSuite } = require(path.join(__dirname, 'lib', 'test-runner.js'));
 
 const { test, finish } = createSuite('page-markup');
 
-const PAGES = SiteNav.NAV_LINKS.map((link) => ({
-    key: link.key,
-    label: link.label,
-    href: link.href,
-    file: path.join(ROOT, link.href.replace(/^\//, ''))
-}));
+const PAGE = path.join(ROOT, 'index.html');
 
 const ENTITIES = {
     '&amp;': '&',
@@ -49,132 +45,163 @@ function decodeEntities(html) {
     );
 }
 
+const raw = fs.readFileSync(PAGE, 'utf8');
 /** Collapse the line wrapping in source HTML so prose can be matched. */
-function readText(file) {
-    return decodeEntities(fs.readFileSync(file, 'utf8')).replace(/\s+/g, ' ');
-}
+const html = decodeEntities(raw).replace(/\s+/g, ' ');
 
-const pageText = {};
-PAGES.forEach((page) => {
-    pageText[page.key] = fs.existsSync(page.file) ? readText(page.file) : '';
-});
-
-function collectLocalRefs(html) {
+function collectLocalRefs(source) {
     const refs = [];
     const pattern = /(?:href|src)="(\/[^"#?]*)(?:[?#][^"]*)?"/g;
-    let match = pattern.exec(html);
+    let match = pattern.exec(source);
     while (match) {
         refs.push(match[1]);
-        match = pattern.exec(html);
+        match = pattern.exec(source);
     }
     return refs;
 }
 
-test('every page in the nav exists on disk', () => {
-    PAGES.forEach((page) => {
-        assert.ok(fs.existsSync(page.file), 'missing page file: ' + page.href);
+function listHtmlFiles(dir) {
+    return fs.readdirSync(dir, { withFileTypes: true }).reduce((found, entry) => {
+        if (entry.name === '.git' || entry.name === 'node_modules') return found;
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) return found.concat(listHtmlFiles(full));
+        return entry.name.endsWith('.html') ? found.concat(full) : found;
+    }, []);
+}
+
+test('the site is a single page, and that page is real markup', () => {
+    assert.deepEqual(listHtmlFiles(ROOT), [PAGE], 'index.html should be the only HTML file');
+    assert.equal(raw.indexOf('<!DOCTYPE html>'), 0);
+    assert.ok(html.indexOf('http-equiv="refresh"') === -1, 'the page must not meta-refresh');
+});
+
+test('the page has exactly one h1, and it is the hero hook', () => {
+    const headings = raw.match(/<h1\b/g) || [];
+    assert.equal(headings.length, 1, 'a single page takes a single h1');
+    assert.ok(raw.indexOf('home-hero__title') !== -1, 'the h1 belongs to the hero');
+});
+
+test('every id on the page is unique', () => {
+    const ids = (raw.match(/\sid="([^"]+)"/g) || []).map((raw_id) =>
+        raw_id.replace(/.*id="([^"]+)"/, '$1')
+    );
+    const seen = {};
+    ids.forEach((id) => {
+        assert.ok(!seen[id], 'duplicate id after folding the pages together: ' + id);
+        seen[id] = true;
     });
 });
 
-test('the site entry point is a real home page, not a redirect', () => {
-    const home = pageText.home;
-    assert.ok(home.indexOf('<!DOCTYPE html>') === 0);
-    assert.ok(home.indexOf('http-equiv="refresh"') === -1, 'home must not meta-refresh');
-    assert.ok(home.indexOf('<h1') !== -1, 'home needs an h1 hook');
-});
-
-test('every page renders the full nav with matching keys and hrefs', () => {
-    PAGES.forEach((page) => {
-        const html = pageText[page.key];
-        SiteNav.NAV_LINKS.forEach((link) => {
-            assert.ok(
-                html.indexOf('data-nav-key="' + link.key + '" href="' + link.href + '"') !== -1,
-                page.key + ' page is missing nav link: ' + link.key
-            );
-        });
-    });
-});
-
-test('every page loads theme.css, layout.css, and its own stylesheet', () => {
-    PAGES.forEach((page) => {
-        const html = pageText[page.key];
-        assert.ok(html.indexOf('/pages/shared/css/theme.css') !== -1, page.key + ' missing theme.css');
-        assert.ok(html.indexOf('/pages/shared/css/layout.css') !== -1, page.key + ' missing layout.css');
-        const own = page.key === 'home' ? 'index' : page.key;
+test('the nav offers every section, in document order, pointing at real targets', () => {
+    let cursor = -1;
+    SiteNav.SECTIONS.forEach((section) => {
+        const link = 'data-nav-key="' + section.key + '" href="' + section.hash + '"';
+        assert.ok(html.indexOf(link) !== -1, 'nav is missing a link to ' + section.key);
         assert.ok(
-            html.indexOf('/pages/' + own + '/css/' + own + '.css') !== -1,
-            page.key + ' missing its page stylesheet'
+            html.indexOf('>' + section.label + '</a>') !== -1,
+            'nav is missing the label ' + section.label
         );
+
+        const target = new RegExp('id="' + section.key + '"[^>]*data-section');
+        assert.ok(target.test(raw), section.key + ' has no [data-section] target');
+
+        const position = raw.indexOf('id="' + section.key + '"');
+        assert.ok(position > cursor, section.key + ' is out of document order');
+        cursor = position;
     });
 });
 
-test('every page boots the theme before paint and site.js afterwards', () => {
-    PAGES.forEach((page) => {
-        const html = pageText[page.key];
-        assert.ok(html.indexOf('/utils/theme-preference.js') !== -1, page.key + ' missing theme util');
-        assert.ok(html.indexOf('/pages/shared/js/theme-init.js') !== -1, page.key + ' missing theme init');
-        assert.ok(html.indexOf('/utils/site-nav.js') !== -1, page.key + ' missing site-nav util');
-        assert.ok(html.indexOf('/pages/shared/js/site.js') !== -1, page.key + ' missing site.js');
-        assert.ok(
-            html.indexOf('/utils/theme-preference.js') < html.indexOf('/pages/shared/js/theme-init.js'),
-            page.key + ' must load theme-preference.js before theme-init.js'
-        );
+test('the hero is reachable from the brand and the footer', () => {
+    assert.ok(raw.indexOf('class="pf-brand" href="#top"') !== -1, 'brand should return to the top');
+    assert.ok(raw.indexOf('id="top"') !== -1, 'the hero needs the #top anchor');
+});
+
+test('the page loads the shared chrome and every section stylesheet', () => {
+    ['/pages/shared/css/theme.css', '/pages/shared/css/layout.css'].forEach((href) => {
+        assert.ok(html.indexOf(href) !== -1, 'missing ' + href);
+    });
+    ['index', 'about', 'work', 'skills', 'contact'].forEach((name) => {
+        const href = '/pages/index/css/' + name + '.css';
+        assert.ok(html.indexOf(href) !== -1, 'missing ' + href);
+        assert.ok(fs.existsSync(path.join(ROOT, href.replace(/^\//, ''))), href + ' does not exist');
     });
 });
 
-test('every page is accessible-by-default: lang, viewport, skip link, title', () => {
-    PAGES.forEach((page) => {
-        const html = pageText[page.key];
-        assert.ok(html.indexOf('<html lang="en"') !== -1, page.key + ' missing lang');
-        assert.ok(html.indexOf('name="viewport"') !== -1, page.key + ' missing viewport');
-        assert.ok(html.indexOf('class="pf-skip-link"') !== -1, page.key + ' missing skip link');
-        assert.ok(html.indexOf('id="main"') !== -1, page.key + ' missing main landmark');
-        assert.ok(/<title>[^<]+<\/title>/.test(html), page.key + ' missing title');
-        assert.ok(html.indexOf('name="description"') !== -1, page.key + ' missing meta description');
+test('the page boots the theme before paint and the behaviour after', () => {
+    const scripts = [
+        '/utils/theme-preference.js',
+        '/pages/shared/js/theme-init.js',
+        '/utils/site-nav.js',
+        '/utils/resume-data.js',
+        '/utils/experience-filter.js',
+        '/utils/home-sections.js',
+        '/pages/shared/js/site.js',
+        '/pages/index/js/index.js',
+        '/pages/index/js/work.js',
+        '/pages/index/js/contact.js'
+    ];
+    scripts.forEach((src) => {
+        assert.ok(html.indexOf(src) !== -1, 'missing script ' + src);
+        assert.ok(fs.existsSync(path.join(ROOT, src.replace(/^\//, ''))), src + ' does not exist');
     });
+    assert.ok(
+        html.indexOf('/utils/theme-preference.js') < html.indexOf('/pages/shared/js/theme-init.js'),
+        'theme-preference.js must load before theme-init.js'
+    );
+});
+
+test('the page is accessible-by-default: lang, viewport, skip link, title', () => {
+    assert.ok(html.indexOf('<html lang="en"') !== -1, 'missing lang');
+    assert.ok(html.indexOf('name="viewport"') !== -1, 'missing viewport');
+    assert.ok(html.indexOf('class="pf-skip-link"') !== -1, 'missing skip link');
+    assert.ok(html.indexOf('id="main"') !== -1, 'missing main landmark');
+    assert.ok(/<title>[^<]+<\/title>/.test(html), 'missing title');
+    assert.ok(html.indexOf('name="description"') !== -1, 'missing meta description');
 });
 
 test('every internal link and asset reference resolves to a real file', () => {
-    PAGES.forEach((page) => {
-        const html = fs.readFileSync(page.file, 'utf8');
-        collectLocalRefs(html).forEach((ref) => {
-            const target = path.join(ROOT, ref.replace(/^\//, ''));
-            assert.ok(fs.existsSync(target), page.key + ' page links to missing file: ' + ref);
-        });
+    collectLocalRefs(raw).forEach((ref) => {
+        const target = path.join(ROOT, ref.replace(/^\//, ''));
+        assert.ok(fs.existsSync(target), 'link to missing file: ' + ref);
     });
 });
 
-test('every page except home offers the prev/next tour container', () => {
-    PAGES.filter((page) => page.key !== 'home').forEach((page) => {
-        assert.ok(pageText[page.key].indexOf('data-tour') !== -1, page.key + ' missing tour container');
+test('nothing links to a page that the single-page rewrite retired', () => {
+    Object.keys(SiteNav.LEGACY_PATHS).forEach((legacy) => {
+        assert.ok(raw.indexOf(legacy) === -1, 'still links to the retired page ' + legacy);
     });
+    assert.ok(!fs.existsSync(path.join(ROOT, 'pages', 'about')), 'pages/about should be gone');
+    assert.ok(!fs.existsSync(path.join(ROOT, 'pages', 'contact')), 'pages/contact should be gone');
 });
 
-test('home page shows every impact metric from the data module', () => {
+test('the proof section shows every impact metric from the data module', () => {
     Resume.IMPACT_METRICS.forEach((metric) => {
-        assert.ok(
-            pageText.home.indexOf(metric.value) !== -1,
-            'home is missing metric value: ' + metric.value
-        );
+        assert.ok(html.indexOf(metric.value) !== -1, 'missing metric value: ' + metric.value);
     });
 });
 
-test('home page features every project flagged as featured', () => {
+test('the work section renders every case study, featured ones included', () => {
+    Projects.PROJECTS.forEach((project) => {
+        assert.ok(html.indexOf(project.name) !== -1, 'missing project ' + project.id);
+        assert.ok(
+            html.indexOf(project.outcome.replace(/\s+/g, ' ')) !== -1,
+            'missing outcome text for ' + project.id
+        );
+    });
     Projects.getFeaturedProjects().forEach((project) => {
-        assert.ok(
-            pageText.home.indexOf(project.name) !== -1,
-            'home is missing featured project: ' + project.name
-        );
+        assert.ok(html.indexOf(project.name) !== -1, 'missing featured project ' + project.name);
+    });
+    ['Problem', 'Approach', 'Outcome'].forEach((label) => {
+        assert.ok(html.indexOf('>' + label + '</span>') !== -1, 'missing ' + label + ' label');
     });
 });
 
-test('home page states the r\u00e9sum\u00e9 download and the email address', () => {
-    assert.ok(pageText.home.indexOf(Resume.PROFILE.resumePath) !== -1);
-    assert.ok(pageText.home.indexOf(Resume.PROFILE.email) !== -1);
+test('the page states the r\u00e9sum\u00e9 download and the email address', () => {
+    assert.ok(html.indexOf(Resume.PROFILE.resumePath) !== -1);
+    assert.ok(html.indexOf(Resume.PROFILE.email) !== -1);
 });
 
-test('home page renders every role, date range, and highlight', () => {
-    const html = pageText.home;
+test('the timeline renders every role, date range, duration, and highlight', () => {
     Resume.EXPERIENCE.forEach((role) => {
         assert.ok(html.indexOf('id="' + role.id + '"') !== -1, 'missing anchor for ' + role.id);
         assert.ok(html.indexOf(role.company) !== -1, 'missing company ' + role.company);
@@ -197,8 +224,7 @@ test('home page renders every role, date range, and highlight', () => {
     });
 });
 
-test('home roles expose the tags their filter needs', () => {
-    const html = pageText.home;
+test('roles expose the tags their filter needs', () => {
     Resume.EXPERIENCE.forEach((role) => {
         assert.ok(
             html.indexOf('data-role-tags="' + role.tags.join(',') + '"') !== -1,
@@ -207,106 +233,75 @@ test('home roles expose the tags their filter needs', () => {
     });
 });
 
-test('projects page renders every case study with problem, approach, outcome', () => {
-    const html = pageText.projects;
-    Projects.PROJECTS.forEach((project) => {
-        assert.ok(html.indexOf(project.name) !== -1, 'missing project ' + project.id);
-        assert.ok(
-            html.indexOf(project.outcome.replace(/\s+/g, ' ')) !== -1,
-            'missing outcome text for ' + project.id
-        );
-    });
-    ['Problem', 'Approach', 'Outcome'].forEach((label) => {
-        assert.ok(html.indexOf('>' + label + '</span>') !== -1, 'missing ' + label + ' label');
-    });
-});
-
-test('skills page lists every skill in every group', () => {
-    const html = pageText.skills;
+test('the skills section lists every skill in every group', () => {
     Resume.SKILL_GROUPS.forEach((group) => {
         group.skills.forEach((skill) => {
-            assert.ok(html.indexOf(skill) !== -1, 'skills page is missing: ' + skill);
+            assert.ok(html.indexOf(skill) !== -1, 'skills section is missing: ' + skill);
         });
     });
 });
 
-test('skills page deep-links technologies to the home timeline filter', () => {
-    const html = pageText.skills;
+test('skill rows filter the timeline in place and still work without JS', () => {
+    const rows = raw.match(/<a class="skills-row__name"[^>]*>/g) || [];
+    assert.ok(rows.length >= 10, 'expected the skills rows to link into the timeline');
+    rows.forEach((row) => {
+        assert.ok(row.indexOf('href="#experience"') !== -1, 'row should fall back to a jump: ' + row);
+        assert.ok(/data-tech="[^"]+"/.test(row), 'row should name its technology: ' + row);
+    });
     ['TypeScript', 'React', 'Java', 'Kotlin'].forEach((tech) => {
-        assert.ok(
-            html.indexOf('/index.html?tech=' + tech) !== -1,
-            'skills page should deep-link ' + tech
-        );
+        assert.ok(raw.indexOf('data-tech="' + tech + '"') !== -1, 'no skills row for ' + tech);
     });
 });
 
-test('the retired experience page is gone and nothing still links to it', () => {
-    assert.ok(!fs.existsSync(path.join(ROOT, 'pages', 'experience')));
-    PAGES.forEach((page) => {
-        assert.ok(
-            pageText[page.key].indexOf('/pages/experience/') === -1,
-            page.key + ' still links to the removed experience page'
-        );
-    });
+test('the page hosts both filter UIs and their hooks', () => {
+    ['data-experience-filter', 'data-project-filter', 'data-role-list', 'data-project-list'].forEach(
+        (hook) => {
+            assert.ok(html.indexOf(hook) !== -1, 'missing ' + hook);
+        }
+    );
+    const chipHosts = (raw.match(/data-filter-chips/g) || []).length;
+    assert.equal(chipHosts, 2, 'the timeline and the work grid each need their own chip host');
 });
 
-test('home page hosts the filter UI the timeline needs', () => {
-    ['data-experience-filter', 'data-filter-chips', 'data-role-list', 'id="experience"']
-        .forEach((hook) => {
-            assert.ok(pageText.home.indexOf(hook) !== -1, 'home is missing ' + hook);
-        });
-    ['/pages/index/js/index.js', '/utils/experience-filter.js', '/utils/home-sections.js']
-        .forEach((src) => {
-            assert.ok(pageText.home.indexOf(src) !== -1, 'home is missing ' + src);
-        });
+test('neither filter can capture the other one\u2019s chips', () => {
+    // Both sections use the same hook names, so a document-wide querySelector
+    // would hand the timeline the work grid's chips (it appears first).
+    ['index.js', 'work.js'].forEach((file) => {
+        const source = fs.readFileSync(path.join(ROOT, 'pages', 'index', 'js', file), 'utf8');
+        assert.ok(
+            source.indexOf("container.querySelector('[data-filter-chips]')") !== -1,
+            file + ' must scope its chip host to its own container'
+        );
+        assert.ok(
+            source.indexOf("document.querySelector('[data-filter-chips]')") === -1,
+            file + ' must not take the document-wide first match'
+        );
+    });
 });
 
 test('the timeline uses home-owned class names, not the retired exp- prefix', () => {
-    assert.ok(pageText.home.indexOf('home-role') !== -1, 'roles should use home-role');
-    PAGES.forEach((page) => {
-        assert.ok(
-            !/class="[^"]*\bexp-/.test(pageText[page.key]),
-            page.key + ' still carries an exp- class from the retired page'
-        );
-    });
-    ['index.css', 'index.js'].forEach((file) => {
-        const dir = file.endsWith('.css') ? 'css' : 'js';
-        const source = fs.readFileSync(path.join(ROOT, 'pages', 'index', dir, file), 'utf8');
+    assert.ok(html.indexOf('home-role') !== -1, 'roles should use home-role');
+    assert.ok(!/class="[^"]*\bexp-/.test(raw), 'an exp- class survived the rename');
+    ['css/index.css', 'js/index.js'].forEach((file) => {
+        const source = fs.readFileSync(path.join(ROOT, 'pages', 'index', file), 'utf8');
         assert.ok(source.indexOf('exp-') === -1, file + ' still references an exp- class');
     });
 });
 
-test('every sub-nav link points at a section that exists on the page', () => {
-    const html = pageText.home;
-    const links = html.match(/data-subnav-link="([^"]+)"/g) || [];
-    assert.ok(links.length >= 4, 'the sub-nav should offer at least four jumps');
-    links.forEach((raw) => {
-        const id = raw.replace(/.*"([^"]+)"$/, '$1');
-        assert.ok(html.indexOf('href="#' + id + '"') !== -1, id + ' link is missing its href');
-        assert.ok(
-            new RegExp('id="' + id + '"[^>]*data-section').test(html),
-            id + ' has no matching [data-section] target'
-        );
-    });
-});
-
 test('the earlier-roles toggle ships hidden so no-JS readers keep every role', () => {
-    const html = pageText.home;
-    const button = (html.match(/<button[^>]*data-role-toggle[^>]*>/) || [])[0];
-    assert.ok(button, 'home page should carry the role toggle');
+    const button = (raw.match(/<button[^>]*data-role-toggle[^>]*>/) || [])[0];
+    assert.ok(button, 'the page should carry the role toggle');
     assert.ok(/\bhidden\b/.test(button), 'the toggle must ship hidden');
     assert.ok(/aria-expanded="true"/.test(button), 'the toggle must ship expanded');
 });
 
-test('contact page exposes email, LinkedIn, and the r\u00e9sum\u00e9', () => {
-    const html = pageText.contact;
+test('the contact section exposes email, LinkedIn, and the r\u00e9sum\u00e9', () => {
     assert.ok(html.indexOf('mailto:' + Resume.PROFILE.email) !== -1);
     assert.ok(html.indexOf(Resume.PROFILE.linkedin) !== -1);
     assert.ok(html.indexOf(Resume.PROFILE.resumePath) !== -1);
 });
 
 test('LinkedIn is the first and fastest contact channel', () => {
-    const html = pageText.contact;
     assert.ok(html.indexOf('LinkedIn \u00b7 fastest') !== -1, 'LinkedIn must be labelled fastest');
     assert.ok(
         html.indexOf('LinkedIn \u00b7 fastest') < html.indexOf('>Email<'),
@@ -316,37 +311,27 @@ test('LinkedIn is the first and fastest contact channel', () => {
 });
 
 test('the location card is gone but the location itself is not lost', () => {
-    const html = pageText.contact;
     assert.ok(html.indexOf('>Location<') === -1, 'location card should be removed');
     assert.ok(html.indexOf('Sunnyvale, California') !== -1, 'location should survive as prose');
 });
 
 test('external links are safe: target=_blank always pairs with rel=noopener', () => {
-    PAGES.forEach((page) => {
-        const html = fs.readFileSync(page.file, 'utf8');
-        const anchors = html.match(/<a\b[^>]*>/g) || [];
-        anchors
-            .filter((tag) => tag.indexOf('target="_blank"') !== -1)
-            .forEach((tag) => {
-                assert.ok(
-                    tag.indexOf('rel="noopener"') !== -1,
-                    page.key + ' has target=_blank without rel=noopener: ' + tag
-                );
-            });
-    });
+    (raw.match(/<a\b[^>]*>/g) || [])
+        .filter((tag) => tag.indexOf('target="_blank"') !== -1)
+        .forEach((tag) => {
+            assert.ok(
+                tag.indexOf('rel="noopener"') !== -1,
+                'target=_blank without rel=noopener: ' + tag
+            );
+        });
 });
 
-test('no page carries the job-title subheader that broke small viewports', () => {
-    PAGES.forEach((page) => {
-        assert.ok(
-            pageText[page.key].indexOf('pf-brand__role') === -1,
-            page.key + ' still renders the nav subheader'
-        );
-        assert.ok(
-            pageText[page.key].indexOf('<span class="pf-brand__text">Jamie Tucker</span>') !== -1,
-            page.key + ' lost the brand name'
-        );
-    });
+test('the nav carries the brand name and not the subheader that broke phones', () => {
+    assert.ok(html.indexOf('pf-brand__role') === -1, 'the nav subheader should stay gone');
+    assert.ok(
+        html.indexOf('<span class="pf-brand__text">Jamie Tucker</span>') !== -1,
+        'the brand name is missing'
+    );
 });
 
 test('card grids pin two columns and never strand a lone card', () => {
@@ -362,30 +347,20 @@ test('card grids pin two columns and never strand a lone card', () => {
 });
 
 test('every card grid holds at least two cards', () => {
-    PAGES.forEach((page) => {
-        const html = fs.readFileSync(page.file, 'utf8');
-        const blocks = html.split('pf-grid--2').slice(1);
-        blocks.forEach((block, index) => {
+    raw.split('pf-grid--2')
+        .slice(1)
+        .forEach((block, index) => {
             const body = block.split('</section>')[0];
             const cards = (body.match(/<article\b/g) || []).length;
-            assert.ok(
-                cards >= 2,
-                page.key + ' grid ' + (index + 1) + ' has only ' + cards + ' card(s)'
-            );
+            assert.ok(cards >= 2, 'grid ' + (index + 1) + ' has only ' + cards + ' card(s)');
         });
-    });
 });
 
-test('page scripts referenced by each page exist', () => {
-    const expected = {
-        home: '/pages/index/js/index.js',
-        projects: '/pages/projects/js/projects.js',
-        contact: '/pages/contact/js/contact.js'
-    };
-    Object.keys(expected).forEach((key) => {
-        assert.ok(pageText[key].indexOf(expected[key]) !== -1, key + ' should load its page script');
-        assert.ok(fs.existsSync(path.join(ROOT, expected[key].replace(/^\//, ''))));
-    });
+test('the retired page tour is gone from the markup and the chrome', () => {
+    assert.ok(raw.indexOf('data-tour') === -1, 'the tour container should be gone');
+    const site = fs.readFileSync(path.join(ROOT, 'pages', 'shared', 'js', 'site.js'), 'utf8');
+    assert.ok(site.indexOf('setupTour') === -1, 'site.js should no longer render a tour');
+    assert.ok(site.indexOf('setupSectionSpy') !== -1, 'site.js should mark the section in view');
 });
 
 finish();

@@ -148,7 +148,7 @@
             problem:
                 'My work lived in a PDF, which cannot show how I structure a front end.',
             approach:
-                'Built a dependency-free multi-page static site where all content comes from ' +
+                'Built a dependency-free single-page static site where all content comes from ' +
                 'one UMD data module shared by the browser and Node unit tests.',
             outcome:
                 'Zero-build, zero-runtime-dependency site with unit-tested navigation, ' +

@@ -8,86 +8,84 @@ const { createSuite } = require(path.join(__dirname, 'lib', 'test-runner.js'));
 
 const { test, finish } = createSuite('site-nav');
 
-test('nav exposes the five pages in tour order', () => {
-    assert.deepEqual(
-        SiteNav.NAV_LINKS.map((link) => link.key),
-        ['home', 'about', 'projects', 'skills', 'contact']
-    );
+test('the nav exposes the seven sections in document order', () => {
+    assert.deepEqual(SiteNav.getSectionKeys(), [
+        'proof',
+        'approach',
+        'about',
+        'work',
+        'experience',
+        'skills',
+        'contact'
+    ]);
 });
 
-test('the retired experience route is gone from the nav', () => {
-    assert.equal(SiteNav.getNavLink('experience'), null);
-    assert.equal(SiteNav.resolveActiveNavKey('/pages/experience/html/experience.html'), null);
-});
-
-test('every nav href is root-absolute so any page can link to any page', () => {
-    SiteNav.NAV_LINKS.forEach((link) => {
-        assert.match(link.href, /^\//, link.key + ' href must start with /');
-        assert.ok(link.label.length > 0);
+test('every section carries a label and a fragment that match its key', () => {
+    SiteNav.SECTIONS.forEach((section) => {
+        assert.equal(section.hash, '#' + section.key, section.key + ' hash should match its key');
+        assert.ok(section.label && section.label.trim().length, section.key + ' needs a label');
+        assert.ok(section.label.length <= 12, section.label + ' is too long for the header nav');
     });
 });
 
-test('normalizePath strips hashes, queries, and trailing slashes', () => {
-    assert.equal(SiteNav.normalizePath('/pages/about/html/about.html#top'), '/pages/about/html/about.html');
-    assert.equal(SiteNav.normalizePath('/pages/about/html/about.html?utm=li'), '/pages/about/html/about.html');
-    assert.equal(SiteNav.normalizePath('/pages/about/html/'), '/pages/about/html');
-    assert.equal(SiteNav.normalizePath('/'), '/');
+test('normalizeHash accepts anything that could name a section', () => {
+    assert.equal(SiteNav.normalizeHash('about'), '#about');
+    assert.equal(SiteNav.normalizeHash('#about'), '#about');
+    assert.equal(SiteNav.normalizeHash('  #About  '), '#about');
+    assert.equal(SiteNav.normalizeHash('/index.html#about'), '#about');
+    assert.equal(SiteNav.normalizeHash('/index.html?tech=React#about'), '#about');
+    assert.equal(SiteNav.normalizeHash('#about?tech=React'), '#about');
 });
 
-test('normalizePath repairs missing leading slash, duplicate slashes, and casing', () => {
-    assert.equal(SiteNav.normalizePath('pages/skills/html/skills.html'), '/pages/skills/html/skills.html');
-    assert.equal(SiteNav.normalizePath('//pages//skills//html//skills.html'), '/pages/skills/html/skills.html');
-    assert.equal(SiteNav.normalizePath('/Pages/Skills/HTML/Skills.HTML'), '/pages/skills/html/skills.html');
+test('normalizeHash rejects what cannot name a section', () => {
+    assert.equal(SiteNav.normalizeHash(''), null);
+    assert.equal(SiteNav.normalizeHash('   '), null);
+    assert.equal(SiteNav.normalizeHash('#'), null);
+    assert.equal(SiteNav.normalizeHash('/'), null);
+    assert.equal(SiteNav.normalizeHash(null), null);
+    assert.equal(SiteNav.normalizeHash(42), null);
 });
 
-test('normalizePath falls back to / for empty or non-string input', () => {
-    assert.equal(SiteNav.normalizePath(''), '/');
-    assert.equal(SiteNav.normalizePath('   '), '/');
-    assert.equal(SiteNav.normalizePath(undefined), '/');
-    assert.equal(SiteNav.normalizePath(null), '/');
-    assert.equal(SiteNav.normalizePath(42), '/');
+test('resolveSectionKey answers only for sections that exist', () => {
+    assert.equal(SiteNav.resolveSectionKey('#work'), 'work');
+    assert.equal(SiteNav.resolveSectionKey('/index.html#contact'), 'contact');
+    assert.equal(SiteNav.resolveSectionKey('#top'), null, 'the hero is not a nav section');
+    assert.equal(SiteNav.resolveSectionKey('#nope'), null);
+    assert.equal(SiteNav.resolveSectionKey(undefined), null);
 });
 
-test('root, /index, and /index.html all resolve to home', () => {
-    assert.equal(SiteNav.resolveActiveNavKey('/'), 'home');
-    assert.equal(SiteNav.resolveActiveNavKey('/index.html'), 'home');
-    assert.equal(SiteNav.resolveActiveNavKey('/index'), 'home');
-    assert.equal(SiteNav.resolveActiveNavKey('/?ref=resume'), 'home');
+test('getSection returns the whole record or nothing', () => {
+    assert.deepEqual(SiteNav.getSection('skills'), {
+        key: 'skills',
+        label: 'Skills',
+        hash: '#skills'
+    });
+    assert.equal(SiteNav.getSection('#missing'), null);
 });
 
-test('each page path resolves to its own nav key', () => {
-    SiteNav.NAV_LINKS.forEach((link) => {
-        assert.equal(SiteNav.resolveActiveNavKey(link.href), link.key);
+test('getAdjacentSections walks the page and stops at both ends', () => {
+    assert.equal(SiteNav.getAdjacentSections('proof').previous, null);
+    assert.equal(SiteNav.getAdjacentSections('proof').next.key, 'approach');
+    assert.equal(SiteNav.getAdjacentSections('#work').previous.key, 'about');
+    assert.equal(SiteNav.getAdjacentSections('contact').next, null);
+    assert.deepEqual(SiteNav.getAdjacentSections('nope'), { previous: null, next: null });
+});
+
+test('every retired page maps to a section that still exists', () => {
+    Object.keys(SiteNav.LEGACY_PATHS).forEach((page) => {
+        const hash = SiteNav.LEGACY_PATHS[page];
+        assert.ok(
+            SiteNav.resolveSectionKey(hash),
+            page + ' maps to ' + hash + ', which is not a section'
+        );
     });
 });
 
-test('directory-style and extensionless URLs resolve like the .html URL', () => {
-    assert.equal(SiteNav.resolveActiveNavKey('/pages/contact/html/'), 'contact');
-    assert.equal(SiteNav.resolveActiveNavKey('/pages/contact/html'), 'contact');
-    assert.equal(SiteNav.resolveActiveNavKey('/pages/contact/html/contact'), 'contact');
-});
-
-test('unknown paths activate nothing rather than guessing', () => {
-    assert.equal(SiteNav.resolveActiveNavKey('/pages/blog/html/blog.html'), null);
-    assert.equal(SiteNav.resolveActiveNavKey('/media/docs/jamie-tucker-resume.pdf'), null);
-    assert.equal(SiteNav.resolveActiveNavKey('/pages'), null);
-});
-
-test('getNavLink finds known keys and returns null otherwise', () => {
-    assert.equal(SiteNav.getNavLink('skills').label, 'Skills');
-    assert.equal(SiteNav.getNavLink('nope'), null);
-});
-
-test('getAdjacentLinks walks the tour and stops at both ends', () => {
-    assert.equal(SiteNav.getAdjacentLinks('about').previous, null);
-    assert.equal(SiteNav.getAdjacentLinks('about').next.key, 'projects');
-    assert.equal(SiteNav.getAdjacentLinks('projects').previous.key, 'about');
-    assert.equal(SiteNav.getAdjacentLinks('contact').next, null);
-});
-
-test('getAdjacentLinks excludes home and handles unknown keys', () => {
-    assert.deepEqual(SiteNav.getAdjacentLinks('home'), { previous: null, next: null });
-    assert.deepEqual(SiteNav.getAdjacentLinks('nope'), { previous: null, next: null });
+test('resolveLegacyPath finds the new home of an old URL', () => {
+    assert.equal(SiteNav.resolveLegacyPath('/pages/projects/html/projects.html'), '#work');
+    assert.equal(SiteNav.resolveLegacyPath('/pages/projects/html/projects.html?tech=React'), '#work');
+    assert.equal(SiteNav.resolveLegacyPath('/index.html'), null);
+    assert.equal(SiteNav.resolveLegacyPath(null), null);
 });
 
 finish();
