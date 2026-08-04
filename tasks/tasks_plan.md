@@ -83,7 +83,7 @@ passing.
 - [x] `#work` — eight problem/approach/outcome cards, technology filter
 - [x] `#experience` — three-role timeline, technology filter, `?tech=` deep links, collapse
 - [x] `#skills` — four groups, honest depth labels, rows that filter the timeline
-- [x] `#contact` — LinkedIn (fastest), email + copy button, résumé, what I'm looking for
+- [x] `#contact` — LinkedIn (fastest), email + copy button, résumé
 
 ### Verification
 - [x] Eight Node suites via `test/run-all.js`
