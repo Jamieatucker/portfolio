@@ -8,16 +8,8 @@ const { createSuite } = require(path.join(__dirname, 'lib', 'test-runner.js'));
 
 const { test, finish } = createSuite('site-nav');
 
-test('the nav exposes the seven sections in document order', () => {
-    assert.deepEqual(SiteNav.getSectionKeys(), [
-        'proof',
-        'approach',
-        'about',
-        'work',
-        'experience',
-        'skills',
-        'contact'
-    ]);
+test('the nav exposes the three major sections in document order', () => {
+    assert.deepEqual(SiteNav.getSectionKeys(), ['about', 'experience', 'contact']);
 });
 
 test('every section carries a label and a fragment that match its key', () => {
@@ -26,6 +18,10 @@ test('every section carries a label and a fragment that match its key', () => {
         assert.ok(section.label && section.label.trim().length, section.key + ' needs a label');
         assert.ok(section.label.length <= 12, section.label + ' is too long for the header nav');
     });
+});
+
+test('TOP_HASH points at About after the hero merge', () => {
+    assert.equal(SiteNav.TOP_HASH, '#about');
 });
 
 test('normalizeHash accepts anything that could name a section', () => {
@@ -46,27 +42,55 @@ test('normalizeHash rejects what cannot name a section', () => {
     assert.equal(SiteNav.normalizeHash(42), null);
 });
 
-test('resolveSectionKey answers only for sections that exist', () => {
-    assert.equal(SiteNav.resolveSectionKey('#work'), 'work');
+test('resolveHashAlias soft-maps retired fragments onto live sections', () => {
+    assert.equal(SiteNav.resolveHashAlias('#top'), '#about');
+    assert.equal(SiteNav.resolveHashAlias('#proof'), '#about');
+    assert.equal(SiteNav.resolveHashAlias('#approach'), '#about');
+    assert.equal(SiteNav.resolveHashAlias('#work'), '#experience');
+    assert.equal(SiteNav.resolveHashAlias('#skills'), '#experience');
+    assert.equal(SiteNav.resolveHashAlias('#experience'), '#experience');
+    assert.equal(SiteNav.resolveHashAlias('WORK'), '#experience');
+    assert.equal(SiteNav.resolveHashAlias('#nope'), '#nope');
+    assert.equal(SiteNav.resolveHashAlias(null), null);
+});
+
+test('canonicalizeHash only returns live section hashes', () => {
+    assert.equal(SiteNav.canonicalizeHash('#work'), '#experience');
+    assert.equal(SiteNav.canonicalizeHash('#skills'), '#experience');
+    assert.equal(SiteNav.canonicalizeHash('#proof'), '#about');
+    assert.equal(SiteNav.canonicalizeHash('#about'), '#about');
+    assert.equal(SiteNav.canonicalizeHash('#nope'), null);
+    assert.equal(SiteNav.canonicalizeHash(''), null);
+});
+
+test('resolveSectionKey follows aliases onto live keys', () => {
+    assert.equal(SiteNav.resolveSectionKey('#work'), 'experience');
+    assert.equal(SiteNav.resolveSectionKey('#skills'), 'experience');
+    assert.equal(SiteNav.resolveSectionKey('#proof'), 'about');
+    assert.equal(SiteNav.resolveSectionKey('#top'), 'about');
     assert.equal(SiteNav.resolveSectionKey('/index.html#contact'), 'contact');
-    assert.equal(SiteNav.resolveSectionKey('#top'), null, 'the hero is not a nav section');
     assert.equal(SiteNav.resolveSectionKey('#nope'), null);
     assert.equal(SiteNav.resolveSectionKey(undefined), null);
 });
 
 test('getSection returns the whole record or nothing', () => {
-    assert.deepEqual(SiteNav.getSection('skills'), {
-        key: 'skills',
-        label: 'Skills',
-        hash: '#skills'
+    assert.deepEqual(SiteNav.getSection('experience'), {
+        key: 'experience',
+        label: 'Experience',
+        hash: '#experience'
+    });
+    assert.deepEqual(SiteNav.getSection('#work'), {
+        key: 'experience',
+        label: 'Experience',
+        hash: '#experience'
     });
     assert.equal(SiteNav.getSection('#missing'), null);
 });
 
 test('getAdjacentSections walks the page and stops at both ends', () => {
-    assert.equal(SiteNav.getAdjacentSections('proof').previous, null);
-    assert.equal(SiteNav.getAdjacentSections('proof').next.key, 'approach');
-    assert.equal(SiteNav.getAdjacentSections('#work').previous.key, 'about');
+    assert.equal(SiteNav.getAdjacentSections('about').previous, null);
+    assert.equal(SiteNav.getAdjacentSections('about').next.key, 'experience');
+    assert.equal(SiteNav.getAdjacentSections('#experience').previous.key, 'about');
     assert.equal(SiteNav.getAdjacentSections('contact').next, null);
     assert.deepEqual(SiteNav.getAdjacentSections('nope'), { previous: null, next: null });
 });
@@ -81,9 +105,21 @@ test('every retired page maps to a section that still exists', () => {
     });
 });
 
+test('every hash alias target is a live section', () => {
+    Object.keys(SiteNav.HASH_ALIASES).forEach((from) => {
+        const to = SiteNav.HASH_ALIASES[from];
+        assert.ok(
+            SiteNav.SECTIONS.some((section) => section.hash === to),
+            from + ' aliases to ' + to + ', which is not a live section'
+        );
+    });
+});
+
 test('resolveLegacyPath finds the new home of an old URL', () => {
-    assert.equal(SiteNav.resolveLegacyPath('/pages/projects/html/projects.html'), '#work');
-    assert.equal(SiteNav.resolveLegacyPath('/pages/projects/html/projects.html?tech=React'), '#work');
+    assert.equal(SiteNav.resolveLegacyPath('/pages/projects/html/projects.html'), '#experience');
+    assert.equal(SiteNav.resolveLegacyPath('/pages/skills/html/skills.html'), '#experience');
+    assert.equal(SiteNav.resolveLegacyPath('/pages/about/html/about.html'), '#about');
+    assert.equal(SiteNav.resolveLegacyPath('/pages/projects/html/projects.html?tech=React'), '#experience');
     assert.equal(SiteNav.resolveLegacyPath('/index.html'), null);
     assert.equal(SiteNav.resolveLegacyPath(null), null);
 });

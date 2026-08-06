@@ -1,7 +1,8 @@
 # Jamie Tucker — Software Engineering Portfolio
 
-A single-page static portfolio built to answer a recruiter's questions in the
-first twenty seconds: what I do, who I did it for, and how to reach me.
+A single-page static portfolio built to answer a recruiter's questions quickly:
+what I do, who I did it for, and how to reach me — in three sections (About,
+Experience, Contact).
 
 Hand-written HTML, CSS, and JavaScript. No framework, no build step, no runtime
 dependencies.
@@ -25,47 +26,42 @@ Then open <http://localhost:8099/>.
 npm test
 ```
 
-Eight Node suites covering the shared logic in `utils/`, the WCAG contrast of the
-palette, and the static markup against both — including a dead-link check and an
-assertion that every nav link has a matching section.
+Nine Node suites covering the shared logic in `utils/`, WCAG contrast of the
+palette, role pill integrity, and static markup against the data modules —
+including dead-link checks and soft-alias coverage.
 
 ## Structure
 
 ```
-index.html              the whole site: hero + #proof #approach #about #work
-                        #experience #skills #contact — served at /
+index.html              About · Experience · Contact — served at /
 pages/
-  shared/css/           theme.css (design tokens) + layout.css (chrome)
-  shared/js/            theme-init.js (pre-paint theme) + site.js (section spy,
-                        mobile menu, theme toggle, reveal)
-  index/css/            index.css, about.css, work.css, skills.css, contact.css
-  index/js/             index.js (timeline filter + collapse), work.js (case
-                        study filter), contact.js (copy email)
-utils/                  UMD data & pure logic, shared by browser and Node tests
-test/                   node assert suites, run via test/run-all.js
+  shared/css/           theme.css (tokens) + layout.css (chrome, pf-pill-box)
+  shared/js/            theme-init.js + site.js (hash aliases, section spy, …)
+  index/css/            index.css, about.css, contact.css
+  index/js/             contact.js (copy email)
+utils/                  UMD data & pure logic (resume-data, role-pills, site-nav, …)
+test/                   node assert suites via test/run-all.js
 docs/                   PRD, architecture, technical notes, feature overviews
 tasks/                  task plan, active context, changelog
-diagrams/               Mermaid source for the architecture diagrams
-media/                  résumé PDF, profile photo, favicons
+diagrams/               Mermaid sources
+media/                  résumé PDF, pro_headshot.jpeg, favicons
 ```
 
 ## Editing
 
 | To change | Edit |
 | --- | --- |
-| A job, bullet, skill, or metric | `utils/resume-data.js`, then the matching markup in `index.html` |
-| A case study | `utils/project-data.js` + the `#work` section of `index.html` |
-| Colours, spacing, type | `pages/shared/css/theme.css` (tokens only) |
-| Header, footer, cards, buttons | `pages/shared/css/layout.css` |
+| Story, triad, metrics, skills, profile photo | `utils/resume-data.js`, then matching markup in `index.html` |
+| Role pill P/A/O copy | `utils/role-pills.js` + Experience articles in `index.html` |
+| Colours, spacing, type, pill shadow | `pages/shared/css/theme.css` (tokens only; keep brand colours) |
+| Header, footer, pills, buttons | `pages/shared/css/layout.css` |
 | One section's layout | `pages/index/css/<section>.css` |
-| Sections and nav links | `SECTIONS` in `utils/site-nav.js`, then the nav block and the `<section id>` in `index.html` |
-| How many roles start collapsed, or when the nav switches sections | `utils/home-sections.js` |
+| Sections, nav, hash aliases | `utils/site-nav.js` + nav / `<section id>` in `index.html` |
 
-Run `npm test` after any content change — the suites name the exact section and
-string when markup and data drift apart.
+Run `npm test` after any content change.
 
-Start with [`docs/single-page-architecture.md`](docs/single-page-architecture.md)
-for a short tour of how the site fits together.
+Start with [`docs/recruiter-concise-consolidation.md`](docs/recruiter-concise-consolidation.md)
+for Milestone 6, or [`docs/architecture.md`](docs/architecture.md) for the full picture.
 
 ## License
 

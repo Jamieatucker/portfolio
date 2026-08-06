@@ -6,6 +6,7 @@ const { execFileSync } = require('child_process');
 const SUITES = [
     'resume-data.test.js',
     'site-nav.test.js',
+    'role-pills.test.js',
     'experience-filter.test.js',
     'theme-preference.test.js',
     'home-sections.test.js',

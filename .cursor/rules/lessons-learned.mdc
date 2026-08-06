@@ -7,11 +7,17 @@ not content or aesthetics — do not mix their patterns.
 
 ## Portfolio patterns (this project)
 
-- **The site is one page.** `index.html` holds the hero plus seven sections
-  (`#proof`, `#approach`, `#about`, `#work`, `#experience`, `#skills`,
-  `#contact`); the nav jumps between them. `utils/site-nav.js` is the section
-  model — add a section there, in the markup, and in the nav, or the markup test
-  fails.
+- **Milestone 6 (shipped 2026-08-06):** three major sections — `#about` →
+  `#experience` → `#contact`. Role and contact content use YouTube-inspired
+  **pill boxes** (`.pf-pill-box`); About uses `pro_headshot.jpeg` and a Matt
+  Farley–style triad with proof metrics as bullets; structural styling evokes
+  early-2010s YouTube (`--pf-card-shadow`, denser masthead) while **OSU
+  scarlet/gray/white tokens stay locked**. Soft-alias retired hashes via
+  `SiteNav.HASH_ALIASES` + `setupHashAliases`. Pill copy lives in
+  `utils/role-pills.js` (tested). Filters are gone from the page.
+- **The site is one page.** `index.html` holds About, Experience, and Contact.
+  `utils/site-nav.js` is the section model — add a section there, in the markup,
+  and in the nav, or the markup test fails.
 - **Three layers, one direction**: `utils/` (UMD data + pure logic) → `pages/shared/`
   (tokens + chrome) → `pages/index/` section CSS and JS. Nothing lower depends on
   anything higher.
@@ -96,19 +102,16 @@ not content or aesthetics — do not mix their patterns.
 
 ## Critical paths
 
-- Recruiter journey: `#top` hero → `#proof` → `#work` case studies →
-  `#experience` timeline → `#contact` (LinkedIn first), all in `index.html`
-- Nav: `utils/site-nav.js` `SECTIONS` → `pages/shared/js/site.js` scroll-spy →
-  `[data-nav-key]` links and `[data-section]` targets
-- Theme: `utils/theme-preference.js` → `pages/shared/js/theme-init.js` (pre-paint)
-  → `[data-theme]` token blocks in `theme.css`
-- Filtering: `utils/experience-filter.js` → `pages/index/js/index.js` (timeline)
-  and `pages/index/js/work.js` (case studies), each scoped to its own container
-- Card grid parity: `pages/shared/css/layout.css` `pf-grid--*` → every card section
-  → `test/page-markup.test.js`
-- Page length: `utils/home-sections.js` → `pages/shared/js/site.js` (section spy)
-  and `pages/index/js/index.js` (`[data-role-toggle]`) → `test/home-sections.test.js`
-- Content integrity: `utils/resume-data.js` + `utils/project-data.js` →
+- Recruiter journey: `#about` (headshot + résumé + triad) → `#experience`
+  (three role pills + compact skills) → `#contact` (LinkedIn, then email)
+- Nav: `utils/site-nav.js` `SECTIONS` + `HASH_ALIASES` → `site.js`
+  `setupHashAliases` + scroll-spy → `[data-nav-key]` / `[data-section]`
+- Theme: `utils/theme-preference.js` → `theme-init.js` → `theme.css` (**do not
+  rewrite brand colours without contrast tests**)
+- Role pills: `utils/role-pills.js` → Experience markup → `test/role-pills.test.js`
+  + `page-markup.test.js`
+- Content integrity: `utils/resume-data.js` (`APPROACH_TRIAD`, `photoPath`) →
   `test/page-markup.test.js`
-- Colour integrity: `theme.css` tokens ↔ `utils/color-contrast.js` `THEMES` →
+- Colour integrity: `theme.css` ↔ `utils/color-contrast.js` →
   `test/color-contrast.test.js`
+- Headshot contract: `PROFILE.photoPath` → `/media/images/pro_headshot.jpeg`

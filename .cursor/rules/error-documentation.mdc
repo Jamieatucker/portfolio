@@ -98,8 +98,16 @@ alwaysApply: false
 - **Resolution**: Each script resolves its hooks inside its own container
   (`[data-experience-filter]` / `[data-project-filter]`), and
   `test/page-markup.test.js` fails if a document-wide lookup returns.
-- **State**: Resolved. When markup moves onto a shared page, re-read every
-  `document.querySelector` in the scripts that came with it.
+- **State**: Resolved historically; Milestone 6 removed both filters from the page.
+
+### A4g. Contact markup assertions accidentally included the footer
+
+- **Context**: Milestone 6 removed the Contact résumé card but the footer still
+  links to the PDF.
+- **Symptom**: A test that sliced from `id="contact"` to EOF still saw
+  `jamie-tucker-resume.pdf` and failed.
+- **Resolution**: Bound the Contact slice at `</main>` so footer links are excluded.
+- **State**: Resolved.
 
 ### A5. Duplicated header and footer markup across pages
 

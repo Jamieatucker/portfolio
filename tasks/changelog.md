@@ -4,6 +4,52 @@ All notable changes to this project are recorded here, newest first.
 This project follows [Semantic Versioning](https://semver.org/) loosely: the site is
 private and unversioned, so entries are grouped by date and milestone.
 
+## [2.1.0] — 2026-08-06
+
+### Added — Milestone 6: Recruiter Concise Consolidation
+
+**Three-section page**
+- `index.html` is About → Experience → Contact. The former hero, proof strip,
+  approach cards, eight case studies, verbose timeline, and skills page are
+  folded or removed for a shorter recruiter skim.
+- About merges the hero (claim, availability, résumé CTA), concise How I Got Here,
+  a Farley-style triad using the “What I do” titles with proof metrics as bullets,
+  and a compact education panel. Professional headshot:
+  `/media/images/pro_headshot.jpeg`.
+- Experience uses three YouTube-inspired role pill boxes (problem / approach /
+  outcome) for Playables, Search Intelligence, and Modern Creators; compact
+  skills-by-category; Away from the Keyboard without CTAs.
+- Contact is LinkedIn (fastest) + Email pills only.
+
+**Data and navigation**
+- `utils/role-pills.js` — pill model with orphan / missing-role helpers.
+- `utils/site-nav.js` — three `SECTIONS`; `HASH_ALIASES` soft-map `#top`,
+  `#proof`, `#approach` → `#about` and `#work`, `#skills` → `#experience`.
+- `resume-data.js` — `photoPath` + `APPROACH_TRIAD`.
+- `site.js` — `setupHashAliases()` via `history.replaceState`.
+
+**Styling**
+- `.pf-pill-box`, `--pf-card-shadow`, `--pf-pill-radius`, denser masthead.
+- Ohio State colour tokens unchanged.
+
+**Tests and docs**
+- `test/role-pills.test.js`; site-nav and page-markup suites rewritten.
+- `docs/recruiter-concise-consolidation.md`;
+  `diagrams/recruiter-concise-consolidation.mmd`.
+- Memory Files and this changelog updated.
+
+### Removed
+- Technology filter UIs and their page script loads (`index.js`, `work.js`,
+  `experience-filter.js` no longer referenced from the document).
+- Contact résumé channel; Engineer first intro; interests-section CTAs.
+
+## [2.1.0-plan] — 2026-08-06
+
+### Planned — Milestone 6: Recruiter Concise Consolidation
+
+Memory Files initialized for the feature before ACT MODE. Superseded by `[2.1.0]`
+implementation above.
+
 ## [2.0.0] — 2026-08-04
 
 ### Changed — Milestone 5: single-page architecture

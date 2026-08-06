@@ -1,10 +1,7 @@
 'use strict';
 
 /**
- * Static-site integration checks. The site is one hand-written page (so it
- * renders without JavaScript), which means it can drift from the data modules.
- * These tests fail if that happens, if a nav link points at a section that does
- * not exist, or if any internal link or asset 404s.
+ * Static-site integration checks for the three-section recruiter page.
  */
 
 const assert = require('assert').strict;
@@ -14,7 +11,7 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const SiteNav = require(path.join(ROOT, 'utils', 'site-nav.js'));
 const Resume = require(path.join(ROOT, 'utils', 'resume-data.js'));
-const Projects = require(path.join(ROOT, 'utils', 'project-data.js'));
+const RolePills = require(path.join(ROOT, 'utils', 'role-pills.js'));
 const { createSuite } = require(path.join(__dirname, 'lib', 'test-runner.js'));
 
 const { test, finish } = createSuite('page-markup');
@@ -46,7 +43,6 @@ function decodeEntities(html) {
 }
 
 const raw = fs.readFileSync(PAGE, 'utf8');
-/** Collapse the line wrapping in source HTML so prose can be matched. */
 const html = decodeEntities(raw).replace(/\s+/g, ' ');
 
 function collectLocalRefs(source) {
@@ -75,10 +71,10 @@ test('the site is a single page, and that page is real markup', () => {
     assert.ok(html.indexOf('http-equiv="refresh"') === -1, 'the page must not meta-refresh');
 });
 
-test('the page has exactly one h1, and it is the hero hook', () => {
+test('the page has exactly one h1, and it lives in About', () => {
     const headings = raw.match(/<h1\b/g) || [];
     assert.equal(headings.length, 1, 'a single page takes a single h1');
-    assert.ok(raw.indexOf('home-hero__title') !== -1, 'the h1 belongs to the hero');
+    assert.ok(raw.indexOf('about-hero__title') !== -1, 'the h1 belongs to the About hero');
 });
 
 test('every id on the page is unique', () => {
@@ -87,7 +83,7 @@ test('every id on the page is unique', () => {
     );
     const seen = {};
     ids.forEach((id) => {
-        assert.ok(!seen[id], 'duplicate id after folding the pages together: ' + id);
+        assert.ok(!seen[id], 'duplicate id: ' + id);
         seen[id] = true;
     });
 });
@@ -111,43 +107,50 @@ test('the nav offers every section, in document order, pointing at real targets'
     });
 });
 
-test('the hero is reachable from the brand and the footer', () => {
-    assert.ok(raw.indexOf('class="pf-brand" href="#top"') !== -1, 'brand should return to the top');
-    assert.ok(raw.indexOf('id="top"') !== -1, 'the hero needs the #top anchor');
+test('the brand returns to About (merged hero home)', () => {
+    assert.ok(raw.indexOf('class="pf-brand" href="#about"') !== -1, 'brand should return to About');
+    assert.ok(raw.indexOf('id="about"') !== -1, 'About needs the #about anchor');
 });
 
-test('the page loads the shared chrome and every section stylesheet', () => {
+test('the page loads shared chrome and the section stylesheets in use', () => {
     ['/pages/shared/css/theme.css', '/pages/shared/css/layout.css'].forEach((href) => {
         assert.ok(html.indexOf(href) !== -1, 'missing ' + href);
     });
-    ['index', 'about', 'work', 'skills', 'contact'].forEach((name) => {
+    ['index', 'about', 'contact'].forEach((name) => {
         const href = '/pages/index/css/' + name + '.css';
         assert.ok(html.indexOf(href) !== -1, 'missing ' + href);
         assert.ok(fs.existsSync(path.join(ROOT, href.replace(/^\//, ''))), href + ' does not exist');
     });
+    assert.ok(html.indexOf('/pages/index/css/work.css') === -1, 'work.css should not load');
+    assert.ok(html.indexOf('/pages/index/css/skills.css') === -1, 'skills.css should not load');
 });
 
-test('the page boots the theme before paint and the behaviour after', () => {
+test('the page boots theme before paint and behaviour after, without filter scripts', () => {
     const scripts = [
         '/utils/theme-preference.js',
         '/pages/shared/js/theme-init.js',
         '/utils/site-nav.js',
-        '/utils/resume-data.js',
-        '/utils/experience-filter.js',
         '/utils/home-sections.js',
         '/pages/shared/js/site.js',
-        '/pages/index/js/index.js',
-        '/pages/index/js/work.js',
         '/pages/index/js/contact.js'
     ];
     scripts.forEach((src) => {
         assert.ok(html.indexOf(src) !== -1, 'missing script ' + src);
         assert.ok(fs.existsSync(path.join(ROOT, src.replace(/^\//, ''))), src + ' does not exist');
     });
+    assert.ok(html.indexOf('/pages/index/js/index.js') === -1, 'timeline filter script should be gone');
+    assert.ok(html.indexOf('/pages/index/js/work.js') === -1, 'work filter script should be gone');
+    assert.ok(html.indexOf('/utils/experience-filter.js') === -1, 'experience-filter should not load');
     assert.ok(
         html.indexOf('/utils/theme-preference.js') < html.indexOf('/pages/shared/js/theme-init.js'),
         'theme-preference.js must load before theme-init.js'
     );
+});
+
+test('site.js soft-aliases retired hashes', () => {
+    const site = fs.readFileSync(path.join(ROOT, 'pages', 'shared', 'js', 'site.js'), 'utf8');
+    assert.ok(site.indexOf('setupHashAliases') !== -1, 'site.js should soft-alias hashes');
+    assert.ok(site.indexOf('canonicalizeHash') !== -1, 'site.js should use canonicalizeHash');
 });
 
 test('the page is accessible-by-default: lang, viewport, skip link, title', () => {
@@ -170,135 +173,105 @@ test('nothing links to a page that the single-page rewrite retired', () => {
     Object.keys(SiteNav.LEGACY_PATHS).forEach((legacy) => {
         assert.ok(raw.indexOf(legacy) === -1, 'still links to the retired page ' + legacy);
     });
-    assert.ok(!fs.existsSync(path.join(ROOT, 'pages', 'about')), 'pages/about should be gone');
-    assert.ok(!fs.existsSync(path.join(ROOT, 'pages', 'contact')), 'pages/contact should be gone');
 });
 
-test('the proof section shows every impact metric from the data module', () => {
+test('About uses the professional headshot, not the college profile photo', () => {
+    assert.equal(Resume.PROFILE.photoPath, '/media/images/pro_headshot.jpeg');
+    assert.ok(html.indexOf('/media/images/pro_headshot.jpeg') !== -1, 'missing pro headshot');
+    assert.ok(html.indexOf('/media/images/profile.jpeg') === -1, 'old profile photo must leave markup');
+});
+
+test('proof metrics appear as triad bullets, and triad titles match What I do', () => {
     Resume.IMPACT_METRICS.forEach((metric) => {
         assert.ok(html.indexOf(metric.value) !== -1, 'missing metric value: ' + metric.value);
     });
+    Resume.APPROACH_TRIAD.forEach((column) => {
+        assert.ok(html.indexOf(column.title) !== -1, 'missing triad title: ' + column.title);
+        column.metrics.forEach((metric) => {
+            assert.ok(html.indexOf(metric.value) !== -1, 'missing triad metric ' + metric.value);
+        });
+    });
+    assert.ok(html.indexOf('Engineer first') === -1, 'Engineer first intro must be removed');
 });
 
-test('the work section renders every case study, featured ones included', () => {
-    Projects.PROJECTS.forEach((project) => {
-        assert.ok(html.indexOf(project.name) !== -1, 'missing project ' + project.id);
+test('Experience renders every role pill with problem, approach, and outcome', () => {
+    assert.deepEqual(RolePills.findOrphanRolePills(), []);
+    assert.deepEqual(RolePills.findRolesMissingPills(), []);
+    RolePills.ROLE_PILLS.forEach((pill) => {
+        assert.ok(html.indexOf('data-role-pill="' + pill.id + '"') !== -1, 'missing pill ' + pill.id);
+        assert.ok(html.indexOf(pill.title) !== -1, 'missing title ' + pill.title);
         assert.ok(
-            html.indexOf(project.outcome.replace(/\s+/g, ' ')) !== -1,
-            'missing outcome text for ' + project.id
+            html.indexOf(pill.problem.replace(/\s+/g, ' ')) !== -1,
+            'missing problem for ' + pill.id
         );
-    });
-    Projects.getFeaturedProjects().forEach((project) => {
-        assert.ok(html.indexOf(project.name) !== -1, 'missing featured project ' + project.name);
+        assert.ok(
+            html.indexOf(pill.approach.replace(/\s+/g, ' ')) !== -1,
+            'missing approach for ' + pill.id
+        );
+        assert.ok(
+            html.indexOf(pill.outcome.replace(/\s+/g, ' ')) !== -1,
+            'missing outcome for ' + pill.id
+        );
     });
     ['Problem', 'Approach', 'Outcome'].forEach((label) => {
         assert.ok(html.indexOf('>' + label + '</span>') !== -1, 'missing ' + label + ' label');
     });
 });
 
-test('the page states the r\u00e9sum\u00e9 download and the email address', () => {
-    assert.ok(html.indexOf(Resume.PROFILE.resumePath) !== -1);
-    assert.ok(html.indexOf(Resume.PROFILE.email) !== -1);
-});
-
-test('the timeline renders every role, date range, duration, and highlight', () => {
+test('each role pill keeps its EXPERIENCE id and accurate tenure', () => {
     Resume.EXPERIENCE.forEach((role) => {
         assert.ok(html.indexOf('id="' + role.id + '"') !== -1, 'missing anchor for ' + role.id);
-        assert.ok(html.indexOf(role.company) !== -1, 'missing company ' + role.company);
-        assert.ok(html.indexOf(role.team) !== -1, 'missing team ' + role.team);
         assert.ok(
             html.indexOf(Resume.formatDateRange(role.start, role.end)) !== -1,
             'missing date range for ' + role.id
         );
-        // The tenure is hand-written next to the dates, so it can contradict them.
         assert.ok(
             html.indexOf(Resume.formatDuration(role.start, role.end) + ' \u00b7 ' + role.location) !== -1,
             role.id + ' should read ' + Resume.formatDuration(role.start, role.end)
         );
-        role.highlights.forEach((highlight) => {
-            assert.ok(
-                html.indexOf(highlight.replace(/\s+/g, ' ')) !== -1,
-                role.id + ' is missing a highlight: ' + highlight.slice(0, 48) + '...'
-            );
-        });
     });
 });
 
-test('roles expose the tags their filter needs', () => {
-    Resume.EXPERIENCE.forEach((role) => {
-        assert.ok(
-            html.indexOf('data-role-tags="' + role.tags.join(',') + '"') !== -1,
-            role.id + ' has no matching data-role-tags attribute'
-        );
-    });
-});
-
-test('the skills section lists every skill in every group', () => {
+test('compact skills list every skill group without filter deep links', () => {
     Resume.SKILL_GROUPS.forEach((group) => {
+        assert.ok(html.indexOf(group.label) !== -1, 'missing skill group ' + group.label);
         group.skills.forEach((skill) => {
             assert.ok(html.indexOf(skill) !== -1, 'skills section is missing: ' + skill);
         });
     });
+    assert.ok(raw.indexOf('data-tech=') === -1, 'technology filter hooks should be gone');
+    assert.ok(raw.indexOf('data-filter-chips') === -1, 'filter chips should be gone');
+    assert.ok(raw.indexOf('data-experience-filter') === -1, 'experience filter UI should be gone');
+    assert.ok(raw.indexOf('data-project-filter') === -1, 'project filter UI should be gone');
 });
 
-test('skill rows filter the timeline in place and still work without JS', () => {
-    const rows = raw.match(/<a class="skills-row__name"[^>]*>/g) || [];
-    assert.ok(rows.length >= 10, 'expected the skills rows to link into the timeline');
-    rows.forEach((row) => {
-        assert.ok(row.indexOf('href="#experience"') !== -1, 'row should fall back to a jump: ' + row);
-        assert.ok(/data-tech="[^"]+"/.test(row), 'row should name its technology: ' + row);
-    });
-    ['TypeScript', 'React', 'Java', 'Kotlin'].forEach((tech) => {
-        assert.ok(raw.indexOf('data-tech="' + tech + '"') !== -1, 'no skills row for ' + tech);
-    });
+test('Away from the keyboard has no résumé or work-history buttons', () => {
+    const offlineStart = raw.indexOf('id="offline-heading"');
+    assert.ok(offlineStart !== -1, 'offline heading missing');
+    const offlineBlock = raw.slice(offlineStart, raw.indexOf('id="contact"'));
+    assert.ok(offlineBlock.indexOf('jamie-tucker-resume.pdf') === -1, 'resume CTA must leave interests');
+    assert.ok(offlineBlock.indexOf('See the work history') === -1, 'work-history CTA must leave interests');
 });
 
-test('the page hosts both filter UIs and their hooks', () => {
-    ['data-experience-filter', 'data-project-filter', 'data-role-list', 'data-project-list'].forEach(
-        (hook) => {
-            assert.ok(html.indexOf(hook) !== -1, 'missing ' + hook);
-        }
-    );
-    const chipHosts = (raw.match(/data-filter-chips/g) || []).length;
-    assert.equal(chipHosts, 2, 'the timeline and the work grid each need their own chip host');
-});
-
-test('neither filter can capture the other one\u2019s chips', () => {
-    // Both sections use the same hook names, so a document-wide querySelector
-    // would hand the timeline the work grid's chips (it appears first).
-    ['index.js', 'work.js'].forEach((file) => {
-        const source = fs.readFileSync(path.join(ROOT, 'pages', 'index', 'js', file), 'utf8');
-        assert.ok(
-            source.indexOf("container.querySelector('[data-filter-chips]')") !== -1,
-            file + ' must scope its chip host to its own container'
-        );
-        assert.ok(
-            source.indexOf("document.querySelector('[data-filter-chips]')") === -1,
-            file + ' must not take the document-wide first match'
-        );
-    });
-});
-
-test('the timeline uses home-owned class names, not the retired exp- prefix', () => {
-    assert.ok(html.indexOf('home-role') !== -1, 'roles should use home-role');
-    assert.ok(!/class="[^"]*\bexp-/.test(raw), 'an exp- class survived the rename');
-    ['css/index.css', 'js/index.js'].forEach((file) => {
-        const source = fs.readFileSync(path.join(ROOT, 'pages', 'index', file), 'utf8');
-        assert.ok(source.indexOf('exp-') === -1, file + ' still references an exp- class');
-    });
-});
-
-test('the earlier-roles toggle ships hidden so no-JS readers keep every role', () => {
-    const button = (raw.match(/<button[^>]*data-role-toggle[^>]*>/) || [])[0];
-    assert.ok(button, 'the page should carry the role toggle');
-    assert.ok(/\bhidden\b/.test(button), 'the toggle must ship hidden');
-    assert.ok(/aria-expanded="true"/.test(button), 'the toggle must ship expanded');
-});
-
-test('the contact section exposes email, LinkedIn, and the r\u00e9sum\u00e9', () => {
-    assert.ok(html.indexOf('mailto:' + Resume.PROFILE.email) !== -1);
-    assert.ok(html.indexOf(Resume.PROFILE.linkedin) !== -1);
+test('the page states the résumé download in About and the email address', () => {
     assert.ok(html.indexOf(Resume.PROFILE.resumePath) !== -1);
+    assert.ok(html.indexOf(Resume.PROFILE.email) !== -1);
+    const aboutEnd = raw.indexOf('id="experience"');
+    const about = raw.slice(0, aboutEnd);
+    assert.ok(about.indexOf(Resume.PROFILE.resumePath) !== -1, 'résumé CTA belongs in About');
+});
+
+test('Contact is LinkedIn + Email only — no résumé channel', () => {
+    const contactStart = raw.indexOf('id="contact"');
+    const contactEnd = raw.indexOf('</main>');
+    const contact = raw.slice(contactStart, contactEnd);
+    assert.ok(
+        contact.indexOf('LinkedIn') !== -1 && contact.indexOf('fastest') !== -1,
+        'LinkedIn must be labelled fastest'
+    );
+    assert.ok(contact.indexOf('>Email<') !== -1 || contact.indexOf('Email</p>') !== -1);
+    assert.ok(contact.indexOf('jamie-tucker-resume.pdf') === -1, 'Contact must not repeat the résumé card');
+    assert.equal((contact.match(/<article\b/g) || []).length, 2, 'Contact should have exactly two pills');
 });
 
 test('LinkedIn is the first and fastest contact channel', () => {
@@ -307,10 +280,9 @@ test('LinkedIn is the first and fastest contact channel', () => {
         html.indexOf('LinkedIn \u00b7 fastest') < html.indexOf('>Email<'),
         'the LinkedIn card must come before the email card'
     );
-    assert.ok(html.indexOf('Email \u00b7 fastest') === -1, 'email must no longer claim fastest');
 });
 
-test('the location card is gone but the location itself is not lost', () => {
+test('location survives as prose without a Location card', () => {
     assert.ok(html.indexOf('>Location<') === -1, 'location card should be removed');
     assert.ok(html.indexOf('Sunnyvale, California') !== -1, 'location should survive as prose');
 });
@@ -346,7 +318,16 @@ test('card grids pin two columns and never strand a lone card', () => {
     );
 });
 
-test('every card grid holds at least two cards', () => {
+test('pill boxes use a strong border for control-like chrome', () => {
+    const css = fs.readFileSync(path.join(ROOT, 'pages', 'shared', 'css', 'layout.css'), 'utf8');
+    assert.ok(
+        /\.pf-pill-box\s*\{[\s\S]*?border:\s*1px solid var\(--pf-border-strong\)/.test(css),
+        'pill boxes must use --pf-border-strong for identifiable edges'
+    );
+    assert.ok(html.indexOf('pf-pill-box') !== -1, 'page should render pill boxes');
+});
+
+test('every two-column card grid holds at least two cards', () => {
     raw.split('pf-grid--2')
         .slice(1)
         .forEach((block, index) => {
@@ -356,7 +337,7 @@ test('every card grid holds at least two cards', () => {
         });
 });
 
-test('the retired page tour is gone from the markup and the chrome', () => {
+test('the retired page tour is gone; section spy remains', () => {
     assert.ok(raw.indexOf('data-tour') === -1, 'the tour container should be gone');
     const site = fs.readFileSync(path.join(ROOT, 'pages', 'shared', 'js', 'site.js'), 'utf8');
     assert.ok(site.indexOf('setupTour') === -1, 'site.js should no longer render a tour');
