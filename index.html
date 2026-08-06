@@ -20,8 +20,6 @@
     <link rel="stylesheet" href="/pages/shared/css/layout.css">
     <link rel="stylesheet" href="/pages/index/css/index.css">
     <link rel="stylesheet" href="/pages/index/css/about.css">
-    <link rel="stylesheet" href="/pages/index/css/work.css">
-    <link rel="stylesheet" href="/pages/index/css/skills.css">
     <link rel="stylesheet" href="/pages/index/css/contact.css">
     <script src="/utils/theme-preference.js"></script>
     <script src="/pages/shared/js/theme-init.js"></script>
@@ -31,7 +29,7 @@
 
     <header class="pf-header">
         <div class="pf-shell pf-header__inner">
-            <a class="pf-brand" href="#top">
+            <a class="pf-brand" href="#about">
                 <span class="pf-brand__mark" aria-hidden="true">JT</span>
                 <span class="pf-brand__text">Jamie Tucker</span>
             </a>
@@ -41,12 +39,8 @@
                     <span class="pf-visually-hidden">Menu</span>
                 </button>
                 <ul class="pf-nav__list" id="pf-nav-list" data-collapsed="false">
-                    <li><a class="pf-nav__link" data-nav-key="proof" href="#proof">Proof</a></li>
-                    <li><a class="pf-nav__link" data-nav-key="approach" href="#approach">What I do</a></li>
                     <li><a class="pf-nav__link" data-nav-key="about" href="#about">About</a></li>
-                    <li><a class="pf-nav__link" data-nav-key="work" href="#work">Work</a></li>
                     <li><a class="pf-nav__link" data-nav-key="experience" href="#experience">Experience</a></li>
-                    <li><a class="pf-nav__link" data-nav-key="skills" href="#skills">Skills</a></li>
                     <li><a class="pf-nav__link" data-nav-key="contact" href="#contact">Contact</a></li>
                 </ul>
                 <button class="pf-icon-btn pf-theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
@@ -57,107 +51,34 @@
     </header>
 
     <main class="pf-main" id="main">
-        <!-- The hook: claim, proof, and the two actions a recruiter wants. -->
-        <section class="pf-shell home-hero" id="top">
-            <div class="home-hero__copy">
-                <p class="pf-eyebrow">Full-Stack Software Engineer &middot; Sunnyvale, CA</p>
-                <h1 class="home-hero__title">
-                    I build the interfaces behind products used by
-                    <span class="home-hero__accent">millions of people</span>.
-                </h1>
-                <p class="pf-lead home-hero__lead">
-                    Three years at <strong>Google</strong> and <strong>YouTube</strong> shipping client
-                    architecture for flagship products &mdash; a generative AI game creation suite, Search
-                    verification for creators, and the launch of Google Discover &lsquo;Notes&rsquo;.
-                </p>
-                <p class="home-hero__status">
-                    <span class="home-hero__dot" aria-hidden="true"></span>
-                    Open to full-stack and front-end engineering roles.
-                </p>
-                <div class="pf-btn-row">
-                    <a class="pf-btn pf-btn--primary" href="#experience">See my impact</a>
-                    <a class="pf-btn pf-btn--secondary" href="/media/docs/jamie-tucker-resume.pdf" target="_blank" rel="noopener">Download r&eacute;sum&eacute; (PDF)</a>
-                </div>
-            </div>
-            <div class="home-hero__portrait">
-                <img src="/media/images/profile.jpeg" width="640" height="800" alt="Portrait of Jamie Tucker" fetchpriority="high">
-            </div>
-        </section>
 
-        <!-- Proof strip: every number traces to a bullet in the timeline below. -->
-        <section class="pf-shell home-metrics" id="proof" data-section aria-label="Impact at a glance">
-            <ul class="pf-grid pf-grid--4 home-metrics__list">
-                <li class="home-metric">
-                    <span class="home-metric__value">3M+</span>
-                    <span class="home-metric__label">users reached by shipped Search features</span>
-                </li>
-                <li class="home-metric">
-                    <span class="home-metric__value">1M+</span>
-                    <span class="home-metric__label">creators served by front-end flows I built</span>
-                </li>
-                <li class="home-metric">
-                    <span class="home-metric__value">30+</span>
-                    <span class="home-metric__label">components in a design system I authored</span>
-                </li>
-                <li class="home-metric">
-                    <span class="home-metric__value">90%+</span>
-                    <span class="home-metric__label">telemetry logging reliability delivered</span>
-                </li>
-            </ul>
-        </section>
-
-        <section class="pf-shell pf-section pf-reveal" id="approach" data-section aria-labelledby="value-heading">
-            <div class="pf-section__head">
-                <p class="pf-eyebrow">Why teams keep me on the critical path</p>
-                <h2 id="value-heading">What I&rsquo;m brought in to do</h2>
-            </div>
-            <div class="pf-grid pf-grid--3">
-                <article class="pf-card">
-                    <h3 class="pf-card__title">Stand up client architecture</h3>
-                    <div class="pf-card__body">
-                        <p>
-                            I have twice designed a multi-page client from scratch &mdash; once for a flagship
-                            generative AI product &mdash; choosing module boundaries that let several teams
-                            ship in parallel without stepping on each other.
-                        </p>
-                    </div>
-                </article>
-                <article class="pf-card">
-                    <h3 class="pf-card__title">Make big surfaces fast</h3>
-                    <div class="pf-card__body">
-                        <p>
-                            State management for dynamic assets and generated code, grid layouts that
-                            aggregate real-time clusters, and rendering paths tuned for 1M+ active users
-                            across global markets.
-                        </p>
-                    </div>
-                </article>
-                <article class="pf-card">
-                    <h3 class="pf-card__title">Turn research into UI</h3>
-                    <div class="pf-card__body">
-                        <p>
-                            30+ UX research sessions and feedback from 10,000+ creators, translated into
-                            component libraries, accessibility fixes, and telemetry that proves the
-                            journey actually works.
-                        </p>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- About: the story, the principles, the degree, and the person. -->
-        <section id="about" data-section aria-labelledby="about-heading">
-            <section class="pf-shell about-intro">
-                <div>
-                    <p class="pf-eyebrow">About</p>
-                    <h2 id="about-heading">Engineer first, and a stubborn advocate for the person using the screen.</h2>
-                    <p class="pf-lead">
-                        I&rsquo;m Jamie Tucker, a full-stack software engineer in Sunnyvale, California. I spent
-                        three years at Google and YouTube on teams where the front end was the product: if the
-                        interface was confusing or slow, nothing else we built mattered.
+        <!-- 1. About: hero merged in, story, Farley triad with proof bullets, education. -->
+        <section class="about-section" id="about" data-section aria-labelledby="about-heading">
+            <div class="pf-shell about-hero">
+                <div class="about-hero__copy">
+                    <p class="pf-eyebrow">Full-Stack Software Engineer &middot; Sunnyvale, CA</p>
+                    <h1 class="about-hero__title" id="about-heading">
+                        I build the interfaces behind products used by
+                        <span class="about-hero__accent">millions of people</span>.
+                    </h1>
+                    <p class="pf-lead about-hero__lead">
+                        Three years at <strong>Google</strong> and <strong>YouTube</strong> shipping client
+                        architecture for flagship products &mdash; a generative AI game creation suite, Search
+                        verification for creators, and the launch of Google Discover &lsquo;Notes&rsquo;.
                     </p>
+                    <p class="about-hero__status">
+                        <span class="about-hero__dot" aria-hidden="true"></span>
+                        Open to full-stack and front-end engineering roles.
+                    </p>
+                    <div class="pf-btn-row">
+                        <a class="pf-btn pf-btn--primary" href="#experience">See my experience</a>
+                        <a class="pf-btn pf-btn--secondary" href="/media/docs/jamie-tucker-resume.pdf" target="_blank" rel="noopener">Download r&eacute;sum&eacute; (PDF)</a>
+                    </div>
                 </div>
-            </section>
+                <div class="about-hero__portrait">
+                    <img src="/media/images/pro_headshot.jpeg" width="640" height="800" alt="Professional headshot of Jamie Tucker" fetchpriority="high">
+                </div>
+            </div>
 
             <section class="pf-section pf-shell pf-reveal" aria-labelledby="story-heading">
                 <div class="pf-section__head">
@@ -166,69 +87,57 @@
                 </div>
                 <div class="about-prose">
                     <p>
-                        I was born in Florida, grew up mostly in Virginia and Michigan, and went to
-                        <strong>The Ohio State University</strong> for a B.S. in Computer Science and
-                        Engineering. On campus I was active in the National Society of Black Engineers, the
-                        Lambda Psi Engineering Honorary, and the Morrill Scholars Program &mdash; the places
-                        where I learned that engineering is a team sport before it is a technical one.
+                        Born in Florida, raised mostly in Virginia and Michigan, I earned a B.S. in Computer
+                        Science and Engineering from <strong>The Ohio State University</strong>, where NSBE,
+                        Lambda Psi, and the Morrill Scholars Program taught me that engineering is a team sport.
                     </p>
                     <p>
-                        I joined Google straight out of school on Modern Creators and Formats, helping launch
-                        Google Discover &lsquo;Notes&rsquo; to more than a million users in the US and India.
-                        From there I moved to Search Intelligence, where I owned creator verification flows and
-                        wrote the component library that made them consistent. Most recently I was on YouTube
-                        Playables, where I built the client foundation for a flagship generative AI game
-                        creation product from an empty repository.
-                    </p>
-                    <p>
-                        Across all three teams the pattern was the same: arrive early in a product&rsquo;s
-                        life, decide how the client should be structured, and make it possible for a lot of
-                        engineers to ship into it at once without the experience falling apart.
+                        I joined Google on Modern Creators and Formats (Discover &lsquo;Notes&rsquo; to 1M+ users),
+                        moved to Search Intelligence (creator verification and a 30+ component library), then
+                        YouTube Playables &mdash; building the client foundation for a generative AI game
+                        creation product from an empty repository. The pattern: arrive early, structure the
+                        client, and make it safe for many engineers to ship into it at once.
                     </p>
                 </div>
             </section>
 
-            <section class="pf-section pf-shell pf-reveal" aria-labelledby="principles-heading">
+            <section class="pf-section pf-shell pf-reveal" aria-labelledby="triad-heading">
                 <div class="pf-section__head">
-                    <p class="pf-eyebrow">How I work</p>
-                    <h2 id="principles-heading">Four things I believe about front-end work</h2>
+                    <p class="pf-eyebrow">What I&rsquo;m brought in to do</p>
+                    <h2 id="triad-heading">Three ways I show up on a team</h2>
                 </div>
-                <div class="pf-grid pf-grid--2">
-                    <article class="pf-card">
-                        <h3 class="pf-card__title">Architecture is a people problem</h3>
-                        <div class="pf-card__body">
-                            <p>
-                                Module boundaries decide how fast a team can move. I design for the second and
-                                third engineer on the file, not just the first.
-                            </p>
-                        </div>
+                <div class="pf-grid pf-grid--3 about-triad">
+                    <article class="pf-pill-box pf-reveal">
+                        <h3 class="pf-pill-box__title">Stand up client architecture</h3>
+                        <p class="pf-pill-box__body">
+                            I have twice designed a multi-page client from scratch &mdash; once for a flagship
+                            generative AI product &mdash; choosing module boundaries that let several teams
+                            ship in parallel.
+                        </p>
+                        <ul class="pf-pill-box__proof">
+                            <li><strong>30+</strong> components in a design system I authored</li>
+                        </ul>
                     </article>
-                    <article class="pf-card">
-                        <h3 class="pf-card__title">If it isn&rsquo;t logged, it didn&rsquo;t ship</h3>
-                        <div class="pf-card__body">
-                            <p>
-                                I instrument critical journeys as part of the feature, not after it. Telemetry
-                                at 90%+ reliability is how you tell a launch from a rumour.
-                            </p>
-                        </div>
+                    <article class="pf-pill-box pf-reveal">
+                        <h3 class="pf-pill-box__title">Make big surfaces fast</h3>
+                        <p class="pf-pill-box__body">
+                            State management for dynamic assets and generated code, grid layouts that
+                            aggregate real-time clusters, and rendering paths tuned for global scale.
+                        </p>
+                        <ul class="pf-pill-box__proof">
+                            <li><strong>3M+</strong> users reached by shipped Search features</li>
+                        </ul>
                     </article>
-                    <article class="pf-card">
-                        <h3 class="pf-card__title">Research beats opinion</h3>
-                        <div class="pf-card__body">
-                            <p>
-                                I sit in UX sessions and read the feedback myself. Thirty research sessions
-                                settle arguments that thirty meetings cannot.
-                            </p>
-                        </div>
-                    </article>
-                    <article class="pf-card">
-                        <h3 class="pf-card__title">Accessibility is table stakes</h3>
-                        <div class="pf-card__body">
-                            <p>
-                                Keyboard paths, contrast, and semantics come first. A flow that only works for
-                                some users is an unfinished flow.
-                            </p>
-                        </div>
+                    <article class="pf-pill-box pf-reveal">
+                        <h3 class="pf-pill-box__title">Turn research into UI</h3>
+                        <p class="pf-pill-box__body">
+                            UX research sessions and creator feedback translated into component libraries,
+                            accessibility fixes, and telemetry that proves the journey works.
+                        </p>
+                        <ul class="pf-pill-box__proof">
+                            <li><strong>1M+</strong> creators served by front-end flows I built</li>
+                            <li><strong>90%+</strong> telemetry logging reliability delivered</li>
+                        </ul>
                     </article>
                 </div>
             </section>
@@ -242,10 +151,7 @@
                     <div>
                         <h3>B.S. Computer Science and Engineering</h3>
                         <p class="about-education__meta">2019 &ndash; 2023 &middot; Columbus, Ohio</p>
-                        <p>
-                            Coursework across systems, algorithms, and software engineering, with the
-                            electives that pushed me toward interface work and human-facing systems.
-                        </p>
+                        <p>Systems, algorithms, and software engineering with electives toward interface work.</p>
                     </div>
                     <ul class="about-education__list">
                         <li>National Society of Black Engineers</li>
@@ -254,494 +160,150 @@
                     </ul>
                 </div>
             </section>
+        </section>
 
-            <section class="pf-section pf-shell pf-reveal" aria-labelledby="offline-heading">
+        <!-- 2. Experience: role pills, compact skills, interests. -->
+        <section class="pf-shell pf-section" id="experience" data-section aria-labelledby="experience-heading">
+            <div class="pf-section__head">
+                <p class="pf-eyebrow">Experience</p>
+                <h2 id="experience-heading">Three teams. One job: make the client hold up.</h2>
+                <p>
+                    Each role as problem, approach, and outcome &mdash; the same shape I use in interviews.
+                </p>
+            </div>
+
+            <div class="exp-pills" data-role-pills>
+                <article class="pf-pill-box pf-pill-box--role pf-reveal" id="youtube-playables" data-role-pill="pill-youtube-playables">
+                    <p class="pf-pill-box__meta">Oct 2025 &ndash; Jul 2026 &middot; 9 mo &middot; Mountain View, CA</p>
+                    <h3 class="pf-pill-box__title">YouTube Playables Game Creation</h3>
+                    <p class="pf-pill-box__role">Full-Stack Software Engineer</p>
+                    <div class="pf-pill-box__pao">
+                        <p><span class="proj-label">Problem</span> A flagship generative AI game creation product had no client foundation, and multiple teams needed to ship into it at once.</p>
+                        <p><span class="proj-label">Approach</span> Designed a multi-page client architecture from scratch with clear module boundaries, then layered client-side state management for dynamic game assets and generated code files. Refined the UI from 30+ UX research sessions.</p>
+                        <p><span class="proj-label">Outcome</span> Shipped creation tools to 1,000+ creators, cut load times and memory overhead, accelerated cross-team delivery, and hit 90%+ telemetry reliability.</p>
+                    </div>
+                    <ul class="pf-tags">
+                        <li><span class="pf-tag">Gemini</span></li>
+                        <li><span class="pf-tag">TypeScript</span></li>
+                        <li><span class="pf-tag">React</span></li>
+                        <li><span class="pf-tag">SASS</span></li>
+                        <li><span class="pf-tag">RESTful APIs</span></li>
+                    </ul>
+                </article>
+
+                <article class="pf-pill-box pf-pill-box--role pf-reveal" id="google-search-intelligence" data-role-pill="pill-google-search-intelligence">
+                    <p class="pf-pill-box__meta">Jul 2024 &ndash; Oct 2025 &middot; 1 yr 3 mo &middot; Mountain View, CA</p>
+                    <h3 class="pf-pill-box__title">Google Search Intelligence</h3>
+                    <p class="pf-pill-box__role">Full-Stack Software Engineer</p>
+                    <div class="pf-pill-box__pao">
+                        <p><span class="proj-label">Problem</span> Creators dropped out of confusing verification flows, surfaces were rebuilt per team, and strong Search results below the fold went unnoticed.</p>
+                        <p><span class="proj-label">Approach</span> Engineered an accessible verification flow informed by 10,000+ creators, authored a 30+ component library for consistent UI, and shipped trending badge labels inline in results.</p>
+                        <p><span class="proj-label">Outcome</span> Streamlined account linking for 1M+ creators, reduced UI redundancy across surfaces, and boosted click-through for 3M+ US users.</p>
+                    </div>
+                    <ul class="pf-tags">
+                        <li><span class="pf-tag">TypeScript</span></li>
+                        <li><span class="pf-tag">React</span></li>
+                        <li><span class="pf-tag">Kotlin</span></li>
+                        <li><span class="pf-tag">Java</span></li>
+                        <li><span class="pf-tag">HTML/CSS</span></li>
+                    </ul>
+                </article>
+
+                <article class="pf-pill-box pf-pill-box--role pf-reveal" id="google-modern-creators" data-role-pill="pill-google-modern-creators">
+                    <p class="pf-pill-box__meta">Oct 2023 &ndash; Jul 2024 &middot; 9 mo &middot; Mountain View, CA</p>
+                    <h3 class="pf-pill-box__title">Google Modern Creators and Formats</h3>
+                    <p class="pf-pill-box__role">Front-End Software Engineer</p>
+                    <div class="pf-pill-box__pao">
+                        <p><span class="proj-label">Problem</span> Discover readers had no real-time way to react to articles, and drafts published without a preview of the final render.</p>
+                        <p><span class="proj-label">Approach</span> Built a pre-publish client state validation layer for live previews and a dynamic grid that aggregates real-time note clusters, plus automated image comparison tests for user visuals.</p>
+                        <p><span class="proj-label">Outcome</span> Supported a launch engaging 1M+ users across the US and India, with higher post completion, improved feed quality, and 95%+ visual validation accuracy.</p>
+                    </div>
+                    <ul class="pf-tags">
+                        <li><span class="pf-tag">Java</span></li>
+                        <li><span class="pf-tag">Kotlin</span></li>
+                        <li><span class="pf-tag">JavaScript</span></li>
+                        <li><span class="pf-tag">HTML/CSS</span></li>
+                        <li><span class="pf-tag">Git</span></li>
+                    </ul>
+                </article>
+            </div>
+
+            <section class="pf-section pf-reveal skills-compact" aria-labelledby="skills-heading">
+                <div class="pf-section__head">
+                    <p class="pf-eyebrow">Skills</p>
+                    <h2 id="skills-heading">Stack at a glance</h2>
+                </div>
+                <div class="skills-compact__grid">
+                    <div class="skills-compact__group">
+                        <h3 class="skills-compact__label">Languages</h3>
+                        <p class="skills-compact__tags">TypeScript · JavaScript · HTML/CSS · Java · Kotlin · SQL · C++</p>
+                    </div>
+                    <div class="skills-compact__group">
+                        <h3 class="skills-compact__label">Frameworks &amp; Libraries</h3>
+                        <p class="skills-compact__tags">React · SASS · RESTful APIs · Next.js</p>
+                    </div>
+                    <div class="skills-compact__group">
+                        <h3 class="skills-compact__label">AI &amp; Emerging Tech</h3>
+                        <p class="skills-compact__tags">Gemini · Artificial Intelligence (AI) · Prompt Engineering</p>
+                    </div>
+                    <div class="skills-compact__group">
+                        <h3 class="skills-compact__label">Engineering Craft</h3>
+                        <p class="skills-compact__tags">Client architecture · State management · Design systems · Accessibility · Telemetry &amp; logging · Git</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="pf-section pf-reveal" aria-labelledby="offline-heading">
                 <div class="pf-section__head">
                     <p class="pf-eyebrow">Away from the keyboard</p>
                     <h2 id="offline-heading">What I&rsquo;m into</h2>
                 </div>
                 <div class="about-prose">
                     <p>
-                        I produce music mashups, edit short-form video, follow basketball closely, and I&rsquo;m
-                        a long-time anime fan. All of it is the same instinct as my day job: take pieces that
-                        already exist, find the arrangement nobody expected, and sweat the timing until it
-                        lands.
+                        Music mashups, short-form video, basketball, and anime &mdash; the same instinct as
+                        the day job: rearrange what already exists until the timing lands.
                     </p>
                 </div>
-                <div class="pf-btn-row">
-                    <a class="pf-btn pf-btn--primary" href="#experience">See the work history</a>
-                    <a class="pf-btn pf-btn--secondary" href="/media/docs/jamie-tucker-resume.pdf" target="_blank" rel="noopener">Download r&eacute;sum&eacute; (PDF)</a>
-                </div>
             </section>
         </section>
 
-        <!-- Selected work: eight case studies, filterable by technology. -->
-        <section id="work" data-section aria-labelledby="work-heading">
-            <section class="pf-shell proj-head">
-                <p class="pf-eyebrow">Projects</p>
-                <h2 id="work-heading">Eight case studies, written as problem, approach, outcome.</h2>
-                <p class="pf-lead">
-                    These are the pieces of work I would want to talk through in an interview. Filter by a
-                    technology to jump to the ones that match your stack.
-                </p>
-            </section>
-
-            <section class="pf-shell pf-section" aria-labelledby="case-heading">
-                <h2 class="pf-visually-hidden" id="case-heading">Case studies</h2>
-
-                <!-- Populated by projects.js; hidden until then so no-JS users see all cards. -->
-                <div class="proj-filter" data-project-filter hidden>
-                    <p class="proj-filter__label" id="proj-filter-label">Filter by technology</p>
-                    <div class="proj-filter__chips" data-filter-chips role="group" aria-labelledby="proj-filter-label"></div>
-                    <p class="proj-filter__status" data-filter-status role="status"></p>
-                </div>
-
-                <div class="pf-grid pf-grid--2 proj-grid" data-project-list>
-                    <article class="pf-card proj-card pf-reveal" data-project-tags="TypeScript,React,SASS,Gemini,RESTful APIs">
-                        <p class="pf-card__meta">YouTube &middot; Playables Game Creation</p>
-                        <h3 class="pf-card__title">Playables Game Creation</h3>
-                        <div class="pf-card__body proj-card__body">
-                            <p><span class="proj-label">Problem</span> A flagship generative AI game creation product had no client foundation, and multiple teams needed to ship into it at once.</p>
-                            <p><span class="proj-label">Approach</span> Designed a multi-page client architecture from scratch with clear module boundaries, then layered client-side state management for dynamic game assets and generated code files.</p>
-                            <p><span class="proj-label">Outcome</span> Shipped creation tools to 1,000+ creators, cut initial load times, lowered memory overhead, and accelerated cross-functional feature delivery.</p>
-                        </div>
-                        <ul class="pf-tags">
-                            <li><span class="pf-tag">TypeScript</span></li>
-                            <li><span class="pf-tag">React</span></li>
-                            <li><span class="pf-tag">SASS</span></li>
-                            <li><span class="pf-tag">Gemini</span></li>
-                            <li><span class="pf-tag">RESTful APIs</span></li>
-                        </ul>
-                    </article>
-
-                    <article class="pf-card proj-card pf-reveal" data-project-tags="TypeScript,React,HTML/CSS,Kotlin">
-                        <p class="pf-card__meta">Google &middot; Search Intelligence</p>
-                        <h3 class="pf-card__title">Creator Verification Flow</h3>
-                        <div class="pf-card__body proj-card__body">
-                            <p><span class="proj-label">Problem</span> Creators linking social accounts to Search dropped out of a confusing, multi-step onboarding flow.</p>
-                            <p><span class="proj-label">Approach</span> Engineered an intuitive front-end verification flow and overhauled its usability and accessibility with UX research from 10,000+ creators.</p>
-                            <p><span class="proj-label">Outcome</span> Streamlined account linking for 1M+ creators and improved onboarding conversion and engagement.</p>
-                        </div>
-                        <ul class="pf-tags">
-                            <li><span class="pf-tag">TypeScript</span></li>
-                            <li><span class="pf-tag">React</span></li>
-                            <li><span class="pf-tag">HTML/CSS</span></li>
-                            <li><span class="pf-tag">Kotlin</span></li>
-                        </ul>
-                    </article>
-
-                    <article class="pf-card proj-card pf-reveal" data-project-tags="TypeScript,React,SASS,HTML/CSS">
-                        <p class="pf-card__meta">Google &middot; Search Intelligence</p>
-                        <h3 class="pf-card__title">Verification Component Library</h3>
-                        <div class="pf-card__body proj-card__body">
-                            <p><span class="proj-label">Problem</span> Verification surfaces were rebuilt per team, producing inconsistent UI and duplicated code.</p>
-                            <p><span class="proj-label">Approach</span> Authored a reusable UI component library of 30+ elements with shared accessibility and styling contracts.</p>
-                            <p><span class="proj-label">Outcome</span> Consistent verification flows across surfaces and a measurably more maintainable codebase with less redundancy.</p>
-                        </div>
-                        <ul class="pf-tags">
-                            <li><span class="pf-tag">TypeScript</span></li>
-                            <li><span class="pf-tag">React</span></li>
-                            <li><span class="pf-tag">SASS</span></li>
-                            <li><span class="pf-tag">HTML/CSS</span></li>
-                        </ul>
-                    </article>
-
-                    <article class="pf-card proj-card pf-reveal" data-project-tags="Java,Kotlin,JavaScript,HTML/CSS">
-                        <p class="pf-card__meta">Google &middot; Modern Creators and Formats</p>
-                        <h3 class="pf-card__title">Google Discover &lsquo;Notes&rsquo;</h3>
-                        <div class="pf-card__body proj-card__body">
-                            <p><span class="proj-label">Problem</span> Discover readers had no way to react to articles in real time, and drafts were published without a preview of the final render.</p>
-                            <p><span class="proj-label">Approach</span> Built a pre-publish client state validation layer for live content previews and a dynamic grid layout architecture that aggregates real-time note clusters.</p>
-                            <p><span class="proj-label">Outcome</span> Supported a launch engaging 1M+ users across the US and India, with higher post completion rates and improved feed quality.</p>
-                        </div>
-                        <ul class="pf-tags">
-                            <li><span class="pf-tag">Java</span></li>
-                            <li><span class="pf-tag">Kotlin</span></li>
-                            <li><span class="pf-tag">JavaScript</span></li>
-                            <li><span class="pf-tag">HTML/CSS</span></li>
-                        </ul>
-                    </article>
-
-                    <article class="pf-card proj-card pf-reveal" data-project-tags="TypeScript,Java,HTML/CSS">
-                        <p class="pf-card__meta">Google &middot; Search Intelligence</p>
-                        <h3 class="pf-card__title">Trending Search Badge Labels</h3>
-                        <div class="pf-card__body proj-card__body">
-                            <p><span class="proj-label">Problem</span> Strong results below the fold went unnoticed because nothing signalled that they were trending.</p>
-                            <p><span class="proj-label">Approach</span> Developed horizontal search badge labels that surface trending results inline within the results page.</p>
-                            <p><span class="proj-label">Outcome</span> Boosted lower-page visibility and increased click-through rates for 3M+ US users.</p>
-                        </div>
-                        <ul class="pf-tags">
-                            <li><span class="pf-tag">TypeScript</span></li>
-                            <li><span class="pf-tag">Java</span></li>
-                            <li><span class="pf-tag">HTML/CSS</span></li>
-                        </ul>
-                    </article>
-
-                    <article class="pf-card proj-card pf-reveal" data-project-tags="SQL,Java">
-                        <p class="pf-card__meta">Google &middot; Search Intelligence</p>
-                        <h3 class="pf-card__title">Top-Rated Dining Live Experiment</h3>
-                        <div class="pf-card__body proj-card__body">
-                            <p><span class="proj-label">Problem</span> Identifying genuinely top-rated restaurants at national scale required evidence, not intuition.</p>
-                            <p><span class="proj-label">Approach</span> Led a live experiment analysing signals from 1,000+ restaurants across the United States.</p>
-                            <p><span class="proj-label">Outcome</span> Produced a ranked view of top-rated dining establishments that informed the surface&rsquo;s recommendations.</p>
-                        </div>
-                        <ul class="pf-tags">
-                            <li><span class="pf-tag">SQL</span></li>
-                            <li><span class="pf-tag">Java</span></li>
-                        </ul>
-                    </article>
-
-                    <article class="pf-card proj-card pf-reveal" data-project-tags="Java,Git">
-                        <p class="pf-card__meta">Google &middot; Modern Creators and Formats</p>
-                        <h3 class="pf-card__title">User-Generated Visual Validation</h3>
-                        <div class="pf-card__body proj-card__body">
-                            <p><span class="proj-label">Problem</span> User-uploaded imagery could render incorrectly across markets with no automated safety net.</p>
-                            <p><span class="proj-label">Approach</span> Conducted automated image comparison tests over user visuals as part of the release process.</p>
-                            <p><span class="proj-label">Outcome</span> Reached 95%+ accuracy validating user-generated content display before launch.</p>
-                        </div>
-                        <ul class="pf-tags">
-                            <li><span class="pf-tag">Java</span></li>
-                            <li><span class="pf-tag">Git</span></li>
-                        </ul>
-                    </article>
-
-                    <article class="pf-card proj-card pf-reveal" data-project-tags="JavaScript,HTML/CSS,Git">
-                        <p class="pf-card__meta">Personal project</p>
-                        <h3 class="pf-card__title">This Portfolio Site</h3>
-                        <div class="pf-card__body proj-card__body">
-                            <p><span class="proj-label">Problem</span> My work lived in a PDF, which cannot show how I structure a front end.</p>
-                            <p><span class="proj-label">Approach</span> Built a dependency-free single-page static site where all content comes from one UMD data module shared by the browser and Node unit tests.</p>
-                            <p><span class="proj-label">Outcome</span> Zero-build, zero-runtime-dependency site with unit-tested navigation, filtering, and theming logic.</p>
-                        </div>
-                        <ul class="pf-tags">
-                            <li><span class="pf-tag">JavaScript</span></li>
-                            <li><span class="pf-tag">HTML/CSS</span></li>
-                            <li><span class="pf-tag">Git</span></li>
-                        </ul>
-                    </article>
-                </div>
-            </section>
-        </section>
-
-        <section class="pf-shell pf-section" id="experience" data-section aria-labelledby="path-heading">
-            <div class="pf-section__head">
-                <p class="pf-eyebrow">Career path</p>
-                <h2 id="path-heading">Three years, three teams, one job: make the client hold up.</h2>
-                <p>
-                    Every bullet is something I built or led, with the outcome it produced. Filter by a
-                    technology to see where I have used it in production.
-                </p>
-            </div>
-
-            <!-- Populated by index.js; hidden until then so no-JS users see all roles. -->
-            <div class="home-filter" data-experience-filter hidden>
-                <p class="home-filter__label" id="home-filter-label">Filter by technology</p>
-                <div class="home-filter__chips" data-filter-chips role="group" aria-labelledby="home-filter-label"></div>
-                <p class="home-filter__status" data-filter-status role="status"></p>
-            </div>
-
-            <ol class="home-timeline" data-role-list>
-                <li class="home-role" id="youtube-playables" data-role-tags="Gemini,TypeScript,React,SASS,RESTful APIs,C++,SQL">
-                    <div class="home-role__aside">
-                        <p class="home-role__dates">Oct 2025 &ndash; Jul 2026</p>
-                        <p class="home-role__duration">9 mo &middot; Mountain View, CA</p>
-                    </div>
-                    <div class="home-role__body">
-                        <h3 class="home-role__title">Full-Stack Software Engineer</h3>
-                        <p class="home-role__org">YouTube &middot; Playables Game Creation</p>
-                        <p class="home-role__summary">
-                            Owned end-to-end client infrastructure for a flagship generative AI game
-                            creation product used by creators across the US.
-                        </p>
-                        <ul class="home-role__highlights">
-                            <li>Established end-to-end client infrastructure for a flagship generative AI product, driving robust game creation tools for over 1,000 creators across the US.</li>
-                            <li>Designed a multi-page client architecture from scratch, increasing code modularity and accelerating cross-functional feature delivery speed.</li>
-                            <li>Engineered client-side state management for dynamic game assets and code files, reducing initial load times and minimizing memory overhead.</li>
-                            <li>Synthesized user feedback from 30+ UX research sessions and design reviews to refine core principles, driving the UI architecture for the flagship product.</li>
-                            <li>Implemented telemetry flows across critical user journeys, achieving 90%+ logging reliability for key UI elements.</li>
-                        </ul>
-                        <ul class="pf-tags">
-                            <li><span class="pf-tag">Gemini</span></li>
-                            <li><span class="pf-tag">TypeScript</span></li>
-                            <li><span class="pf-tag">React</span></li>
-                            <li><span class="pf-tag">SASS</span></li>
-                            <li><span class="pf-tag">RESTful APIs</span></li>
-                            <li><span class="pf-tag">C++</span></li>
-                            <li><span class="pf-tag">SQL</span></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="home-role" id="google-search-intelligence" data-role-tags="TypeScript,React,Kotlin,Java,HTML/CSS">
-                    <div class="home-role__aside">
-                        <p class="home-role__dates">Jul 2024 &ndash; Oct 2025</p>
-                        <p class="home-role__duration">1 yr 3 mo &middot; Mountain View, CA</p>
-                    </div>
-                    <div class="home-role__body">
-                        <h3 class="home-role__title">Full-Stack Software Engineer</h3>
-                        <p class="home-role__org">Google &middot; Search Intelligence</p>
-                        <p class="home-role__summary">
-                            Built verification and discovery surfaces in Search for creators and millions of
-                            daily users.
-                        </p>
-                        <ul class="home-role__highlights">
-                            <li>Engineered an intuitive front-end verification flow, streamlining social account linking for 1M+ creators and improving onboarding conversion.</li>
-                            <li>Collaborated with UX researchers and designers to overhaul the UI architecture&rsquo;s usability and accessibility using feedback from 10,000+ creators, increasing user engagement.</li>
-                            <li>Developed a reusable UI component library with 30+ elements to create consistent verification flows, improving maintainability by reducing redundancy.</li>
-                            <li>Led a live experiment analyzing data from 1,000+ restaurants across the United States to identify top-rated dining establishments.</li>
-                            <li>Developed horizontal search badge labels to highlight trending results, boosting lower-page visibility and increasing click-through rates for 3M+ US users.</li>
-                        </ul>
-                        <ul class="pf-tags">
-                            <li><span class="pf-tag">TypeScript</span></li>
-                            <li><span class="pf-tag">React</span></li>
-                            <li><span class="pf-tag">Kotlin</span></li>
-                            <li><span class="pf-tag">Java</span></li>
-                            <li><span class="pf-tag">HTML/CSS</span></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="home-role" id="google-modern-creators" data-role-tags="Java,Kotlin,HTML/CSS,JavaScript,Git">
-                    <div class="home-role__aside">
-                        <p class="home-role__dates">Oct 2023 &ndash; Jul 2024</p>
-                        <p class="home-role__duration">9 mo &middot; Mountain View, CA</p>
-                    </div>
-                    <div class="home-role__body">
-                        <h3 class="home-role__title">Front-End Software Engineer</h3>
-                        <p class="home-role__org">Google &middot; Modern Creators and Formats</p>
-                        <p class="home-role__summary">
-                            Helped launch Google Discover &lsquo;Notes&rsquo;, a real-time article feedback
-                            surface for readers in the US and India.
-                        </p>
-                        <ul class="home-role__highlights">
-                            <li>Supported the release of the Google Discover &lsquo;Notes&rsquo; feature, engaging 1M+ users in the US and India with real-time article feedback.</li>
-                            <li>Developed a pre-publish client state validation layer on Discover to render live content previews, driving higher post completion rates and improving feed quality.</li>
-                            <li>Engineered dynamic grid layout architecture to aggregate real-time &lsquo;Notes&rsquo; clusters, optimizing client-side rendering for 1M+ active users across global markets.</li>
-                            <li>Conducted image comparison tests on user visuals using automated testing tools, achieving 95%+ accuracy in validating user-generated content display.</li>
-                        </ul>
-                        <ul class="pf-tags">
-                            <li><span class="pf-tag">Java</span></li>
-                            <li><span class="pf-tag">Kotlin</span></li>
-                            <li><span class="pf-tag">HTML/CSS</span></li>
-                            <li><span class="pf-tag">JavaScript</span></li>
-                            <li><span class="pf-tag">Git</span></li>
-                        </ul>
-                    </div>
-                </li>
-            </ol>
-
-            <!-- Unhidden by index.js, which then collapses the older roles. With
-                 no JavaScript every role stays on the page and this stays away. -->
-            <div class="home-timeline__more">
-                <button class="pf-btn pf-btn--secondary" type="button" data-role-toggle aria-expanded="true" hidden>
-                    Show earlier roles
-                </button>
-            </div>
-        </section>
-
-        <!-- Skills: four groups, each row deep-linking into the timeline filter. -->
-        <section id="skills" data-section aria-labelledby="skills-heading">
-            <section class="pf-shell skills-head">
-                <p class="pf-eyebrow">Skills</p>
-                <h2 id="skills-heading">Every skill here has shipped to production.</h2>
-                <p class="pf-lead">
-                    Every technology below jumps to the timeline, filtered to the roles where I used it,
-                    so you can check the claim instead of taking my word for it. Depth is labelled
-                    honestly: daily driver, production, or working knowledge.
-                </p>
-            </section>
-
-            <section class="pf-shell pf-section pf-reveal" aria-labelledby="languages-heading">
-                <div class="pf-section__head">
-                    <p class="pf-eyebrow">Group 1 of 4</p>
-                    <h2 id="languages-heading">Languages</h2>
-                </div>
-                <ul class="skills-list">
-                    <li class="skills-row">
-                        <a class="skills-row__name" href="#experience" data-tech="TypeScript">TypeScript</a>
-                        <span class="skills-row__level skills-row__level--daily">Daily driver</span>
-                        <span class="skills-row__note">Primary language on Playables and Search Intelligence.</span>
-                    </li>
-                    <li class="skills-row">
-                        <a class="skills-row__name" href="#experience" data-tech="JavaScript">JavaScript</a>
-                        <span class="skills-row__level skills-row__level--daily">Daily driver</span>
-                        <span class="skills-row__note">Discover &lsquo;Notes&rsquo; client work and this site.</span>
-                    </li>
-                    <li class="skills-row">
-                        <a class="skills-row__name" href="#experience" data-tech="HTML/CSS">HTML/CSS</a>
-                        <span class="skills-row__level skills-row__level--daily">Daily driver</span>
-                        <span class="skills-row__note">Semantics, layout, and accessibility on every team.</span>
-                    </li>
-                    <li class="skills-row">
-                        <a class="skills-row__name" href="#experience" data-tech="Java">Java</a>
-                        <span class="skills-row__level skills-row__level--prod">Production</span>
-                        <span class="skills-row__note">Search badge labels and Discover feature work.</span>
-                    </li>
-                    <li class="skills-row">
-                        <a class="skills-row__name" href="#experience" data-tech="Kotlin">Kotlin</a>
-                        <span class="skills-row__level skills-row__level--prod">Production</span>
-                        <span class="skills-row__note">Verification flows and Discover clients.</span>
-                    </li>
-                    <li class="skills-row">
-                        <a class="skills-row__name" href="#experience" data-tech="SQL">SQL</a>
-                        <span class="skills-row__level skills-row__level--prod">Production</span>
-                        <span class="skills-row__note">Live experiments and product analytics queries.</span>
-                    </li>
-                    <li class="skills-row">
-                        <a class="skills-row__name" href="#experience" data-tech="C++">C++</a>
-                        <span class="skills-row__level skills-row__level--working">Working knowledge</span>
-                        <span class="skills-row__note">Backend touchpoints of the Playables stack.</span>
-                    </li>
-                </ul>
-            </section>
-
-            <section class="pf-shell pf-section pf-reveal" aria-labelledby="frameworks-heading">
-                <div class="pf-section__head">
-                    <p class="pf-eyebrow">Group 2 of 4</p>
-                    <h2 id="frameworks-heading">Frameworks &amp; Libraries</h2>
-                </div>
-                <ul class="skills-list">
-                    <li class="skills-row">
-                        <a class="skills-row__name" href="#experience" data-tech="React">React</a>
-                        <span class="skills-row__level skills-row__level--daily">Daily driver</span>
-                        <span class="skills-row__note">Component architecture and state for two flagship clients.</span>
-                    </li>
-                    <li class="skills-row">
-                        <a class="skills-row__name" href="#experience" data-tech="SASS">SASS</a>
-                        <span class="skills-row__level skills-row__level--prod">Production</span>
-                        <span class="skills-row__note">Styling layer of the Playables client.</span>
-                    </li>
-                    <li class="skills-row">
-                        <a class="skills-row__name" href="#experience" data-tech="RESTful APIs">RESTful APIs</a>
-                        <span class="skills-row__level skills-row__level--prod">Production</span>
-                        <span class="skills-row__note">Client/server contracts for generative game creation.</span>
-                    </li>
-                    <li class="skills-row">
-                        <span class="skills-row__name">Next.js</span>
-                        <span class="skills-row__level skills-row__level--working">Working knowledge</span>
-                        <span class="skills-row__note">Personal projects and framework evaluations.</span>
-                    </li>
-                </ul>
-            </section>
-
-            <section class="pf-shell pf-section pf-reveal" aria-labelledby="ai-heading">
-                <div class="pf-section__head">
-                    <p class="pf-eyebrow">Group 3 of 4</p>
-                    <h2 id="ai-heading">AI &amp; Emerging Tech</h2>
-                </div>
-                <ul class="skills-list">
-                    <li class="skills-row">
-                        <a class="skills-row__name" href="#experience" data-tech="Gemini">Gemini</a>
-                        <span class="skills-row__level skills-row__level--prod">Production</span>
-                        <span class="skills-row__note">Client integration for a generative AI game creation product.</span>
-                    </li>
-                    <li class="skills-row">
-                        <span class="skills-row__name">Artificial Intelligence (AI)</span>
-                        <span class="skills-row__level skills-row__level--prod">Production</span>
-                        <span class="skills-row__note">Shipping user-facing surfaces on top of generative models.</span>
-                    </li>
-                    <li class="skills-row">
-                        <span class="skills-row__name">Prompt Engineering</span>
-                        <span class="skills-row__level skills-row__level--prod">Production</span>
-                        <span class="skills-row__note">Tuning generation quality for creator-facing tools.</span>
-                    </li>
-                </ul>
-            </section>
-
-            <section class="pf-shell pf-section pf-reveal" aria-labelledby="craft-heading">
-                <div class="pf-section__head">
-                    <p class="pf-eyebrow">Group 4 of 4</p>
-                    <h2 id="craft-heading">Engineering Craft</h2>
-                </div>
-                <ul class="skills-list">
-                    <li class="skills-row">
-                        <span class="skills-row__name">Client architecture</span>
-                        <span class="skills-row__level skills-row__level--daily">Daily driver</span>
-                        <span class="skills-row__note">Two multi-page clients designed from an empty repository.</span>
-                    </li>
-                    <li class="skills-row">
-                        <span class="skills-row__name">State management</span>
-                        <span class="skills-row__level skills-row__level--daily">Daily driver</span>
-                        <span class="skills-row__note">Dynamic assets, generated code files, and pre-publish validation.</span>
-                    </li>
-                    <li class="skills-row">
-                        <span class="skills-row__name">Design systems</span>
-                        <span class="skills-row__level skills-row__level--prod">Production</span>
-                        <span class="skills-row__note">Authored a 30+ component library used across surfaces.</span>
-                    </li>
-                    <li class="skills-row">
-                        <span class="skills-row__name">Accessibility</span>
-                        <span class="skills-row__level skills-row__level--prod">Production</span>
-                        <span class="skills-row__note">Usability and accessibility overhaul informed by 10,000+ creators.</span>
-                    </li>
-                    <li class="skills-row">
-                        <span class="skills-row__name">Telemetry &amp; logging</span>
-                        <span class="skills-row__level skills-row__level--prod">Production</span>
-                        <span class="skills-row__note">90%+ logging reliability across critical user journeys.</span>
-                    </li>
-                    <li class="skills-row">
-                        <a class="skills-row__name" href="#experience" data-tech="Git">Git</a>
-                        <span class="skills-row__level skills-row__level--daily">Daily driver</span>
-                        <span class="skills-row__note">Branching, review, and release hygiene on every project.</span>
-                    </li>
-                </ul>
-            </section>
-        </section>
-
-        <!-- Contact: LinkedIn first, then email and the resume. -->
+        <!-- 3. Contact: LinkedIn + Email pills only. -->
         <section id="contact" data-section aria-labelledby="contact-heading">
             <section class="pf-shell contact-head">
                 <p class="pf-eyebrow">Contact</p>
                 <h2 id="contact-heading">Let&rsquo;s talk about what you&rsquo;re building.</h2>
                 <p class="pf-lead">
-                    LinkedIn is the fastest way to reach me and I reply to every message. If you already have
-                    a role in mind, send the team and the problem &mdash; I&rsquo;ll tell you honestly whether
-                    I&rsquo;m the right engineer for it.
+                    LinkedIn is the fastest way to reach me. Based in Sunnyvale, California &mdash; open to
+                    on-site, hybrid, or remote full-stack and front-end roles.
                 </p>
             </section>
 
             <section class="pf-shell pf-section" aria-labelledby="channels-heading">
                 <h2 class="pf-visually-hidden" id="channels-heading">Ways to reach me</h2>
-                <div class="pf-grid pf-grid--2">
-                    <article class="pf-card contact-card pf-reveal">
-                        <p class="pf-card__meta">LinkedIn &middot; fastest</p>
-                        <h3 class="pf-card__title">
+                <div class="pf-grid pf-grid--2 contact-pills">
+                    <article class="pf-pill-box contact-card pf-reveal">
+                        <p class="pf-pill-box__meta">LinkedIn &middot; fastest</p>
+                        <h3 class="pf-pill-box__title">
                             <a href="https://linkedin.com/in/jamieatucker" target="_blank" rel="noopener">linkedin.com/in/jamieatucker</a>
                         </h3>
-                        <div class="pf-card__body">
-                            <p>Message me here for the quickest reply. Full work history, recommendations, and the easiest place to connect.</p>
-                        </div>
+                        <p class="pf-pill-box__body">Message me here for the quickest reply.</p>
                         <div class="pf-btn-row">
                             <a class="pf-btn pf-btn--primary" href="https://linkedin.com/in/jamieatucker" target="_blank" rel="noopener">Open profile</a>
                         </div>
                     </article>
 
-                    <article class="pf-card contact-card pf-reveal">
-                        <p class="pf-card__meta">Email</p>
-                        <h3 class="pf-card__title">
+                    <article class="pf-pill-box contact-card pf-reveal">
+                        <p class="pf-pill-box__meta">Email</p>
+                        <h3 class="pf-pill-box__title">
                             <a href="mailto:jamieatucker4@gmail.com" data-contact-email>jamieatucker4@gmail.com</a>
                         </h3>
-                        <div class="pf-card__body">
-                            <p>Direct to my inbox. Recruiters: including the stack and location saves us both a round trip.</p>
-                        </div>
+                        <p class="pf-pill-box__body">Direct to my inbox. Include the stack and location when you can.</p>
                         <div class="pf-btn-row">
                             <a class="pf-btn pf-btn--secondary" href="mailto:jamieatucker4@gmail.com?subject=Role%20for%20Jamie%20Tucker">Compose email</a>
                             <button class="pf-btn pf-btn--secondary" type="button" data-copy-email data-email="jamieatucker4@gmail.com" hidden>Copy address</button>
                         </div>
                         <p class="contact-card__status" data-copy-status role="status"></p>
                     </article>
-
-                    <article class="pf-card contact-card pf-reveal">
-                        <p class="pf-card__meta">R&eacute;sum&eacute;</p>
-                        <h3 class="pf-card__title">One-page PDF</h3>
-                        <div class="pf-card__body">
-                            <p>The same content as this site, formatted for applicant tracking systems and quick forwarding.</p>
-                        </div>
-                        <div class="pf-btn-row">
-                            <a class="pf-btn pf-btn--secondary" href="/media/docs/jamie-tucker-resume.pdf" target="_blank" rel="noopener">Download r&eacute;sum&eacute;</a>
-                        </div>
-                    </article>
-
                 </div>
             </section>
         </section>
@@ -751,11 +313,8 @@
     <footer class="pf-footer">
         <div class="pf-shell pf-footer__inner">
             <ul class="pf-footer__links">
-                <li><a href="#top">Top</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#work">Work</a></li>
                 <li><a href="#experience">Experience</a></li>
-                <li><a href="#skills">Skills</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="/media/docs/jamie-tucker-resume.pdf" target="_blank" rel="noopener">R&eacute;sum&eacute;</a></li>
             </ul>
@@ -771,6 +330,7 @@
         "@type": "Person",
         "name": "Jamie Tucker",
         "jobTitle": "Full-Stack Software Engineer",
+        "image": "/media/images/pro_headshot.jpeg",
         "email": "mailto:jamieatucker4@gmail.com",
         "address": { "@type": "PostalAddress", "addressLocality": "Sunnyvale", "addressRegion": "CA" },
         "alumniOf": { "@type": "CollegeOrUniversity", "name": "The Ohio State University" },
@@ -779,12 +339,8 @@
     }
     </script>
     <script src="/utils/site-nav.js"></script>
-    <script src="/utils/resume-data.js"></script>
-    <script src="/utils/experience-filter.js"></script>
     <script src="/utils/home-sections.js"></script>
     <script src="/pages/shared/js/site.js"></script>
-    <script src="/pages/index/js/index.js"></script>
-    <script src="/pages/index/js/work.js"></script>
     <script src="/pages/index/js/contact.js"></script>
 </body>
 </html>
