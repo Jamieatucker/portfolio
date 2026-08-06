@@ -78,11 +78,36 @@
 
 .about-education {
     display: grid;
-    gap: var(--pf-space-5);
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: var(--pf-space-4) var(--pf-space-6);
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    grid-template-areas:
+        'brand .'
+        'degree list';
+    align-items: start;
 }
 
-.about-education h3 {
+.about-education__brand {
+    grid-area: brand;
+    display: grid;
+    place-items: center;
+    width: fit-content;
+    max-width: 16rem;
+    padding: var(--pf-space-2) 0;
+}
+
+.about-education__brand img {
+    width: 100%;
+    height: auto;
+    max-height: 7.5rem;
+    object-fit: contain;
+}
+
+.about-education__degree {
+    grid-area: degree;
+    min-width: 0;
+}
+
+.about-education__degree h3 {
     margin-bottom: var(--pf-space-1);
 }
 
@@ -92,15 +117,16 @@
     color: var(--pf-text-subtle);
 }
 
-.about-education p:last-child {
+.about-education__degree p:last-child {
     margin-bottom: 0;
 }
 
 .about-education__list {
+    grid-area: list;
     margin: 0;
     padding: 0;
     list-style: none;
-    align-self: center;
+    align-self: start;
 }
 
 .about-education__list li {
@@ -108,6 +134,11 @@
     border-top: 1px solid var(--pf-border);
     font-size: var(--pf-text-sm);
     color: var(--pf-text-muted);
+}
+
+.about-education__list li:first-child {
+    border-top: 0;
+    padding-top: 0;
 }
 
 @media (max-width: 900px) {
@@ -124,6 +155,15 @@
 
     .about-education {
         grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            'brand'
+            'degree'
+            'list';
+        gap: var(--pf-space-4);
+    }
+
+    .about-education__brand {
+        max-width: 13rem;
     }
 }
 
@@ -134,5 +174,9 @@
 
     .about-hero__portrait {
         max-width: 16rem;
+    }
+
+    .about-education__brand {
+        max-width: 11rem;
     }
 }

@@ -56,13 +56,12 @@
         <section class="about-section" id="about" data-section aria-labelledby="about-heading">
             <div class="pf-shell about-hero">
                 <div class="about-hero__copy">
-                    <p class="pf-eyebrow">Software Engineer &middot; Front-End &amp; Full-Stack</p>
+                    <p class="pf-eyebrow">Front-End &middot; Full-Stack &middot; UI/UX</p>
                     <h1 class="about-hero__title" id="about-heading">
                         Jamie Tucker
                     </h1>
                     <p class="pf-lead about-hero__lead">
-                        I build the interfaces behind products used by
-                        <span class="about-hero__accent">millions of people</span>.
+                        A software engineer who's built interfaces for products used by millions of people across the globe.
                     </p>
                     <p class="about-hero__status">
                         <span class="about-hero__dot" aria-hidden="true"></span>
@@ -145,8 +144,17 @@
                     <p class="pf-eyebrow">Education</p>
                     <h2 id="education-heading">The Ohio State University</h2>
                 </div>
-                <div class="pf-panel about-education">
-                    <div>
+                <div class="pf-pill-box about-education">
+                    <div class="about-education__brand">
+                        <img
+                            src="/media/images/osu_vertical.svg"
+                            width="256"
+                            height="173"
+                            alt="The Ohio State University"
+                            decoding="async"
+                        >
+                    </div>
+                    <div class="about-education__degree">
                         <h3>B.S. Computer Science and Engineering</h3>
                         <p class="about-education__meta">2019 &ndash; 2023 &middot; Columbus, Ohio</p>
                         <p>Systems, algorithms, and software engineering with electives toward interface work.</p>
@@ -172,57 +180,96 @@
 
             <div class="exp-pills" data-role-pills>
                 <article class="pf-pill-box pf-pill-box--role pf-reveal" id="youtube-playables" data-role-pill="pill-youtube-playables">
-                    <p class="pf-pill-box__meta">Oct 2025 &ndash; Jul 2026 &middot; 9 mo &middot; Mountain View, CA</p>
-                    <h3 class="pf-pill-box__title">YouTube Playables Game Creation</h3>
-                    <p class="pf-pill-box__role">Full-Stack Software Engineer</p>
-                    <div class="pf-pill-box__pao">
-                        <p><span class="proj-label">Problem</span> A flagship generative AI game creation product had no client foundation, and multiple teams needed to ship into it at once.</p>
-                        <p><span class="proj-label">Approach</span> Designed a multi-page client architecture from scratch with clear module boundaries, then layered client-side state management for dynamic game assets and generated code files. Refined the UI from 30+ UX research sessions.</p>
-                        <p><span class="proj-label">Outcome</span> Shipped creation tools to 1,000+ creators, cut load times and memory overhead, accelerated cross-team delivery, and hit 90%+ telemetry reliability.</p>
+                    <div class="pf-pill-box__layout">
+                        <div class="pf-pill-box__content">
+                            <p class="pf-pill-box__meta">Oct 2025 &ndash; Jul 2026 &middot; 9 mo &middot; Mountain View, CA</p>
+                            <h3 class="pf-pill-box__title">YouTube Playables Game Creation</h3>
+                            <p class="pf-pill-box__role">Full-Stack Software Engineer</p>
+                            <div class="pf-pill-box__pao">
+                                <p><span class="proj-label">Problem</span> A flagship generative AI game creation product had no client foundation, and multiple teams needed to ship into it at once.</p>
+                                <p><span class="proj-label">Approach</span> Designed a multi-page client architecture from scratch with clear module boundaries, then layered client-side state management for dynamic game assets and generated code files. Refined the UI from 30+ UX research sessions.</p>
+                                <p><span class="proj-label">Outcome</span> Shipped creation tools to 1,000+ creators, cut load times and memory overhead, accelerated cross-team delivery, and hit 90%+ telemetry reliability.</p>
+                            </div>
+                            <ul class="pf-tags">
+                                <li><span class="pf-tag">Gemini</span></li>
+                                <li><span class="pf-tag">TypeScript</span></li>
+                                <li><span class="pf-tag">React</span></li>
+                                <li><span class="pf-tag">SASS</span></li>
+                                <li><span class="pf-tag">RESTful APIs</span></li>
+                            </ul>
+                        </div>
+                        <div class="pf-pill-box__logo" aria-hidden="true">
+                            <img
+                                src="/media/images/youtube_logo_white.svg"
+                                width="160"
+                                height="48"
+                                alt=""
+                                decoding="async"
+                            >
+                        </div>
                     </div>
-                    <ul class="pf-tags">
-                        <li><span class="pf-tag">Gemini</span></li>
-                        <li><span class="pf-tag">TypeScript</span></li>
-                        <li><span class="pf-tag">React</span></li>
-                        <li><span class="pf-tag">SASS</span></li>
-                        <li><span class="pf-tag">RESTful APIs</span></li>
-                    </ul>
                 </article>
 
                 <article class="pf-pill-box pf-pill-box--role pf-reveal" id="google-search-intelligence" data-role-pill="pill-google-search-intelligence">
-                    <p class="pf-pill-box__meta">Jul 2024 &ndash; Oct 2025 &middot; 1 yr 3 mo &middot; Mountain View, CA</p>
-                    <h3 class="pf-pill-box__title">Google Search Intelligence</h3>
-                    <p class="pf-pill-box__role">Full-Stack Software Engineer</p>
-                    <div class="pf-pill-box__pao">
-                        <p><span class="proj-label">Problem</span> Creators dropped out of confusing verification flows, surfaces were rebuilt per team, and strong Search results below the fold went unnoticed.</p>
-                        <p><span class="proj-label">Approach</span> Engineered an accessible verification flow informed by 10,000+ creators, authored a 30+ component library for consistent UI, and shipped trending badge labels inline in results.</p>
-                        <p><span class="proj-label">Outcome</span> Streamlined account linking for 1M+ creators, reduced UI redundancy across surfaces, and boosted click-through for 3M+ US users.</p>
+                    <div class="pf-pill-box__layout">
+                        <div class="pf-pill-box__content">
+                            <p class="pf-pill-box__meta">Jul 2024 &ndash; Oct 2025 &middot; 1 yr 3 mo &middot; Mountain View, CA</p>
+                            <h3 class="pf-pill-box__title">Google Search Intelligence</h3>
+                            <p class="pf-pill-box__role">Full-Stack Software Engineer</p>
+                            <div class="pf-pill-box__pao">
+                                <p><span class="proj-label">Problem</span> Creators dropped out of confusing verification flows, surfaces were rebuilt per team, and strong Search results below the fold went unnoticed.</p>
+                                <p><span class="proj-label">Approach</span> Engineered an accessible verification flow informed by 10,000+ creators, authored a 30+ component library for consistent UI, and shipped trending badge labels inline in results.</p>
+                                <p><span class="proj-label">Outcome</span> Streamlined account linking for 1M+ creators, reduced UI redundancy across surfaces, and boosted click-through for 3M+ US users.</p>
+                            </div>
+                            <ul class="pf-tags">
+                                <li><span class="pf-tag">TypeScript</span></li>
+                                <li><span class="pf-tag">React</span></li>
+                                <li><span class="pf-tag">Kotlin</span></li>
+                                <li><span class="pf-tag">Java</span></li>
+                                <li><span class="pf-tag">HTML/CSS</span></li>
+                            </ul>
+                        </div>
+                        <div class="pf-pill-box__logo" aria-hidden="true">
+                            <img
+                                src="/media/images/google_logo.svg"
+                                width="120"
+                                height="40"
+                                alt=""
+                                decoding="async"
+                            >
+                        </div>
                     </div>
-                    <ul class="pf-tags">
-                        <li><span class="pf-tag">TypeScript</span></li>
-                        <li><span class="pf-tag">React</span></li>
-                        <li><span class="pf-tag">Kotlin</span></li>
-                        <li><span class="pf-tag">Java</span></li>
-                        <li><span class="pf-tag">HTML/CSS</span></li>
-                    </ul>
                 </article>
 
                 <article class="pf-pill-box pf-pill-box--role pf-reveal" id="google-modern-creators" data-role-pill="pill-google-modern-creators">
-                    <p class="pf-pill-box__meta">Oct 2023 &ndash; Jul 2024 &middot; 9 mo &middot; Mountain View, CA</p>
-                    <h3 class="pf-pill-box__title">Google Modern Creators and Formats</h3>
-                    <p class="pf-pill-box__role">Front-End Software Engineer</p>
-                    <div class="pf-pill-box__pao">
-                        <p><span class="proj-label">Problem</span> Discover readers had no real-time way to react to articles, and drafts published without a preview of the final render.</p>
-                        <p><span class="proj-label">Approach</span> Built a pre-publish client state validation layer for live previews and a dynamic grid that aggregates real-time note clusters, plus automated image comparison tests for user visuals.</p>
-                        <p><span class="proj-label">Outcome</span> Supported a launch engaging 1M+ users across the US and India, with higher post completion, improved feed quality, and 95%+ visual validation accuracy.</p>
+                    <div class="pf-pill-box__layout">
+                        <div class="pf-pill-box__content">
+                            <p class="pf-pill-box__meta">Oct 2023 &ndash; Jul 2024 &middot; 9 mo &middot; Mountain View, CA</p>
+                            <h3 class="pf-pill-box__title">Google Modern Creators and Formats</h3>
+                            <p class="pf-pill-box__role">Front-End Software Engineer</p>
+                            <div class="pf-pill-box__pao">
+                                <p><span class="proj-label">Problem</span> Discover readers had no real-time way to react to articles, and drafts published without a preview of the final render.</p>
+                                <p><span class="proj-label">Approach</span> Built a pre-publish client state validation layer for live previews and a dynamic grid that aggregates real-time note clusters, plus automated image comparison tests for user visuals.</p>
+                                <p><span class="proj-label">Outcome</span> Supported a launch engaging 1M+ users across the US and India, with higher post completion, improved feed quality, and 95%+ visual validation accuracy.</p>
+                            </div>
+                            <ul class="pf-tags">
+                                <li><span class="pf-tag">Java</span></li>
+                                <li><span class="pf-tag">Kotlin</span></li>
+                                <li><span class="pf-tag">JavaScript</span></li>
+                                <li><span class="pf-tag">HTML/CSS</span></li>
+                                <li><span class="pf-tag">Git</span></li>
+                            </ul>
+                        </div>
+                        <div class="pf-pill-box__logo" aria-hidden="true">
+                            <img
+                                src="/media/images/google_logo.svg"
+                                width="120"
+                                height="40"
+                                alt=""
+                                decoding="async"
+                            >
+                        </div>
                     </div>
-                    <ul class="pf-tags">
-                        <li><span class="pf-tag">Java</span></li>
-                        <li><span class="pf-tag">Kotlin</span></li>
-                        <li><span class="pf-tag">JavaScript</span></li>
-                        <li><span class="pf-tag">HTML/CSS</span></li>
-                        <li><span class="pf-tag">Git</span></li>
-                    </ul>
                 </article>
             </div>
 
@@ -246,21 +293,8 @@
                     </div>
                     <div class="skills-compact__group">
                         <h3 class="skills-compact__label">Engineering Craft</h3>
-                        <p class="skills-compact__tags">Client Architecture · State Management · Design Systems · Accessibility · CI/CD Pipelines · Telemetry &amp; Logging · Version Control</p>
+                        <p class="skills-compact__tags">Client Architecture · State Management · Design Systems · Accessibility · CI/CD Pipelines · Telemetry &amp; Logging · Version Control · Git</p>
                     </div>
-                </div>
-            </section>
-
-            <section class="pf-section pf-reveal" aria-labelledby="offline-heading">
-                <div class="pf-section__head">
-                    <p class="pf-eyebrow">Away from the keyboard</p>
-                    <h2 id="offline-heading">What I&rsquo;m into</h2>
-                </div>
-                <div class="about-prose">
-                    <p>
-                        Music mashups, short-form video, basketball, and anime &mdash; the same instinct as
-                        the day job: rearrange what already exists until the timing lands.
-                    </p>
                 </div>
             </section>
         </section>

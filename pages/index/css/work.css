@@ -87,6 +87,7 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     vertical-align: 0.05em;
+    align-items: center;
 }
 
 .proj-cta {

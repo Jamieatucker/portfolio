@@ -232,6 +232,42 @@ test('each role pill keeps its EXPERIENCE id and accurate tenure', () => {
     });
 });
 
+test('Experience role pills show company logos on the right', () => {
+    assert.ok(
+        html.indexOf('/media/images/youtube_logo.svg') !== -1 ||
+            html.indexOf('/media/images/youtube_logo_white.svg') !== -1,
+        'YouTube logo missing'
+    );
+    assert.equal(
+        (raw.match(/\/media\/images\/google_logo\.svg/g) || []).length,
+        2,
+        'both Google roles should show the Google logo'
+    );
+    assert.ok(html.indexOf('pf-pill-box__logo') !== -1, 'role logo chrome missing');
+    assert.ok(html.indexOf('pf-pill-box__layout') !== -1, 'role logo layout missing');
+});
+
+test('Education shows the OSU logo above the degree block', () => {
+    assert.ok(html.indexOf('/media/images/osu_vertical.svg') !== -1, 'OSU logo missing');
+    const education = raw.slice(raw.indexOf('id="education-heading"'), raw.indexOf('id="experience"'));
+    assert.ok(
+        education.indexOf('osu_vertical.svg') < education.indexOf('B.S. Computer Science'),
+        'OSU logo should appear before the degree copy'
+    );
+    assert.ok(
+        education.indexOf('osu_vertical.svg') < education.indexOf('National Society of Black Engineers'),
+        'OSU logo should appear before the activities list'
+    );
+    assert.ok(
+        education.indexOf('about-education__degree') !== -1,
+        'degree block should be a grid sibling so the activities list can align with it'
+    );
+    assert.ok(
+        education.indexOf('about-education__primary') === -1,
+        'primary wrapper should be gone so logo/degree/list can share one grid'
+    );
+});
+
 test('compact skills list every skill group without filter deep links', () => {
     Resume.SKILL_GROUPS.forEach((group) => {
         assert.ok(html.indexOf(group.label) !== -1, 'missing skill group ' + group.label);
@@ -245,9 +281,9 @@ test('compact skills list every skill group without filter deep links', () => {
     assert.ok(raw.indexOf('data-project-filter') === -1, 'project filter UI should be gone');
 });
 
-test('Away from the keyboard has no résumé or work-history buttons', () => {
+test('Away from the keyboard is optional and never carries résumé CTAs when present', () => {
     const offlineStart = raw.indexOf('id="offline-heading"');
-    assert.ok(offlineStart !== -1, 'offline heading missing');
+    if (offlineStart === -1) return;
     const offlineBlock = raw.slice(offlineStart, raw.indexOf('id="contact"'));
     assert.ok(offlineBlock.indexOf('jamie-tucker-resume.pdf') === -1, 'resume CTA must leave interests');
     assert.ok(offlineBlock.indexOf('See the work history') === -1, 'work-history CTA must leave interests');

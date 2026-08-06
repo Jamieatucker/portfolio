@@ -7,6 +7,43 @@
     margin-bottom: var(--pf-space-7);
 }
 
+.pf-pill-box--role {
+    /* Override the default column flex so the logo can sit beside copy. */
+    display: block;
+}
+
+.pf-pill-box__layout {
+    display: grid;
+    gap: var(--pf-space-4) var(--pf-space-3);
+    grid-template-columns: minmax(0, 1fr) minmax(10rem, 14rem);
+    align-items: center;
+}
+
+.pf-pill-box__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-3);
+    min-width: 0;
+}
+
+.pf-pill-box__logo {
+    display: grid;
+    place-items: center;
+    justify-self: start;
+    align-self: center;
+    width: 100%;
+    min-height: 4.5rem;
+    padding: var(--pf-space-2) var(--pf-space-2) var(--pf-space-2) 0;
+}
+
+.pf-pill-box__logo img {
+    width: 100%;
+    max-width: 13rem;
+    height: auto;
+    max-height: 15rem;
+    object-fit: contain;
+}
+
 .pf-pill-box--role .pf-tags {
     margin-top: var(--pf-space-2);
 }
@@ -39,6 +76,26 @@
     color: var(--pf-text-muted);
 }
 
+@media (max-width: 800px) {
+    .pf-pill-box__layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pf-pill-box__logo {
+        order: -1;
+        width: auto;
+        max-width: 14rem;
+        min-height: 4rem;
+        justify-self: start;
+        align-self: start;
+        padding: var(--pf-space-3) 0;
+    }
+
+    .pf-pill-box__logo img {
+        max-height: 3.75rem;
+    }
+}
+
 @media (max-width: 700px) {
     .skills-compact__grid {
         grid-template-columns: minmax(0, 1fr);
@@ -48,5 +105,14 @@
 @media (max-width: 600px) {
     .exp-pills {
         gap: var(--pf-space-4);
+    }
+
+    .pf-pill-box__logo {
+        max-width: 11rem;
+        min-height: 3.25rem;
+    }
+
+    .pf-pill-box__logo img {
+        max-height: 3rem;
     }
 }
