@@ -181,6 +181,32 @@
         });
     }
 
+    /**
+     * Soft-alias retired fragments (#work, #skills, #proof, …) onto live
+     * sections so old bookmarks and external links keep working.
+     */
+    function setupHashAliases() {
+        if (!SiteNav || typeof SiteNav.canonicalizeHash !== 'function') return;
+
+        function applyAlias() {
+            var raw = window.location.hash;
+            if (!raw || raw === '#') return;
+            var canonical = SiteNav.canonicalizeHash(raw);
+            if (!canonical) return;
+            var current = SiteNav.normalizeHash(raw);
+            if (canonical === current) return;
+            if (window.history && typeof window.history.replaceState === 'function') {
+                window.history.replaceState(null, '', canonical);
+            } else {
+                window.location.hash = canonical;
+            }
+        }
+
+        applyAlias();
+        window.addEventListener('hashchange', applyAlias);
+    }
+
+    setupHashAliases();
     setupSectionSpy();
     setupMobileNav();
     setupThemeToggle();

@@ -20,7 +20,7 @@
         email: 'jamieatucker4@gmail.com',
         linkedin: 'https://linkedin.com/in/jamieatucker',
         resumePath: '/media/docs/jamie-tucker-resume.pdf',
-        photoPath: '/media/images/profile.jpeg',
+        photoPath: '/media/images/pro_headshot.jpeg',
         headline: 'I build the interfaces behind products used by millions.',
         summary:
             'Full-stack engineer with three years at Google and YouTube shipping ' +
@@ -28,6 +28,41 @@
             'game creation suite and search experiences serving millions of users.',
         availability: 'Open to full-stack and front-end engineering roles.'
     };
+
+    /**
+     * Matt Farley–style triad on About. Titles match the former "What I do"
+     * cards. `metrics` are IMPACT_METRICS values nested as bullet proof points.
+     */
+    var APPROACH_TRIAD = [
+        {
+            id: 'triad-architecture',
+            title: 'Stand up client architecture',
+            summary:
+                'I have twice designed a multi-page client from scratch — once for a ' +
+                'flagship generative AI product — choosing module boundaries that let ' +
+                'several teams ship in parallel.',
+            metrics: [{ value: '30+', label: 'components in a design system I authored' }]
+        },
+        {
+            id: 'triad-performance',
+            title: 'Make big surfaces fast',
+            summary:
+                'State management for dynamic assets and generated code, grid layouts that ' +
+                'aggregate real-time clusters, and rendering paths tuned for global scale.',
+            metrics: [{ value: '3M+', label: 'users reached by shipped Search features' }]
+        },
+        {
+            id: 'triad-research',
+            title: 'Turn research into UI',
+            summary:
+                'UX research sessions and creator feedback translated into component ' +
+                'libraries, accessibility fixes, and telemetry that proves the journey works.',
+            metrics: [
+                { value: '1M+', label: 'creators served by front-end flows I built' },
+                { value: '90%+', label: 'telemetry logging reliability delivered' }
+            ]
+        }
+    ];
 
     var EDUCATION = [
         {
@@ -238,6 +273,7 @@
         EXPERIENCE: EXPERIENCE,
         SKILL_GROUPS: SKILL_GROUPS,
         IMPACT_METRICS: IMPACT_METRICS,
+        APPROACH_TRIAD: APPROACH_TRIAD,
         formatMonthYear: formatMonthYear,
         formatDateRange: formatDateRange,
         monthsBetween: monthsBetween,
