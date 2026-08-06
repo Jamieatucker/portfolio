@@ -1,12 +1,5 @@
-/* contact.css — #contact: LinkedIn + Email pill boxes. */
-
-.contact-head {
-    padding-top: var(--pf-space-8);
-}
-
-.contact-head .pf-lead {
-    max-width: 58ch;
-}
+/* contact.css — #contact: LinkedIn + Email pill boxes.
+   Section chrome matches Experience: one pf-shell + pf-section__head. */
 
 .contact-pills .pf-pill-box {
     height: 100%;
@@ -17,7 +10,6 @@
 }
 
 .contact-card .pf-btn-row {
-    margin-top: auto;
     padding-top: var(--pf-space-2);
 }
 
@@ -26,10 +18,4 @@
     min-height: 1.2em;
     font-size: var(--pf-text-xs);
     color: var(--pf-highlight);
-}
-
-@media (max-width: 700px) {
-    .contact-head {
-        padding-top: var(--pf-space-6);
-    }
 }

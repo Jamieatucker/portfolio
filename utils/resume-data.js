@@ -150,27 +150,29 @@
         {
             id: 'languages',
             label: 'Languages',
-            skills: ['TypeScript', 'JavaScript', 'Java', 'Kotlin', 'C++', 'SQL', 'HTML/CSS']
+            skills: ['TypeScript', 'Java', 'HTML/CSS', 'JavaScript', 'Kotlin', 'SQL', 'C++', 'Python']
         },
         {
             id: 'frameworks',
             label: 'Frameworks & Libraries',
-            skills: ['React', 'Next.js', 'SASS', 'RESTful APIs']
+            skills: ['React', 'SASS', 'Tailwind CSS', 'RESTful APIs', 'Next.js']
         },
         {
             id: 'ai',
             label: 'AI & Emerging Tech',
-            skills: ['Artificial Intelligence (AI)', 'Prompt Engineering', 'Gemini']
+            skills: ['Gemini', 'Artificial Intelligence (AI)', 'Prompt Engineering', 'Generative AI']
         },
         {
             id: 'craft',
             label: 'Engineering Craft',
             skills: [
-                'Client architecture',
-                'State management',
+                'Client Architecture',
+                'State Management',
+                'Design Systems',
                 'Accessibility',
-                'Telemetry & logging',
-                'Design systems',
+                'CI/CD Pipelines',
+                'Telemetry & Logging',
+                'Version Control',
                 'Git'
             ]
         }
