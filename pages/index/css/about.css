@@ -1,13 +1,79 @@
-/* about.css — the #about section: intro, prose measure, education panel.
-   The portrait lives in the hero now; one page needs only one of them. */
+/* about.css — #about: merged hero, story, Farley triad, education. */
 
-.about-intro {
+.about-hero {
+    display: grid;
+    gap: var(--pf-space-7);
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    align-items: center;
     padding-top: var(--pf-space-8);
+    padding-bottom: var(--pf-space-6);
+}
+
+.about-hero__title {
+    margin-bottom: var(--pf-space-4);
+}
+
+.about-hero__accent {
+    color: var(--pf-accent);
+}
+
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+    .about-hero__accent {
+        background: linear-gradient(120deg, var(--pf-accent), var(--pf-highlight));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+    }
+}
+
+.about-hero__lead {
+    max-width: 46ch;
+}
+
+.about-hero__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    margin-bottom: var(--pf-space-5);
+    padding: 0.35rem 0.85rem;
+    border: 1px solid var(--pf-border-strong);
+    border-radius: var(--pf-pill-radius);
+    background: var(--pf-surface);
+    font-size: var(--pf-text-sm);
+    font-weight: 550;
+    box-shadow: var(--pf-card-shadow);
+}
+
+.about-hero__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 1px;
+    background: var(--pf-accent-solid);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--pf-accent-solid) 28%, transparent);
+}
+
+.about-hero__portrait {
+    position: relative;
+}
+
+.about-hero__portrait img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center top;
+    border: 1px solid var(--pf-border-strong);
+    border-radius: var(--pf-pill-radius);
+    box-shadow: var(--pf-card-shadow);
 }
 
 .about-prose p {
     font-size: var(--pf-text-lg);
     color: var(--pf-text-muted);
+}
+
+.about-triad .pf-pill-box {
+    height: 100%;
 }
 
 .about-education {
@@ -45,7 +111,28 @@
 }
 
 @media (max-width: 900px) {
+    .about-hero {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--pf-space-5);
+    }
+
+    .about-hero__portrait {
+        max-width: 22rem;
+        margin-inline: auto;
+        order: -1;
+    }
+
     .about-education {
         grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .about-hero {
+        padding-top: var(--pf-space-6);
+    }
+
+    .about-hero__portrait {
+        max-width: 16rem;
     }
 }

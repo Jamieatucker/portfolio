@@ -34,6 +34,8 @@
     --pf-radius: 14px;
     --pf-radius-lg: 22px;
     --pf-radius-pill: 999px;
+    /* Early-2010s YouTube cue: tighter corners on content chrome (not colours). */
+    --pf-pill-radius: 4px;
 
     --pf-measure: 68ch;
     --pf-container: 1120px;
@@ -99,6 +101,8 @@
     --pf-accent-soft: rgba(186, 12, 47, 0.28);
     --pf-highlight: var(--pf-gray);
     --pf-shadow: 0 18px 40px -24px rgba(0, 0, 0, 0.9);
+    /* Soft 1px lift reminiscent of early-2014 YouTube .yt-card chrome. */
+    --pf-card-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
     --pf-glow: radial-gradient(
             60% 60% at 15% 0%,
             rgba(186, 12, 47, 0.34) 0%,
@@ -129,6 +133,7 @@
     --pf-accent-soft: rgba(186, 12, 47, 0.12);
     --pf-highlight: var(--pf-gray-dark-40);
     --pf-shadow: 0 18px 40px -28px rgba(33, 35, 37, 0.4);
+    --pf-card-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     --pf-glow: radial-gradient(
             60% 60% at 15% 0%,
             rgba(186, 12, 47, 0.12) 0%,

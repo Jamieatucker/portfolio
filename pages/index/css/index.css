@@ -1,331 +1,52 @@
-/* index.css — home page only: hero, metric strip, career path, CTA band. */
+/* index.css — #experience: role pill stack + compact skills. */
 
-.home-hero {
-    display: grid;
-    gap: var(--pf-space-7);
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-    align-items: center;
-    padding-top: var(--pf-space-8);
-}
-
-.home-hero__title {
-    margin-bottom: var(--pf-space-4);
-}
-
-/* Plain accent colour by default; only clip the gradient where it is supported,
-   otherwise transparent fill would render the headline invisible. */
-.home-hero__accent {
-    color: var(--pf-accent);
-}
-
-@supports ((background-clip: text) or (-webkit-background-clip: text)) {
-    .home-hero__accent {
-        background: linear-gradient(120deg, var(--pf-accent), var(--pf-highlight));
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        -webkit-text-fill-color: transparent;
-    }
-}
-
-.home-hero__lead {
-    max-width: 46ch;
-}
-
-.home-hero__status {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--pf-space-2);
-    margin-bottom: var(--pf-space-5);
-    padding: 0.35rem 0.85rem;
-    border: 1px solid color-mix(in srgb, var(--pf-highlight) 45%, transparent);
-    border-radius: var(--pf-radius-pill);
-    background: color-mix(in srgb, var(--pf-highlight) 12%, transparent);
-    font-size: var(--pf-text-sm);
-    font-weight: 550;
-}
-
-.home-hero__dot {
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 50%;
-    background: var(--pf-accent);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--pf-accent) 22%, transparent);
-}
-
-.home-hero__portrait {
-    position: relative;
-}
-
-.home-hero__portrait img {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    border: 1px solid var(--pf-border);
-    border-radius: var(--pf-radius-lg);
-    box-shadow: var(--pf-shadow);
-}
-
-.home-hero__caption {
-    margin: var(--pf-space-3) 0 0;
-    font-size: var(--pf-text-xs);
-    color: var(--pf-text-subtle);
-    text-align: center;
-}
-
-.home-metrics {
-    padding-top: var(--pf-space-7);
-}
-
-.home-metrics__list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.home-metric {
+.exp-pills {
     display: flex;
     flex-direction: column;
-    gap: var(--pf-space-1);
-    margin: 0;
-    padding: var(--pf-space-4) var(--pf-space-5);
-    border: 1px solid var(--pf-border);
-    border-radius: var(--pf-radius);
-    background: var(--pf-surface);
-}
-
-.home-metric__value {
-    font-size: var(--pf-text-2xl);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    color: var(--pf-accent);
-}
-
-.home-metric__label {
-    font-size: var(--pf-text-sm);
-    line-height: 1.45;
-    color: var(--pf-text-muted);
-}
-
-/* Centred to match the timeline's own "show earlier roles" control, so the two
-   section-closing buttons sit on the same axis. */
-.home-more {
-    justify-content: center;
-    margin-top: var(--pf-space-5);
-}
-
-/* Each folded-in section opens with what used to be that page's h1. Only the
-   hero keeps an h1 on a single-page site, so these are h2s sized to still read
-   as the start of a section rather than as a subheading inside one. */
-.about-intro h2,
-.proj-head h2,
-.skills-head h2,
-.contact-head h2 {
-    font-size: var(--pf-text-3xl);
-    line-height: 1.15;
-}
-
-/* ---------- Work history timeline (moved here from the retired experience
-   page; the home-* names keep the markup, CSS, and JS reading as one block) */
-
-.home-filter {
-    margin-bottom: var(--pf-space-6);
-    padding: var(--pf-space-4) var(--pf-space-5);
-    border: 1px solid var(--pf-border);
-    border-radius: var(--pf-radius);
-    background: var(--pf-surface);
-}
-
-.home-filter__label {
-    margin: 0 0 var(--pf-space-3);
-    font-size: var(--pf-text-xs);
-    font-weight: 650;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--pf-text-subtle);
-}
-
-.home-filter__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--pf-space-2);
-}
-
-.home-chip {
-    padding: 0.35rem 0.8rem;
-    border: 1px solid var(--pf-border);
-    border-radius: var(--pf-radius-pill);
-    background: transparent;
-    color: var(--pf-text-muted);
-    font-family: inherit;
-    font-size: var(--pf-text-xs);
-    font-weight: 600;
-    cursor: pointer;
-    transition: background var(--pf-transition), color var(--pf-transition),
-        border-color var(--pf-transition);
-}
-
-.home-chip:hover {
-    border-color: var(--pf-border-strong);
-    color: var(--pf-text);
-}
-
-.home-chip.is-active {
-    border-color: var(--pf-accent-solid-border);
-    background: var(--pf-accent-solid);
-    color: var(--pf-accent-contrast);
-}
-
-.home-filter__status {
-    margin: var(--pf-space-3) 0 0;
-    font-size: var(--pf-text-xs);
-    color: var(--pf-text-subtle);
-}
-
-.home-timeline {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.home-timeline__more {
-    display: flex;
-    justify-content: center;
-    margin-top: var(--pf-space-5);
-}
-
-/* .pf-btn sets inline-flex, which would otherwise beat the hidden attribute. */
-.home-timeline__more [hidden] {
-    display: none;
-}
-
-/* A jump link lands under the sticky header unless the target reserves room. */
-[data-section] {
-    scroll-margin-top: calc(var(--pf-header-h) + var(--pf-space-3));
-}
-
-.home-role {
-    display: grid;
-    gap: var(--pf-space-2) var(--pf-space-6);
-    grid-template-columns: 13rem minmax(0, 1fr);
-    max-width: none;
-    margin: 0;
-    padding: var(--pf-space-6) 0;
-    border-top: 1px solid var(--pf-border);
-}
-
-.home-role:last-child {
-    border-bottom: 1px solid var(--pf-border);
-}
-
-.home-role[hidden] {
-    display: none;
-}
-
-.home-role__aside {
-    padding-top: 0.15rem;
-}
-
-.home-role__dates {
-    margin: 0;
-    font-size: var(--pf-text-sm);
-    font-weight: 650;
-    font-variant-numeric: tabular-nums;
-    color: var(--pf-text);
-}
-
-.home-role__duration {
-    margin: 0;
-    font-size: var(--pf-text-xs);
-    color: var(--pf-text-subtle);
-}
-
-.home-role__title {
-    margin-bottom: var(--pf-space-1);
-}
-
-.home-role__org {
-    margin-bottom: var(--pf-space-3);
-    font-size: var(--pf-text-sm);
-    font-weight: 600;
-    color: var(--pf-accent);
-}
-
-.home-role__summary {
-    color: var(--pf-text-muted);
-}
-
-.home-role__highlights {
-    margin-bottom: 0;
-    padding-left: 1.1rem;
-}
-
-.home-role__highlights li {
-    color: var(--pf-text-muted);
-    font-size: var(--pf-text-sm);
-}
-
-.home-role__highlights li::marker {
-    color: var(--pf-accent);
-}
-
-.home-education {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--pf-space-4);
-}
-
-.home-education h3 {
-    margin-bottom: var(--pf-space-1);
-}
-
-.home-education__meta {
-    margin: 0;
-    font-size: var(--pf-text-sm);
-    color: var(--pf-text-subtle);
-}
-
-.home-cta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
     gap: var(--pf-space-5);
-    background: linear-gradient(
-        135deg,
-        color-mix(in srgb, var(--pf-accent) 14%, transparent),
-        color-mix(in srgb, var(--pf-highlight) 10%, transparent)
-    );
+    margin-bottom: var(--pf-space-7);
 }
 
-.home-cta h2 {
-    font-size: var(--pf-text-2xl);
+.pf-pill-box--role .pf-tags {
+    margin-top: var(--pf-space-2);
 }
 
-.home-cta p {
-    margin-bottom: 0;
+.skills-compact__grid {
+    display: grid;
+    gap: var(--pf-space-4);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-@media (max-width: 900px) {
-    .home-role {
+.skills-compact__group {
+    padding: var(--pf-space-4);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-pill-radius);
+    background: var(--pf-surface);
+    box-shadow: var(--pf-card-shadow);
+}
+
+.skills-compact__label {
+    margin: 0 0 var(--pf-space-2);
+    font-size: var(--pf-text-sm);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.skills-compact__tags {
+    margin: 0;
+    font-size: var(--pf-text-sm);
+    line-height: 1.55;
+    color: var(--pf-text-muted);
+}
+
+@media (max-width: 700px) {
+    .skills-compact__grid {
         grid-template-columns: minmax(0, 1fr);
-        gap: var(--pf-space-3);
     }
+}
 
-    .home-hero {
-        grid-template-columns: minmax(0, 1fr);
-        padding-top: var(--pf-space-6);
+@media (max-width: 600px) {
+    .exp-pills {
+        gap: var(--pf-space-4);
     }
-
-    .home-hero__portrait {
-        order: -1;
-        max-width: 18rem;
-    }
-
-    .home-hero__portrait img {
-        aspect-ratio: 1 / 1;
-    }
-
 }

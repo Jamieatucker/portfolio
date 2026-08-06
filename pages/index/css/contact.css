@@ -1,4 +1,4 @@
-/* contact.css — the #contact section: channel cards. */
+/* contact.css — #contact: LinkedIn + Email pill boxes. */
 
 .contact-head {
     padding-top: var(--pf-space-8);
@@ -8,21 +8,17 @@
     max-width: 58ch;
 }
 
-.contact-card .pf-card__title {
+.contact-pills .pf-pill-box {
+    height: 100%;
+}
+
+.contact-card .pf-pill-box__title {
     word-break: break-word;
 }
 
-.contact-card .pf-card__title a {
-    text-decoration: none;
-}
-
-.contact-card .pf-card__title a:hover {
-    text-decoration: underline;
-    text-underline-offset: 0.25em;
-}
-
 .contact-card .pf-btn-row {
-    margin-top: var(--pf-space-4);
+    margin-top: auto;
+    padding-top: var(--pf-space-2);
 }
 
 .contact-card__status {
@@ -30,4 +26,10 @@
     min-height: 1.2em;
     font-size: var(--pf-text-xs);
     color: var(--pf-highlight);
+}
+
+@media (max-width: 700px) {
+    .contact-head {
+        padding-top: var(--pf-space-6);
+    }
 }

@@ -37,9 +37,11 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    background: color-mix(in srgb, var(--pf-bg) 82%, transparent);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--pf-border);
+    background: color-mix(in srgb, var(--pf-bg) 88%, var(--pf-bg-elevated));
+    backdrop-filter: blur(10px);
+    /* Denser masthead edge — early YouTube hitchhiker chrome, modern blur. */
+    border-bottom: 1px solid var(--pf-border-strong);
+    box-shadow: var(--pf-card-shadow);
 }
 
 .pf-header__inner {
@@ -231,6 +233,109 @@
     border-radius: var(--pf-radius-lg);
     background: var(--pf-surface);
     box-shadow: var(--pf-shadow);
+}
+
+/* YouTube-inspired content chrome: soft shadow, tight radius, strong border
+   on interactive surfaces. Colours stay on --pf-* semantic tokens. */
+.pf-pill-box {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-3);
+    padding: var(--pf-space-5);
+    border: 1px solid var(--pf-border-strong);
+    border-radius: var(--pf-pill-radius);
+    background: var(--pf-bg-elevated);
+    box-shadow: var(--pf-card-shadow);
+}
+
+.pf-pill-box__title {
+    margin: 0;
+    font-size: var(--pf-text-xl);
+    font-weight: 700;
+}
+
+.pf-pill-box__title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.pf-pill-box__title a:hover {
+    color: var(--pf-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.pf-pill-box__meta {
+    margin: 0;
+    font-size: var(--pf-text-xs);
+    font-weight: 650;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--pf-text-subtle);
+}
+
+.pf-pill-box__role {
+    margin: calc(var(--pf-space-2) * -1) 0 0;
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-muted);
+}
+
+.pf-pill-box__body {
+    margin: 0;
+    color: var(--pf-text-muted);
+    font-size: var(--pf-text-sm);
+}
+
+.pf-pill-box__proof {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pf-pill-box__proof li {
+    position: relative;
+    padding: var(--pf-space-2) 0 var(--pf-space-2) var(--pf-space-4);
+    border-top: 1px solid var(--pf-border);
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-muted);
+}
+
+.pf-pill-box__proof li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.95em;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 1px;
+    background: var(--pf-accent-solid);
+}
+
+.pf-pill-box__proof strong {
+    color: var(--pf-text);
+    font-weight: 700;
+}
+
+.pf-pill-box__pao {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-3);
+}
+
+.pf-pill-box__pao p {
+    margin: 0;
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-muted);
+}
+
+.proj-label {
+    display: inline-block;
+    margin-right: var(--pf-space-2);
+    font-size: var(--pf-text-xs);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--pf-accent);
 }
 
 .pf-card {
