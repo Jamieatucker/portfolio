@@ -254,9 +254,16 @@ test('each role pill keeps its EXPERIENCE id and accurate tenure', () => {
 
 test('Experience role pills show company logos on the right', () => {
     assert.ok(
-        html.indexOf('/media/images/youtube_logo.svg') !== -1 ||
-            html.indexOf('/media/images/youtube_logo_white.svg') !== -1,
-        'YouTube logo missing'
+        html.indexOf('/media/images/youtube_logo_white.svg') !== -1,
+        'dark-theme YouTube logo missing'
+    );
+    assert.ok(
+        html.indexOf('/media/images/youtube_logo_black.svg') !== -1,
+        'light-theme YouTube logo missing'
+    );
+    assert.ok(
+        html.indexOf('pf-theme-logo--dark') !== -1 && html.indexOf('pf-theme-logo--light') !== -1,
+        'YouTube logos must be theme-paired so light mode stays legible'
     );
     assert.equal(
         (raw.match(/\/media\/images\/google_logo\.svg/g) || []).length,
@@ -267,7 +274,61 @@ test('Experience role pills show company logos on the right', () => {
     assert.ok(html.indexOf('pf-pill-box__layout') !== -1, 'role logo layout missing');
 });
 
-test('Education shows the OSU logo above the degree block', () => {
+test('YouTube logo swaps with data-theme so light mode stays legible', () => {
+    const layout = fs.readFileSync(
+        path.join(ROOT, 'pages', 'shared', 'css', 'layout.css'),
+        'utf8'
+    );
+    const hideLight = layout.match(/\.pf-theme-logo--light\s*\{[\s\S]*?\}/);
+    const showLight = layout.match(
+        /\[data-theme=['"]light['"]\]\s*\.pf-theme-logo--light\s*\{[\s\S]*?\}/
+    );
+    const hideDark = layout.match(
+        /\[data-theme=['"]light['"]\]\s*\.pf-theme-logo--dark\s*\{[\s\S]*?\}/
+    );
+    assert.ok(hideLight, 'missing default hide for the light-theme YouTube mark');
+    assert.ok(hideLight[0].indexOf('display: none') !== -1, 'light-theme mark must start hidden');
+    assert.ok(showLight, 'missing light-theme rule that reveals the black YouTube mark');
+    assert.ok(hideDark, 'missing light-theme rule that hides the white YouTube mark');
+    assert.ok(hideDark[0].indexOf('display: none') !== -1, 'white YouTube mark must hide in light mode');
+    assert.ok(
+        fs.existsSync(path.join(ROOT, 'media', 'images', 'youtube_logo_black.svg')),
+        'black YouTube SVG must exist on disk'
+    );
+
+    const whiteSvg = fs.readFileSync(
+        path.join(ROOT, 'media', 'images', 'youtube_logo_white.svg'),
+        'utf8'
+    );
+    const blackSvg = fs.readFileSync(
+        path.join(ROOT, 'media', 'images', 'youtube_logo_black.svg'),
+        'utf8'
+    );
+    const viewBoxRe = /viewBox="([^"]+)"/;
+    const whiteBox = (whiteSvg.match(viewBoxRe) || [])[1];
+    const blackBox = (blackSvg.match(viewBoxRe) || [])[1];
+    assert.ok(whiteBox, 'white YouTube SVG is missing a viewBox');
+    assert.equal(
+        blackBox,
+        whiteBox,
+        'light-theme YouTube SVG must share the dark mark viewBox so both render at the same size'
+    );
+
+    const indexCss = fs.readFileSync(
+        path.join(ROOT, 'pages', 'index', 'css', 'index.css'),
+        'utf8'
+    );
+    assert.ok(
+        indexCss.indexOf('aspect-ratio: 660.27 / 170.0805') !== -1,
+        'YouTube theme pair must lock the dark-mark aspect ratio'
+    );
+    assert.ok(
+        indexCss.indexOf('grid-area: 1 / 1') !== -1,
+        'YouTube theme pair must share one grid cell'
+    );
+});
+
+test('Education pill keeps degree, affiliations, and logo on one row', () => {
     assert.ok(html.indexOf('/media/images/osu_vertical.svg') !== -1, 'OSU logo missing');
     const education = raw.slice(raw.indexOf('id="education-heading"'), raw.indexOf('id="experience"'));
     assert.ok(
@@ -286,6 +347,31 @@ test('Education shows the OSU logo above the degree block', () => {
         education.indexOf('about-education__primary') === -1,
         'primary wrapper should be gone so logo/degree/list can share one grid'
     );
+    assert.ok(
+        education.indexOf('Involvement') !== -1 || education.indexOf('Affiliations') !== -1,
+        'list label should make NSBE / Lambda Psi / Morrill scannable'
+    );
+    assert.ok(
+        education.indexOf('id="education-affiliations"') !== -1,
+        'affiliations list should be labelled for assistive tech'
+    );
+
+    const aboutCss = fs.readFileSync(
+        path.join(ROOT, 'pages', 'index', 'css', 'about.css'),
+        'utf8'
+    );
+    assert.ok(
+        aboutCss.indexOf("grid-template-areas: 'degree list brand'") !== -1,
+        'education grid should put degree, list, and logo on one row'
+    );
+    assert.ok(
+        aboutCss.indexOf("'brand .'") === -1,
+        'education grid must not leave an empty cell above the affiliations list'
+    );
+    const brandImg = aboutCss.match(/\.about-education__brand img\s*\{[\s\S]*?\}/);
+    assert.ok(brandImg, 'missing education logo sizing rule');
+    assert.ok(brandImg[0].indexOf('object-fit: contain') !== -1, 'education logo should contain like role pills');
+    assert.ok(brandImg[0].indexOf('max-width: 13rem') !== -1, 'education logo max-width should match role pills');
 });
 
 test('compact skills list every skill group without filter deep links', () => {

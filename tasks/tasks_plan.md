@@ -31,6 +31,27 @@ controls, seven-section single-page architecture (superseded by M6 layout).
 - Nine Node suites via `test/run-all.js`
 - Docs: Memory Files + `docs/recruiter-concise-consolidation.md`
 
+## Recent — YouTube light-theme size match (2026-08-18)
+
+- [x] Black YouTube SVG rebuilt from the white mark (same viewBox; fill `#282828`)
+- [x] Theme pair shares one grid cell and `aspect-ratio: 660.27 / 170.0805`
+- [x] Both visible states use `display: block` so the box model matches
+- [x] Markup test asserts matching viewBox + aspect-ratio lock
+
+## Recent — YouTube logo theme pair (2026-08-18)
+
+- [x] Playables pill ships white + black YouTube SVGs (`pf-theme-logo--dark/light`)
+- [x] `[data-theme='light']` hides the white mark and shows the black mark
+- [x] Black SVG viewBox cropped to the wordmark so it sizes like the white mark
+- [x] Markup test covers both assets and the layout.css show/hide rules
+
+## Recent — education pill layout (2026-08-18)
+
+- [x] Education grid is one row (`degree | list | brand`); no empty cell above affiliations
+- [x] OSU logo contained like role-pill logos (`object-fit: contain`, `max-width: 13rem`)
+- [x] Affiliations heading for recruiter scan (NSBE, Lambda Psi, Morrill Scholars)
+- [x] Markup test forbids `'brand .'` and checks logo sizing + label
+
 ## Recent — skip-link centering (2026-08-18)
 
 - [x] `.pf-skip-link` centered on the nav bar (`left: 50%`, header midline)

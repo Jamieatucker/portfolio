@@ -81,7 +81,10 @@ sequenceDiagram
 - **Nav + aliases.** `site-nav.js` owns `SECTIONS` and `HASH_ALIASES`. `site.js`
   rewrites retired fragments with `history.replaceState`.
 - **Pill boxes.** Shared `.pf-pill-box` chrome; role copy lives in `role-pills.js`
-  and the Experience markup.
+  and the Experience markup. The YouTube role mark is a theme pair
+  (`youtube_logo_white.svg` / `youtube_logo_black.svg`) with the **same viewBox**;
+  `.pf-theme-logo--*` in `layout.css` follows `[data-theme]` so the wordmark
+  stays legible and the same size when the recruiter toggles light mode.
 - **Photo contract.** `PROFILE.photoPath` → `/media/images/pro_headshot.jpeg`.
 - **Skip link.** `.pf-skip-link` stays the first focusable control in `index.html`.
   Position only: `left: 50%` and `top: calc(var(--pf-header-h) / 2)`, with
@@ -92,7 +95,7 @@ sequenceDiagram
 
 | Step | Where |
 | --- | --- |
-| Land / story | `#about` — headshot, résumé, triad with proof bullets, education |
+| Land / story | `#about` — headshot, résumé, triad with proof bullets, education pill (degree · affiliations · OSU logo) |
 | Proof of work | `#experience` — three role pills, compact skills, interests |
 | Talk | `#contact` — LinkedIn, then email |
 

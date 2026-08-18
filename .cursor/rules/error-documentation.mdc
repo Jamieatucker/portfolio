@@ -166,6 +166,30 @@ alwaysApply: false
   backlog item; until then, changed CSS gets read back before commit.
 - **State**: Open (low severity, backlog item).
 
+### A11. Education grid left a blank cell above affiliations
+
+- **Context**: `.about-education` used `grid-template-areas: 'brand .' / 'degree list'`
+  so the OSU logo sat on its own row.
+- **Symptom**: The affiliations list (NSBE, Lambda Psi, Morrill) started in row 2,
+  leaving an empty cell beside the logo.
+- **Resolution**: One-row areas `'degree list brand'`, `align-items: start`, and
+  role-pill logo contain (`max-width: 13rem`, `object-fit: contain`). Asserted in
+  `page-markup.test.js` (forbids `'brand .'`).
+- **State**: Resolved.
+
+### A12. White YouTube logo vanished in light mode
+
+- **Context**: The Playables pill used only `youtube_logo_white.svg`. Light-mode
+  pills use `--pf-bg-elevated: white`.
+- **Symptom**: After the theme toggle, the YouTube wordmark was invisible.
+- **Resolution**: Ship both `youtube_logo_white.svg` and `youtube_logo_black.svg`.
+  `.pf-theme-logo--*` in `layout.css` follows `[data-theme]`. The black file must
+  be the same paths/viewBox as the white file with a dark wordmark fill — a
+  different SVG (or leftover square viewBox padding) makes `object-fit: contain`
+  shrink the light mark. Do not invert the white SVG — that would recolour the
+  red play button.
+- **State**: Resolved.
+
 ## Part B — Inherited from the sibling `PersonalWebsite` project
 
 Kept because the lessons still apply to any static site in this workspace.

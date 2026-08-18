@@ -14,7 +14,6 @@
 
 .pf-pill-box__layout {
     display: grid;
-    /* gap: var(--pf-space-4) 0; */
     grid-template-columns: minmax(0, 1fr) minmax(10rem, 14rem);
     align-items: center;
 }
@@ -43,6 +42,14 @@
     height: auto;
     max-height: 15rem;
     object-fit: contain;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+/* YouTube theme pair: same grid cell and aspect as the dark mark so the
+   light wordmark does not shrink when data-theme flips. */
+.pf-pill-box__logo .pf-theme-logo {
+    grid-area: 1 / 1;
 }
 
 .pf-pill-box--role .pf-tags {
@@ -95,6 +102,8 @@
 
     .pf-pill-box__logo img {
         max-height: 9.75rem;
+        margin-left: 0;
+        margin-right: 0;
     }
 }
 
@@ -117,5 +126,7 @@
 
     .pf-pill-box__logo img {
         max-height: 8rem;
+        margin-right: 0;
+        margin-left: 0;
     }
 }

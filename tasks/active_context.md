@@ -4,44 +4,34 @@ _Last updated: 2026-08-18_
 
 ## Mode
 
-**ACT / Code MODE** — skip-link position on the nav bar.
+**ACT / Code MODE** — YouTube light-theme logo size match.
 
 ## Current work focus
 
-Center the “Skip to content” control on the sticky header for keyboard /
-screen-reader users. Visual design of `.pf-skip-link` is unchanged.
+The light-theme YouTube wordmark must occupy the same dimensions as the dark
+mark. A different SVG artwork (wider aspect) was shrinking it on toggle.
 
-## Recent changes — skip-link centering
+## Recent changes — YouTube light-theme size match
 
-- `.pf-skip-link` in `layout.css` is centered on the header (`left: 50%`,
-  `--pf-header-h` midline, `translate(-50%, -50%)` on focus). Tokens unchanged.
-- `page-markup.test.js` asserts that centering contract.
+- `youtube_logo_black.svg` is now the white mark with wordmark fill `#282828`
+  and the same `viewBox` / width / height.
+- `.pf-theme-logo` shares `grid-area: 1 / 1` and
+  `aspect-ratio: 660.27 / 170.0805`. Visible states both use `display: block`.
+- Markup test asserts matching viewBoxes.
 
-## Recent changes — Milestone 6
+## Recent changes — YouTube logo theme pair
 
-1. **`index.html`** rebuilt as About → Experience → Contact; hero merged into About.
-2. **`pro_headshot.jpeg`** wired; `profile.jpeg` removed from live markup.
-3. **Farley triad** uses “What I do” titles; proof metrics are triad bullets.
-4. **Three role pill boxes** (P/A/O) from `utils/role-pills.js`.
-5. **Compact skills**; filters and filter scripts removed.
-6. **Contact** LinkedIn + Email only; résumé stays in About / footer.
-7. **`HASH_ALIASES` + `setupHashAliases`** for `#work`, `#skills`, `#proof`, etc.
-8. **CSS** `.pf-pill-box`, `--pf-card-shadow`, denser masthead; colours locked.
-9. **Tests** `role-pills.test.js` + updated site-nav / page-markup; all green.
-10. **Docs** `docs/recruiter-concise-consolidation.md`,
-    `diagrams/recruiter-concise-consolidation.mmd`, Memory Files updated.
+- Playables pill includes white + black YouTube SVGs; `[data-theme]` picks one.
 
 ## Active decisions
 
-- Skip link stays first in the DOM; only CSS position is centered on the header.
-- Scroll reduction over exhaustive case-study grids.
-- Soft aliases over breaking old fragments.
-- Pill borders use `--pf-border-strong` (S2 / WCAG 1.4.11).
-- `role-pills.js` is the tested pill model (S1).
+- Do not invert the white SVG (play button would go off-brand). Recolor the
+  wordmark paths instead, keeping geometry identical.
+- Theme-paired logos stay CSS-only.
 
 ## Next steps
 
-1. Tab to the skip link and confirm it appears centered on the header, then
-   activates `#main`.
+1. Toggle Experience light/dark and confirm the YouTube logo does not jump in
+   size.
 2. Optional git commit if requested.
 3. P1 backlog: OG image, favicons, Lighthouse, focus-ring on scarlet.

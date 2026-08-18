@@ -248,15 +248,35 @@
     box-shadow: var(--pf-card-shadow);
 }
 
+/* Decorative brand marks that must invert with the theme. Both assets sit in
+   the DOM; [data-theme] (set in markup, theme-init, and the toggle) picks one.
+   Default is dark, so the light mark starts hidden. Both visible states use
+   display:block so the light mark does not get a different box than the dark. */
+.pf-theme-logo--dark {
+    display: block;
+}
+
+.pf-theme-logo--light {
+    display: none;
+}
+
+[data-theme='light'] .pf-theme-logo--light {
+    display: block;
+}
+
+[data-theme='light'] .pf-theme-logo--dark {
+    display: none;
+}
+
 .pf-pill-box__title {
-    margin: 0;
+    margin-bottom: 0.25rem;
     font-size: var(--pf-text-xl);
     font-weight: 700;
 }
 
 .pf-pill-box__title a {
     color: inherit;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 .pf-pill-box__title a:hover {

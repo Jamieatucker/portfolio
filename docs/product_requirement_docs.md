@@ -46,7 +46,9 @@ readers decide whether anyone else ever sees it.
 - **FR-2 About** opens with the professional headshot (`/media/images/pro_headshot.jpeg`),
   a concise "How I Got Here" story that keeps the important details, a Download
   Résumé CTA, and a Matt Farley–style skill/role triad replacing the old "Four Things"
-  card grid. The "Engineer first" intro block is removed.
+  card grid. The "Engineer first" intro block is removed. Education is one pill:
+  degree, labelled affiliations, and the OSU logo on the right (same contain chrome
+  as Experience role pills), with no empty cell above the list.
 - **FR-3 Experience** presents three YouTube-style **pill boxes** (one per role):
   YouTube Playables Game Creation, Google Search Intelligence, and Google Modern
   Creators and Formats. Each pill describes problem → approach → outcome. Skills are
@@ -58,7 +60,9 @@ readers decide whether anyone else ever sees it.
   composed, not merely squeezed.
 - **FR-6** Visual language borrows late-2000s / early-2010s YouTube UI cues (pill
   buttons, card chrome, masthead feel) while staying modern and sleek. **Colour
-  scheme stays Ohio State scarlet / gray / white** — no palette rewrite.
+  scheme stays Ohio State scarlet / gray / white** — no palette rewrite. Brand
+  marks that are white-on-dark (the YouTube wordmark) must swap to a dark asset
+  in light mode so they stay readable on the elevated pill.
 - **FR-7** Content never overstates the résumé. Honest depth labels remain where skills
   are shown.
 - **FR-8** Works without JavaScript for content; JS only enhances (theme, menu,

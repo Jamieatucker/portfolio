@@ -79,10 +79,8 @@
 .about-education {
     display: grid;
     gap: var(--pf-space-4) var(--pf-space-6);
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-    grid-template-areas:
-        'brand .'
-        'degree list';
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(10rem, 14rem);
+    grid-template-areas: 'degree list brand';
     align-items: start;
 }
 
@@ -90,13 +88,16 @@
     grid-area: brand;
     display: grid;
     place-items: center;
-    width: fit-content;
-    max-width: 16rem;
+    justify-self: stretch;
+    align-self: center;
+    width: 100%;
+    min-height: 4.5rem;
     padding: var(--pf-space-2) 0;
 }
 
 .about-education__brand img {
     width: 100%;
+    max-width: 13rem;
     height: auto;
     max-height: 7.5rem;
     object-fit: contain;
@@ -123,10 +124,21 @@
 
 .about-education__list {
     grid-area: list;
+    min-width: 0;
+    align-self: start;
+}
+
+.about-education__list-label {
+    margin: 0 0 var(--pf-space-2);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: capitalize;
+}
+
+.about-education__list ul {
     margin: 0;
     padding: 0;
     list-style: none;
-    align-self: start;
 }
 
 .about-education__list li {
@@ -163,7 +175,11 @@
     }
 
     .about-education__brand {
-        max-width: 13rem;
+        width: auto;
+        max-width: 14rem;
+        min-height: 4rem;
+        justify-self: center;
+        padding: 0;
     }
 }
 
@@ -178,5 +194,6 @@
 
     .about-education__brand {
         max-width: 11rem;
+        min-height: 3.25rem;
     }
 }

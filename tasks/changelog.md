@@ -4,6 +4,30 @@ All notable changes to this project are recorded here, newest first.
 This project follows [Semantic Versioning](https://semver.org/) loosely: the site is
 private and unversioned, so entries are grouped by date and milestone.
 
+## [2.1.4] — 2026-08-18
+
+### Fixed
+
+- Light-theme YouTube wordmark is the same drawing as the dark mark (shared
+  viewBox and aspect ratio), so the Playables logo does not shrink when the
+  recruiter toggles to light mode.
+
+## [2.1.3] — 2026-08-18
+
+### Fixed
+
+- YouTube Playables logo is a theme pair: white SVG in dark mode, black SVG in
+  light mode. Toggle writes `data-theme`; CSS picks the legible mark. Black
+  wordmark viewBox cropped so it fills the pill like the white mark.
+
+## [2.1.2] — 2026-08-18
+
+### Changed
+
+- Education pill is one row (degree · affiliations · OSU logo). The logo uses
+  the same contain / `max-width: 13rem` chrome as Experience role pills. A
+  labelled **Affiliations** list names NSBE, Lambda Psi, and Morrill Scholars.
+
 ## [2.1.1] — 2026-08-18
 
 ### Changed

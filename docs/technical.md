@@ -29,7 +29,7 @@ Serve from the **repository root**. Paths are root-absolute.
 
 | Section | Responsibilities |
 | --- | --- |
-| `#about` | Pro headshot, résumé CTA, How I Got Here, Farley triad + proof bullets, education |
+| `#about` | Pro headshot, résumé CTA, My Story, education pill (degree, affiliations, OSU logo on the right like role pills) |
 | `#experience` | Three role pill boxes (P/A/O), compact skills, Away from the Keyboard |
 | `#contact` | LinkedIn pill (fastest), Email pill (+ copy) |
 
@@ -61,6 +61,11 @@ on the page (util may remain for tests / future use).
   `data-copy-email`).
 - Skip link chrome lives in `layout.css` only. Centering uses `--pf-header-h`
   so the focused control stays on the nav bar if header height changes.
+- Theme-paired logos: both SVGs in the markup; `[data-theme]` in `layout.css`
+  shows white YouTube on dark and black YouTube on light. The black mark is the
+  same paths/viewBox as the white mark (wordmark fill `#282828`). Both occupy
+  one grid cell at `aspect-ratio: 660.27 / 170.0805` so toggling does not
+  change size. No extra JS — the existing toggle already writes `data-theme`.
 
 ## 5. Constraints
 
@@ -78,7 +83,7 @@ on the page (util may remain for tests / future use).
 | `home-sections.test.js` | Active section spy |
 | `project-data.test.js` | Case-study provenance |
 | `color-contrast.test.js` | WCAG AA contracts |
-| `page-markup.test.js` | Markup vs data, headshot, pills, contact |
+| `page-markup.test.js` | Markup vs data, headshot, pills, YouTube theme-pair logos, contact |
 
 ## 7. Deployment
 
