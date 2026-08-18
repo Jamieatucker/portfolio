@@ -31,6 +31,12 @@ controls, seven-section single-page architecture (superseded by M6 layout).
 - Nine Node suites via `test/run-all.js`
 - Docs: Memory Files + `docs/recruiter-concise-consolidation.md`
 
+## Recent — OSU logo theme pair (2026-08-18)
+
+- [x] Education pill ships `osu_vertical_dark.svg` + `osu_vertical_light.svg`
+- [x] Reuses `.pf-theme-logo--*` (no aspect-ratio; files already share a viewBox)
+- [x] Markup test covers both assets, matching viewBox, and forbids aspect-ratio in about.css
+
 ## Recent — YouTube light-theme size match (2026-08-18)
 
 - [x] Black YouTube SVG rebuilt from the white mark (same viewBox; fill `#282828`)

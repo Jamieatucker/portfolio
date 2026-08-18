@@ -86,11 +86,10 @@ not content or aesthetics — do not mix their patterns.
   mark with `object-fit: contain` and the same `max-width: 13rem` as
   `.pf-pill-box__logo`.
 - **White-on-dark brand marks need a light-theme twin.** Do not `filter: invert`
-  a YouTube wordmark (the play button goes off-brand). Put both SVGs in the
-  markup and let `[data-theme]` show one. The light asset must be the same
-  paths and viewBox as the dark asset (only the wordmark fill changes);
-  a different drawing will render at a different size even with matching
-  `width`/`height` attributes.
+  a YouTube wordmark (the play button goes off-brand) or the OSU lockup
+  (scarlet Block O would invert). Put both SVGs in the markup and let
+  `[data-theme]` show one. Prefer a provided light/dark pair that already
+  shares a viewBox (OSU) over locking `aspect-ratio` in CSS.
 - **Honest content only.** Every home page metric traces to a résumé bullet in the
   home timeline; skill depth is labelled daily driver / production / working
   knowledge rather than invented percentages. Availability wording must match the

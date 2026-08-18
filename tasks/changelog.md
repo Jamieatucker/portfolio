@@ -4,6 +4,14 @@ All notable changes to this project are recorded here, newest first.
 This project follows [Semantic Versioning](https://semver.org/) loosely: the site is
 private and unversioned, so entries are grouped by date and milestone.
 
+## [2.1.5] — 2026-08-18
+
+### Fixed
+
+- Education OSU mark is a theme pair: `osu_vertical_dark.svg` in dark mode,
+  `osu_vertical_light.svg` in light mode. Reuses `.pf-theme-logo--*` (no
+  aspect-ratio lock; both files already share a viewBox).
+
 ## [2.1.4] — 2026-08-18
 
 ### Fixed

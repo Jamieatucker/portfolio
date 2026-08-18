@@ -319,24 +319,20 @@ test('YouTube logo swaps with data-theme so light mode stays legible', () => {
         'utf8'
     );
     assert.ok(
-        indexCss.indexOf('aspect-ratio: 660.27 / 170.0805') !== -1,
-        'YouTube theme pair must lock the dark-mark aspect ratio'
-    );
-    assert.ok(
         indexCss.indexOf('grid-area: 1 / 1') !== -1,
         'YouTube theme pair must share one grid cell'
     );
 });
 
 test('Education pill keeps degree, affiliations, and logo on one row', () => {
-    assert.ok(html.indexOf('/media/images/osu_vertical.svg') !== -1, 'OSU logo missing');
+    assert.ok(html.indexOf('/media/images/osu_vertical_dark.svg') !== -1, 'OSU dark-theme logo missing');
     const education = raw.slice(raw.indexOf('id="education-heading"'), raw.indexOf('id="experience"'));
     assert.ok(
-        education.indexOf('osu_vertical.svg') < education.indexOf('B.S. Computer Science'),
+        education.indexOf('osu_vertical_dark.svg') < education.indexOf('B.S. Computer Science'),
         'OSU logo should appear before the degree copy'
     );
     assert.ok(
-        education.indexOf('osu_vertical.svg') < education.indexOf('National Society of Black Engineers'),
+        education.indexOf('osu_vertical_dark.svg') < education.indexOf('National Society of Black Engineers'),
         'OSU logo should appear before the activities list'
     );
     assert.ok(
@@ -372,6 +368,44 @@ test('Education pill keeps degree, affiliations, and logo on one row', () => {
     assert.ok(brandImg, 'missing education logo sizing rule');
     assert.ok(brandImg[0].indexOf('object-fit: contain') !== -1, 'education logo should contain like role pills');
     assert.ok(brandImg[0].indexOf('max-width: 13rem') !== -1, 'education logo max-width should match role pills');
+    assert.ok(
+        brandImg[0].indexOf('aspect-ratio') === -1,
+        'education logos must not lock an aspect-ratio; the paired SVGs already share a viewBox'
+    );
+});
+
+test('OSU logo swaps with data-theme so light mode stays legible', () => {
+    const education = raw.slice(raw.indexOf('id="education-heading"'), raw.indexOf('id="experience"'));
+    assert.ok(
+        education.indexOf('/media/images/osu_vertical_dark.svg') !== -1,
+        'dark-theme OSU logo missing'
+    );
+    assert.ok(
+        education.indexOf('/media/images/osu_vertical_light.svg') !== -1,
+        'light-theme OSU logo missing'
+    );
+    assert.ok(
+        education.indexOf('pf-theme-logo--dark') !== -1 && education.indexOf('pf-theme-logo--light') !== -1,
+        'OSU logos must be theme-paired so light mode stays legible'
+    );
+
+    const darkSvg = fs.readFileSync(
+        path.join(ROOT, 'media', 'images', 'osu_vertical_dark.svg'),
+        'utf8'
+    );
+    const lightSvg = fs.readFileSync(
+        path.join(ROOT, 'media', 'images', 'osu_vertical_light.svg'),
+        'utf8'
+    );
+    const viewBoxRe = /viewBox="([^"]+)"/;
+    const darkBox = (darkSvg.match(viewBoxRe) || [])[1];
+    const lightBox = (lightSvg.match(viewBoxRe) || [])[1];
+    assert.ok(darkBox, 'dark OSU SVG is missing a viewBox');
+    assert.equal(
+        lightBox,
+        darkBox,
+        'light-theme OSU SVG must share the dark mark viewBox so both render at the same size'
+    );
 });
 
 test('compact skills list every skill group without filter deep links', () => {

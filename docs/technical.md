@@ -62,10 +62,10 @@ on the page (util may remain for tests / future use).
 - Skip link chrome lives in `layout.css` only. Centering uses `--pf-header-h`
   so the focused control stays on the nav bar if header height changes.
 - Theme-paired logos: both SVGs in the markup; `[data-theme]` in `layout.css`
-  shows white YouTube on dark and black YouTube on light. The black mark is the
-  same paths/viewBox as the white mark (wordmark fill `#282828`). Both occupy
-  one grid cell at `aspect-ratio: 660.27 / 170.0805` so toggling does not
-  change size. No extra JS — the existing toggle already writes `data-theme`.
+  shows the `--dark` mark on dark and the `--light` mark on light. YouTube uses
+  white/black wordmarks; Education uses `osu_vertical_dark.svg` /
+  `osu_vertical_light.svg` (same viewBox, no aspect-ratio lock). No extra JS —
+  the existing toggle already writes `data-theme`.
 
 ## 5. Constraints
 

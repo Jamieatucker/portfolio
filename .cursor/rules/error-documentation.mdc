@@ -190,6 +190,17 @@ alwaysApply: false
   red play button.
 - **State**: Resolved.
 
+### A13. White OSU logo vanished in light mode
+
+- **Context**: Education used only `osu_vertical_dark.svg` (white wordmark).
+  Light-mode pills use `--pf-bg-elevated: white`.
+- **Symptom**: After the theme toggle, “THE OHIO STATE UNIVERSITY” wordmark
+  disappeared.
+- **Resolution**: Pair `osu_vertical_dark.svg` with `osu_vertical_light.svg` via
+  `.pf-theme-logo--*`. Do **not** add an `aspect-ratio` lock; both files already
+  share `viewBox="0 0 256.29 173.02"`.
+- **State**: Resolved.
+
 ## Part B — Inherited from the sibling `PersonalWebsite` project
 
 Kept because the lessons still apply to any static site in this workspace.

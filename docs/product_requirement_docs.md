@@ -48,7 +48,9 @@ readers decide whether anyone else ever sees it.
   Résumé CTA, and a Matt Farley–style skill/role triad replacing the old "Four Things"
   card grid. The "Engineer first" intro block is removed. Education is one pill:
   degree, labelled affiliations, and the OSU logo on the right (same contain chrome
-  as Experience role pills), with no empty cell above the list.
+  as Experience role pills), with no empty cell above the list. The OSU mark is a
+  theme pair (`osu_vertical_dark.svg` / `osu_vertical_light.svg`) so it stays
+  readable when the recruiter toggles light mode.
 - **FR-3 Experience** presents three YouTube-style **pill boxes** (one per role):
   YouTube Playables Game Creation, Google Search Intelligence, and Google Modern
   Creators and Formats. Each pill describes problem → approach → outcome. Skills are
