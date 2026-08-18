@@ -12,7 +12,8 @@ test('profile exposes the contact details recruiters need', () => {
     assert.equal(Resume.PROFILE.name, 'Jamie Tucker');
     assert.match(Resume.PROFILE.email, /^[^@\s]+@[^@\s]+\.[^@\s]+$/);
     assert.match(Resume.PROFILE.linkedin, /^https:\/\//);
-    assert.equal(Resume.PROFILE.resumePath, '/media/docs/jamie-tucker-resume.pdf');
+    assert.equal(Resume.PROFILE.resumePath, './media/docs/jamie-tucker-resume.pdf');
+    assert.equal(Resume.PROFILE.photoPath, './media/images/pro_headshot.jpeg');
 });
 
 test('experience is ordered newest first', () => {

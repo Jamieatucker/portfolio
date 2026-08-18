@@ -31,6 +31,12 @@ controls, seven-section single-page architecture (superseded by M6 layout).
 - Nine Node suites via `test/run-all.js`
 - Docs: Memory Files + `docs/recruiter-concise-consolidation.md`
 
+## Recent — document-relative asset paths (2026-08-18)
+
+- [x] `index.html` local href/src, canonical, and JSON-LD image use `./…`
+- [x] `PROFILE.resumePath` / `photoPath` are document-relative
+- [x] Markup test forbids root-absolute local refs (GitHub Pages project URLs)
+
 ## Recent — shell gutter alignment (2026-08-18)
 
 - [x] `.pf-section` is `padding-top` only; `.pf-shell` keeps the horizontal gutter

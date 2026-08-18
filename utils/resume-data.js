@@ -19,8 +19,8 @@
         location: 'Sunnyvale, CA',
         email: 'jamieatucker4@gmail.com',
         linkedin: 'https://linkedin.com/in/jamieatucker',
-        resumePath: '/media/docs/jamie-tucker-resume.pdf',
-        photoPath: '/media/images/pro_headshot.jpeg',
+        resumePath: './media/docs/jamie-tucker-resume.pdf',
+        photoPath: './media/images/pro_headshot.jpeg',
         headline: 'I build the interfaces behind products used by millions.',
         summary:
             'Full-stack engineer with three years at Google and YouTube shipping ' +
