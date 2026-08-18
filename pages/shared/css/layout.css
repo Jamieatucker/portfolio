@@ -577,6 +577,10 @@
         padding: 0 var(--pf-space-4);
     }
 
+    .pf-footer__inner {
+        padding: var(--pf-space-4);
+    }
+
     .pf-nav__toggle {
         display: grid;
     }
