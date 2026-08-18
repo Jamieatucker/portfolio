@@ -1,0 +1,621 @@
+/*
+ * layout.css — shared chrome used by every page: header/nav, buttons, cards,
+ * section rhythm, tag chips, footer, and the prev/next page tour.
+ * Link AFTER theme.css and BEFORE the per-page stylesheet.
+ */
+
+.pf-skip-link {
+    position: absolute;
+    left: 50%;
+    top: calc(var(--pf-header-h) / 2);
+    z-index: 100;
+    padding: var(--pf-space-2) var(--pf-space-4);
+    border-radius: var(--pf-radius-sm);
+    background: var(--pf-accent-solid);
+    color: var(--pf-accent-contrast);
+    font-weight: 650;
+    text-decoration: none;
+    transform: translate(-50%, -200%);
+    transition: transform var(--pf-transition);
+}
+
+.pf-skip-link:focus {
+    transform: translate(-50%, -50%);
+    color: var(--pf-accent-contrast);
+}
+
+.pf-shell {
+    width: 100%;
+    max-width: var(--pf-container);
+    margin: 0 auto;
+    padding: 0 var(--pf-space-5);
+}
+
+/* ---------- Header / navigation ---------- */
+
+.pf-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--pf-bg) 88%, var(--pf-bg-elevated));
+    backdrop-filter: blur(10px);
+    /* Denser masthead edge — early YouTube hitchhiker chrome, modern blur. */
+    border-bottom: 1px solid var(--pf-border-strong);
+    box-shadow: var(--pf-card-shadow);
+}
+
+.pf-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--pf-space-4);
+    min-height: var(--pf-header-h);
+}
+
+.pf-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-3);
+    font-weight: 700;
+    color: var(--pf-text);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+
+.pf-brand__mark {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--pf-radius-sm);
+    background: linear-gradient(135deg, var(--pf-scarlet), var(--pf-scarlet-dark-60));
+    color: var(--pf-white);
+    font-size: var(--pf-text-sm);
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.pf-brand__text {
+    display: flex;
+    align-items: center;
+    line-height: 1.15;
+}
+
+.pf-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+}
+
+.pf-nav__list {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pf-nav__list li {
+    margin: 0;
+}
+
+.pf-nav__link {
+    display: inline-block;
+    padding: var(--pf-space-2) var(--pf-space-3);
+    border-radius: var(--pf-radius-sm);
+    color: var(--pf-text-muted);
+    font-size: var(--pf-text-sm);
+    font-weight: 550;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background var(--pf-transition), color var(--pf-transition);
+}
+
+.pf-nav__link:hover {
+    background: var(--pf-surface-strong);
+    color: var(--pf-text);
+}
+
+/* site.js sets aria-current on the section in view; CSS never guesses it. */
+.pf-nav__link[aria-current] {
+    background: var(--pf-accent-soft);
+    color: var(--pf-text);
+    box-shadow: inset 0 0 0 1px var(--pf-border-strong);
+}
+
+.pf-icon-btn {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius-sm);
+    background: var(--pf-surface);
+    color: var(--pf-text);
+    font-size: var(--pf-text-base);
+    cursor: pointer;
+    transition: background var(--pf-transition), border-color var(--pf-transition);
+}
+
+.pf-icon-btn:hover {
+    background: var(--pf-surface-strong);
+    border-color: var(--pf-border-strong);
+}
+
+.pf-nav__toggle {
+    display: none;
+}
+
+/* ---------- Buttons ---------- */
+
+.pf-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    padding: 0.7rem 1.15rem;
+    border: 1px solid transparent;
+    border-radius: var(--pf-radius-pill);
+    font-family: inherit;
+    font-size: var(--pf-text-sm);
+    font-weight: 650;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform var(--pf-transition), background var(--pf-transition),
+        border-color var(--pf-transition), box-shadow var(--pf-transition);
+}
+
+.pf-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* Filled controls always use solid scarlet with white text (6.6:1). The
+   border keeps the button boundary visible on dark ink, where scarlet alone
+   is only 2.7:1 against the page. */
+.pf-btn--primary {
+    background: var(--pf-accent-solid);
+    border-color: var(--pf-accent-solid-border);
+    color: var(--pf-accent-contrast);
+    box-shadow: 0 10px 24px -14px color-mix(in srgb, var(--pf-scarlet) 80%, transparent);
+}
+
+.pf-btn--primary:hover {
+    background: var(--pf-accent-solid-hover);
+    color: var(--pf-accent-contrast);
+}
+
+.pf-btn--secondary {
+    background: var(--pf-surface);
+    border-color: var(--pf-border-strong);
+    color: var(--pf-text);
+}
+
+.pf-btn--secondary:hover {
+    background: var(--pf-surface-strong);
+    color: var(--pf-text);
+}
+
+.pf-btn--ghost {
+    background: transparent;
+    color: var(--pf-text-muted);
+}
+
+.pf-btn--ghost:hover {
+    color: var(--pf-text);
+}
+
+.pf-btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pf-space-3);
+}
+
+/* ---------- Sections, panels, cards ---------- */
+
+.pf-main {
+    display: block;
+    padding-bottom: var(--pf-space-8);
+}
+
+.pf-section {
+    /* Longhand only: a padding shorthand would zero .pf-shell's left/right
+       gutter on elements that carry both classes (every section except the
+       about hero), so content would sit on the viewport edge when the
+       container is narrower than --pf-container. */
+    padding-top: var(--pf-space-8);
+}
+
+.pf-section__head {
+    max-width: var(--pf-measure);
+    margin-bottom: var(--pf-space-6);
+}
+
+.pf-panel {
+    padding: var(--pf-space-6);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius-lg);
+    background: var(--pf-surface);
+    box-shadow: var(--pf-shadow);
+}
+
+/* YouTube-inspired content chrome: soft shadow, tight radius, strong border
+   on interactive surfaces. Colours stay on --pf-* semantic tokens. */
+.pf-pill-box {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-3);
+    padding: var(--pf-space-5);
+    border: 1px solid var(--pf-border-strong);
+    border-radius: var(--pf-pill-radius);
+    background: var(--pf-bg-elevated);
+    box-shadow: var(--pf-card-shadow);
+}
+
+/* Decorative brand marks that must invert with the theme. Both assets sit in
+   the DOM; [data-theme] (set in markup, theme-init, and the toggle) picks one.
+   Default is dark, so the light mark starts hidden. Both visible states use
+   display:block so the light mark does not get a different box than the dark. */
+.pf-theme-logo--dark {
+    display: block;
+}
+
+.pf-theme-logo--light {
+    display: none;
+}
+
+[data-theme='light'] .pf-theme-logo--light {
+    display: block;
+}
+
+[data-theme='light'] .pf-theme-logo--dark {
+    display: none;
+}
+
+.pf-pill-box__title {
+    margin-bottom: 0.25rem;
+    font-size: var(--pf-text-xl);
+    font-weight: 700;
+}
+
+.pf-pill-box__title a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.pf-pill-box__title a:hover {
+    color: var(--pf-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.pf-pill-box__meta {
+    margin: 0;
+    font-size: var(--pf-text-xs);
+    font-weight: 650;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--pf-text-subtle);
+}
+
+.pf-pill-box__role {
+    margin: calc(var(--pf-space-2) * -1) 0 0;
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-muted);
+}
+
+.pf-pill-box__body {
+    margin: 0;
+    color: var(--pf-text-muted);
+    font-size: var(--pf-text-sm);
+}
+
+.pf-pill-box__proof {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pf-pill-box__proof li {
+    position: relative;
+    padding: var(--pf-space-2) 0 var(--pf-space-2) var(--pf-space-4);
+    border-top: 1px solid var(--pf-border);
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-muted);
+}
+
+.pf-pill-box__proof li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.95em;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 1px;
+    background: var(--pf-accent-solid);
+}
+
+.pf-pill-box__proof strong {
+    color: var(--pf-text);
+    font-weight: 700;
+}
+
+.pf-pill-box__pao {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-3);
+    align-items: center;
+}
+
+.pf-pill-box__pao p {
+    margin: 0;
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-muted);
+}
+
+.proj-label {
+    display: inline-block;
+    margin-right: var(--pf-space-2);
+    font-size: var(--pf-text-xs);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--pf-accent);
+}
+
+.pf-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--pf-space-5);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius);
+    background: var(--pf-surface);
+    transition: transform var(--pf-transition), border-color var(--pf-transition),
+        background var(--pf-transition);
+}
+
+.pf-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--pf-border-strong);
+    background: var(--pf-surface-strong);
+}
+
+.pf-card__title {
+    margin-bottom: var(--pf-space-1);
+    font-size: var(--pf-text-lg);
+}
+
+.pf-card__meta {
+    margin-bottom: var(--pf-space-3);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--pf-text-subtle);
+}
+
+.pf-card__body {
+    flex: 1;
+    color: var(--pf-text-muted);
+    font-size: var(--pf-text-sm);
+}
+
+.pf-card__body p:last-child {
+    margin-bottom: 0;
+}
+
+/* Grid children stretch so cards in one row share a height. */
+.pf-grid {
+    display: grid;
+    gap: var(--pf-space-5);
+    align-items: stretch;
+}
+
+/* Exactly two columns, never auto-fit: auto-fit packs three cards across at
+   container width and strands the fourth alone on its own row. An odd final
+   card spans the full width so it reads as intentional, not orphaned. */
+.pf-grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pf-grid--2 > :last-child:nth-child(odd),
+.pf-grid--2 > .is-last-visible {
+    grid-column: 1 / -1;
+}
+
+/* A filtered grid re-picks its trailing card, so the static rule must yield. */
+.pf-grid--2:has(.is-last-visible) > :last-child:nth-child(odd):not(.is-last-visible) {
+    grid-column: auto;
+}
+
+/* Fixed tracks for the same reason as pf-grid--2: auto-fit chooses a column
+   count from available width and can leave a single item on the last row. */
+.pf-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.pf-grid--3 > :last-child:nth-child(3n + 1):not(:first-child) {
+    grid-column: 1 / -1;
+}
+
+.pf-grid--4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1000px) {
+    .pf-grid--4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .pf-grid--3 {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .pf-grid--4 {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* ---------- Tags ---------- */
+
+.pf-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pf-space-2);
+    margin: var(--pf-space-4) 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pf-tags li {
+    margin: 0;
+}
+
+.pf-tag {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius-pill);
+    background: var(--pf-surface);
+    color: var(--pf-text-muted);
+    font-size: var(--pf-text-xs);
+    font-weight: 550;
+    white-space: nowrap;
+}
+
+.pf-tag--accent {
+    border-color: color-mix(in srgb, var(--pf-accent) 45%, transparent);
+    background: var(--pf-accent-soft);
+    color: var(--pf-text);
+}
+
+/* ---------- Reveal on scroll (opt-in via .pf-reveal) ---------- */
+
+.pf-reveal {
+    opacity: 1;
+}
+
+/* Only hide content once JS confirms it can reveal it again. */
+.pf-js .pf-reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 500ms ease, transform 500ms ease;
+}
+
+.pf-js .pf-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pf-js .pf-reveal {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ---------- Footer ---------- */
+
+.pf-footer {
+    border-top: 1px solid var(--pf-border);
+    background: color-mix(in srgb, var(--pf-bg-elevated) 60%, transparent);
+}
+
+.pf-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--pf-space-4);
+    padding: var(--pf-space-6) 0;
+}
+
+.pf-footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pf-space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--pf-text-sm);
+}
+
+.pf-footer__links li {
+    margin: 0;
+}
+
+.pf-footer__note {
+    margin: 0;
+    font-size: var(--pf-text-xs);
+    color: var(--pf-text-subtle);
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 700px) {
+    .pf-grid--2 {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Seven section links plus the brand get tight before the mobile menu takes
+   over at 800px, so the links give up some padding first. */
+@media (min-width: 801px) and (max-width: 1040px) {
+    .pf-nav__link {
+        padding: var(--pf-space-2);
+        font-size: var(--pf-text-xs);
+    }
+}
+
+@media (max-width: 800px) {
+    .pf-shell {
+        padding: 0 var(--pf-space-4);
+    }
+
+    .pf-footer__inner {
+        padding: var(--pf-space-4);
+    }
+
+    .pf-nav__toggle {
+        display: grid;
+    }
+
+    .pf-nav__list {
+        position: absolute;
+        top: 100%;
+        right: var(--pf-space-4);
+        left: var(--pf-space-4);
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--pf-space-1);
+        padding: var(--pf-space-3);
+        border: 1px solid var(--pf-border);
+        border-radius: var(--pf-radius);
+        background: var(--pf-bg-elevated);
+        box-shadow: var(--pf-shadow);
+    }
+
+    /* No-JS phones keep the full menu visible; JS collapses it on load. */
+    .pf-js .pf-nav__list[data-collapsed='true'] {
+        display: none;
+    }
+
+    .pf-nav__link {
+        display: block;
+        padding: var(--pf-space-3);
+        font-size: var(--pf-text-base);
+    }
+
+    .pf-section {
+        padding-top: var(--pf-space-7);
+    }
+
+    .pf-panel {
+        padding: var(--pf-space-5);
+    }
+}

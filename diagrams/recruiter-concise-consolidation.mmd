@@ -1,0 +1,31 @@
+flowchart TB
+  subgraph Page["index.html — three major sections"]
+    About["#about<br/>pro headshot · résumé CTA<br/>How I Got Here<br/>Farley triad + proof bullets<br/>Education"]
+    Exp["#experience<br/>3 role pill boxes P/A/O<br/>compact skills<br/>Away from keyboard"]
+    Contact["#contact<br/>LinkedIn pill · Email pill"]
+    About --> Exp --> Contact
+  end
+
+  subgraph Data["utils/"]
+    SN["site-nav.js<br/>SECTIONS + HASH_ALIASES"]
+    RP["role-pills.js<br/>ROLE_PILLS + orphan checks"]
+    RD["resume-data.js<br/>photoPath · APPROACH_TRIAD"]
+  end
+
+  subgraph Chrome["pages/shared/"]
+    TH["theme.css<br/>--pf-card-shadow · --pf-pill-radius<br/>colours LOCKED"]
+    LO["layout.css<br/>.pf-pill-box"]
+    SJ["site.js<br/>setupHashAliases + section spy"]
+  end
+
+  subgraph Legacy["Soft aliases"]
+    L1["#top #proof #approach → #about"]
+    L2["#work #skills → #experience"]
+  end
+
+  SN --> SJ
+  RP --> Exp
+  RD --> About
+  TH --> LO --> Page
+  Legacy --> SJ
+  SJ --> Page

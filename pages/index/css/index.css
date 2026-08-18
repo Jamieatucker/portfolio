@@ -1,0 +1,132 @@
+/* index.css — #experience: role pill stack + compact skills. */
+
+.exp-pills {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-5);
+    margin-bottom: var(--pf-space-7);
+}
+
+.pf-pill-box--role {
+    /* Override the default column flex so the logo can sit beside copy. */
+    display: block;
+}
+
+.pf-pill-box__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(10rem, 14rem);
+    align-items: center;
+}
+
+.pf-pill-box__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-3);
+    min-width: 0;
+}
+
+.pf-pill-box__logo {
+    display: grid;
+    place-items: center;
+    justify-self: start;
+    align-self: center;
+    width: 100%;
+    min-height: 4.5rem;
+    padding: var(--pf-space-2) var(--pf-space-2) var(--pf-space-2) 0;
+    margin-left: auto;
+}
+
+.pf-pill-box__logo img {
+    width: 100%;
+    max-width: 13rem;
+    height: auto;
+    max-height: 15rem;
+    object-fit: contain;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+/* YouTube theme pair: same grid cell and aspect as the dark mark so the
+   light wordmark does not shrink when data-theme flips. */
+.pf-pill-box__logo .pf-theme-logo {
+    grid-area: 1 / 1;
+}
+
+.pf-pill-box--role .pf-tags {
+    margin-top: var(--pf-space-2);
+}
+
+.skills-compact__grid {
+    display: grid;
+    gap: var(--pf-space-4);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.skills-compact__group {
+    padding: var(--pf-space-4);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-pill-radius);
+    background: var(--pf-surface);
+    box-shadow: var(--pf-card-shadow);
+}
+
+.skills-compact__label {
+    margin: 0 0 var(--pf-space-2);
+    font-size: var(--pf-text-sm);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.skills-compact__tags {
+    margin: 0;
+    font-size: var(--pf-text-sm);
+    line-height: 1.55;
+    color: var(--pf-text-muted);
+}
+
+@media (max-width: 800px) {
+    .pf-pill-box__layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pf-pill-box__logo {
+        order: -1;
+        width: auto;
+        max-width: 14rem;
+        min-height: 4rem;
+        justify-self: center;
+        align-self: start;
+        padding: 0;
+        margin-left: 0;
+    }
+
+    .pf-pill-box__logo img {
+        max-height: 9.75rem;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 700px) {
+    .skills-compact__grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .exp-pills {
+        gap: var(--pf-space-4);
+    }
+
+    .pf-pill-box__logo {
+        max-width: 11rem;
+        min-height: 3.25rem;
+        margin-left: 0;
+    }
+
+    .pf-pill-box__logo img {
+        max-height: 8rem;
+        margin-right: 0;
+        margin-left: 0;
+    }
+}

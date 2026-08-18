@@ -1,0 +1,199 @@
+/* about.css — #about: merged hero, story, Farley triad, education. */
+
+.about-hero {
+    display: grid;
+    gap: var(--pf-space-7);
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    align-items: center;
+    padding-top: var(--pf-space-8);
+    padding-bottom: var(--pf-space-6);
+}
+
+.about-hero__title {
+    margin-bottom: var(--pf-space-4);
+}
+
+.about-hero__accent {
+    color: var(--pf-accent);
+}
+
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+    .about-hero__accent {
+        background: linear-gradient(120deg, var(--pf-accent), var(--pf-highlight));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+    }
+}
+
+.about-hero__lead {
+    max-width: 46ch;
+}
+
+.about-hero__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    margin-bottom: var(--pf-space-5);
+    padding: 0.35rem 0.85rem;
+    border: 1px solid var(--pf-border-strong);
+    border-radius: var(--pf-pill-radius);
+    background: var(--pf-surface);
+    font-size: var(--pf-text-sm);
+    font-weight: 550;
+    box-shadow: var(--pf-card-shadow);
+}
+
+.about-hero__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 1px;
+    background: var(--pf-accent-solid);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--pf-accent-solid) 28%, transparent);
+}
+
+.about-hero__portrait {
+    position: relative;
+}
+
+.about-hero__portrait img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center top;
+    border: 1px solid var(--pf-border-strong);
+    border-radius: var(--pf-pill-radius);
+    box-shadow: var(--pf-card-shadow);
+}
+
+.about-prose p {
+    font-size: var(--pf-text-lg);
+    color: var(--pf-text-muted);
+}
+
+.about-triad .pf-pill-box {
+    height: 100%;
+}
+
+.about-education {
+    display: grid;
+    gap: var(--pf-space-4) var(--pf-space-6);
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(10rem, 14rem);
+    grid-template-areas: 'degree list brand';
+    align-items: start;
+}
+
+.about-education__brand {
+    grid-area: brand;
+    display: grid;
+    place-items: center;
+    justify-self: stretch;
+    align-self: center;
+    width: 100%;
+    min-height: 4.5rem;
+    padding: var(--pf-space-2) 0;
+}
+
+.about-education__brand img {
+    width: 100%;
+    max-width: 13rem;
+    height: auto;
+    max-height: 7.5rem;
+    object-fit: contain;
+}
+
+.about-education__degree {
+    grid-area: degree;
+    min-width: 0;
+}
+
+.about-education__degree h3 {
+    margin-bottom: var(--pf-space-1);
+}
+
+.about-education__meta {
+    margin-bottom: var(--pf-space-3);
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-subtle);
+}
+
+.about-education__degree p:last-child {
+    margin-bottom: 0;
+}
+
+.about-education__list {
+    grid-area: list;
+    min-width: 0;
+    align-self: start;
+}
+
+.about-education__list-label {
+    margin: 0 0 var(--pf-space-2);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: capitalize;
+}
+
+.about-education__list ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.about-education__list li {
+    padding: var(--pf-space-2) 0;
+    border-top: 1px solid var(--pf-border);
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-muted);
+}
+
+.about-education__list li:first-child {
+    border-top: 0;
+    padding-top: 0;
+}
+
+@media (max-width: 900px) {
+    .about-hero {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--pf-space-5);
+    }
+
+    .about-hero__portrait {
+        max-width: 22rem;
+        margin-inline: auto;
+        order: -1;
+    }
+
+    .about-education {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            'brand'
+            'degree'
+            'list';
+        gap: var(--pf-space-4);
+    }
+
+    .about-education__brand {
+        width: auto;
+        max-width: 14rem;
+        min-height: 4rem;
+        justify-self: center;
+        padding: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .about-hero {
+        padding-top: var(--pf-space-6);
+    }
+
+    .about-hero__portrait {
+        max-width: 16rem;
+    }
+
+    .about-education__brand {
+        max-width: 11rem;
+        min-height: 3.25rem;
+    }
+}
