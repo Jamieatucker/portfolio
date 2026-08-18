@@ -43,10 +43,10 @@ not content or aesthetics — do not mix their patterns.
   render with JavaScript off; `utils/resume-data.js` and `utils/project-data.js` are
   the canonical record. `test/page-markup.test.js` fails when the two drift, which is
   what makes the duplication safe.
-- **Root `index.html` is the whole site** so the recruiter URL is `/`; each
-  section keeps its own stylesheet under `pages/index/css/` (`about.css`,
-  `work.css`, `skills.css`, `contact.css`) so the CSS stays as separable as the
-  sections.
+- **Root `index.html` is the whole site.** Each section keeps its own stylesheet
+  under `pages/index/css/`. Local `href`/`src` are document-relative (`./pages/…`,
+  `./utils/…`, `./media/…`) so GitHub Pages project hosting matches `npm start`.
+  Never use a leading `/` for a local asset.
 - **UMD for anything testable.** Pure helpers export to `module.exports` and to a
   browser global (`window.SiteNav`, `window.ResumeData`, …), so Node suites and pages
   share one implementation. Cross-module deps are injected in the wrapper body.
@@ -128,4 +128,4 @@ not content or aesthetics — do not mix their patterns.
   `test/page-markup.test.js`
 - Colour integrity: `theme.css` ↔ `utils/color-contrast.js` →
   `test/color-contrast.test.js`
-- Headshot contract: `PROFILE.photoPath` → `/media/images/pro_headshot.jpeg`
+- Headshot contract: `PROFILE.photoPath` → `./media/images/pro_headshot.jpeg`

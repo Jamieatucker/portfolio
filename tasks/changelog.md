@@ -4,6 +4,14 @@ All notable changes to this project are recorded here, newest first.
 This project follows [Semantic Versioning](https://semver.org/) loosely: the site is
 private and unversioned, so entries are grouped by date and milestone.
 
+## [2.1.7] — 2026-08-18
+
+### Changed
+
+- Local CSS, JS, media, canonical, and JSON-LD image paths are document-relative
+  (`./pages/…`, `./utils/…`, `./media/…`) so GitHub Pages project hosting loads
+  the same assets as `npm start`.
+
 ## [2.1.6] — 2026-08-18
 
 ### Fixed

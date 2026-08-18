@@ -43,7 +43,7 @@ readers decide whether anyone else ever sees it.
 - **FR-1** Single-page static architecture at `/` (`index.html`). Three major
   sections in this order: **About**, **Experience**, **Contact**. Nav jumps between
   them by fragment.
-- **FR-2 About** opens with the professional headshot (`/media/images/pro_headshot.jpeg`),
+- **FR-2 About** opens with the professional headshot (`./media/images/pro_headshot.jpeg`),
   a concise "How I Got Here" story that keeps the important details, a Download
   Résumé CTA, and a Matt Farley–style skill/role triad replacing the old "Four Things"
   card grid. The "Engineer first" intro block is removed. Education is one pill:

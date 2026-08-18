@@ -21,7 +21,9 @@ npm test          # nine suites via test/run-all.js
 npm start         # or: npx serve . / python3 -m http.server
 ```
 
-Serve from the **repository root**. Paths are root-absolute.
+Serve from the **repository root**. Asset hrefs/src are document-relative
+(`./pages/…`, `./utils/…`, `./media/…`) so GitHub Pages can host the site under
+a repository subpath.
 
 ## 3. Key technical decisions
 
@@ -47,12 +49,20 @@ land on live sections.
 
 ### 3.4 Professional headshot
 
-`PROFILE.photoPath` and About `<img>` / JSON-LD → `/media/images/pro_headshot.jpeg`.
+`PROFILE.photoPath` and About `<img>` / JSON-LD → `./media/images/pro_headshot.jpeg`.
 
 ### 3.5 Content in HTML, data in modules
 
 Edit `resume-data.js` / `role-pills.js` first, then markup. Filters are not loaded
 on the page (util may remain for tests / future use).
+
+### 3.6 Document-relative asset paths
+
+Every local `href` / `src` and `PROFILE` media path is `./…` from `index.html`.
+Root-absolute paths (`/pages/…`) would 404 on GitHub Pages project URLs
+(`https://jamieatucker.github.io/<repo>/`). External URLs (`https://…`) and
+in-page hashes (`#about`) stay as they are. `LEGACY_PATHS` keys remain
+historical URL pathnames, not asset hrefs.
 
 ## 4. Design patterns
 
@@ -86,9 +96,11 @@ on the page (util may remain for tests / future use).
 | `home-sections.test.js` | Active section spy |
 | `project-data.test.js` | Case-study provenance |
 | `color-contrast.test.js` | WCAG AA contracts |
-| `page-markup.test.js` | Markup vs data, headshot, pills, YouTube theme-pair logos, contact |
+| `page-markup.test.js` | Markup vs data, headshot, pills, YouTube theme-pair logos, contact, document-relative asset paths |
 
 ## 7. Deployment
 
-Any static host at the repository root. Fragments `#about`, `#experience`,
-`#contact` are the live destinations; aliases rewrite in supporting browsers.
+Any static host of the repository root, including GitHub Pages project sites.
+Document-relative asset paths keep CSS, JS, and media loading when the site is
+not at the domain root. Fragments `#about`, `#experience`, `#contact` are the
+live destinations; aliases rewrite in supporting browsers.

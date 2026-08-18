@@ -4,27 +4,30 @@ _Last updated: 2026-08-18_
 
 ## Mode
 
-**ACT / Code MODE** — align `pf-shell` gutters with `about-hero`.
+**ACT / Code MODE** — document-relative asset paths for GitHub Pages.
 
 ## Current work focus
 
-On narrow viewports, My Story / Education / Experience / Contact sat on the
-left edge because `.pf-section { padding: space-8 0 0 }` overrode
-`.pf-shell` horizontal padding. `about-hero` only sets padding-top/bottom
-longhands, so it kept the gutter.
+Root-absolute `href`/`src` (`/pages/…`, `/media/…`, `/utils/…`) 404 when GitHub
+Pages serves the site under `https://jamieatucker.github.io/<repo>/`. Convert
+every local asset path to `./…` from `index.html` so Pages matches local
+`npm start`.
 
-## Recent changes — shell gutter alignment
+## Recent changes — document-relative paths
 
-- `.pf-section` is `padding-top` only.
-- Markup test requires that longhand and forbids the old shorthand.
+- `index.html` CSS, JS, favicons, images, résumé, canonical, JSON-LD image use `./`
+- `PROFILE.resumePath` / `photoPath` match the markup
+- Markup tests forbid root-absolute local refs and require `./` prefix
 
 ## Active decisions
 
+- Document-relative from `index.html`; hashes (`#about`) and `https://` URLs stay
+- `LEGACY_PATHS` remain historical URL pathnames, not asset loads
 - Horizontal inset lives on `.pf-shell` only. Section rhythm is vertical.
 - Theme-paired logos stay CSS-only.
 
 ## Next steps
 
-1. Shrink the viewport and confirm every section’s left edge matches the hero.
-2. Optional git commit if requested.
+1. Preview with `npm start` and confirm CSS, logos, headshot, and résumé load.
+2. Push to GitHub account `Jamieatucker` and enable Pages from `main` / `/ (root)`.
 3. P1 backlog: OG image, favicons, Lighthouse, focus-ring on scarlet.
