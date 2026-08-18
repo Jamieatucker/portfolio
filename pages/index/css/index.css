@@ -14,7 +14,7 @@
 
 .pf-pill-box__layout {
     display: grid;
-    gap: var(--pf-space-4) var(--pf-space-3);
+    /* gap: var(--pf-space-4) 0; */
     grid-template-columns: minmax(0, 1fr) minmax(10rem, 14rem);
     align-items: center;
 }
@@ -34,6 +34,7 @@
     width: 100%;
     min-height: 4.5rem;
     padding: var(--pf-space-2) var(--pf-space-2) var(--pf-space-2) 0;
+    margin-left: auto;
 }
 
 .pf-pill-box__logo img {
@@ -86,13 +87,14 @@
         width: auto;
         max-width: 14rem;
         min-height: 4rem;
-        justify-self: start;
+        justify-self: center;
         align-self: start;
-        padding: var(--pf-space-3) 0;
+        padding: 0;
+        margin-left: 0;
     }
 
     .pf-pill-box__logo img {
-        max-height: 3.75rem;
+        max-height: 9.75rem;
     }
 }
 
@@ -110,9 +112,10 @@
     .pf-pill-box__logo {
         max-width: 11rem;
         min-height: 3.25rem;
+        margin-left: 0;
     }
 
     .pf-pill-box__logo img {
-        max-height: 3rem;
+        max-height: 8rem;
     }
 }
