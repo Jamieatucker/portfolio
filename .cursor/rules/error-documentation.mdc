@@ -118,13 +118,18 @@ alwaysApply: false
   the cause: the header and footer now exist once.
 - **State**: Resolved by Milestone 5.
 
-### A6. Root-absolute paths do not work over `file://`
+### A6. Root-absolute paths 404 on GitHub Pages project sites
 
-- **Context**: All references use `/pages/...`, `/utils/...`, `/media/...`.
-- **Symptom**: Opening `index.html` by double-clicking renders unstyled HTML.
-- **Resolution**: Always preview through a server from the repository root
-  (`npm start` or `python3 -m http.server`). Documented in `README.md`.
-- **State**: Expected behaviour, not a bug — but it surprises people, so it is noted.
+- **Context**: The site used `/pages/…`, `/utils/…`, `/media/…` so a local server
+  at the repo root would resolve them. GitHub Pages project URLs are
+  `https://<user>.github.io/<repo>/`, not `/`.
+- **Symptom**: CSS, JS, images, and the résumé 404; the page looks unstyled.
+  The same class of failure happens over `file://`.
+- **Resolution**: Document-relative paths from `index.html` (`./pages/…`,
+  `./utils/…`, `./media/…`). `PROFILE` media paths match. Markup tests reject
+  `href="/…"` / `src="/…"`. `LEGACY_PATHS` stay historical URL pathnames.
+- **State**: Resolved. Preview with `npm start`; do not revert to root-absolute
+  asset hrefs.
 
 ### A7. Scarlet is unreadable as text on a dark background
 

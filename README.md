@@ -9,8 +9,10 @@ dependencies.
 
 ## Local preview
 
-Serve the repository root — all internal paths are root-absolute, so `file://` will
-not resolve CSS or JS.
+Serve the repository root. Internal assets use document-relative paths
+(`./pages/…`, `./utils/…`, `./media/…`) so the same files load from
+`npm start` and from a GitHub Pages project URL
+(`https://jamieatucker.github.io/<repo>/`).
 
 ```bash
 npm start          # npx serve .

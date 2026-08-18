@@ -40,9 +40,10 @@
     };
 
     /**
-     * Where each retired page's content ended up. Nothing reads this at
-     * runtime; the markup test uses it to prove no link still points at a page
-     * that no longer exists.
+     * Where each retired page's content ended up. Keys are historical URL
+     * pathnames (`location.pathname` is always `/…`), not asset hrefs. Nothing
+     * reads this at runtime; the markup test uses it to prove no link still
+     * points at a page that no longer exists.
      */
     var LEGACY_PATHS = {
         '/pages/about/html/about.html': '#about',

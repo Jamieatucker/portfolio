@@ -45,15 +45,26 @@ function decodeEntities(html) {
 const raw = fs.readFileSync(PAGE, 'utf8');
 const html = decodeEntities(raw).replace(/\s+/g, ' ');
 
+function isExternalOrFragment(ref) {
+    return !ref || ref.charAt(0) === '#' || /^[a-z][a-z0-9+.-]*:/i.test(ref);
+}
+
 function collectLocalRefs(source) {
     const refs = [];
-    const pattern = /(?:href|src)="(\/[^"#?]*)(?:[?#][^"]*)?"/g;
+    const pattern = /(?:href|src)="([^"]+)"/g;
     let match = pattern.exec(source);
     while (match) {
-        refs.push(match[1]);
+        const ref = match[1];
+        if (!isExternalOrFragment(ref)) {
+            refs.push(ref.split('?')[0].split('#')[0]);
+        }
         match = pattern.exec(source);
     }
     return refs;
+}
+
+function repoPathFromRef(ref) {
+    return path.join(ROOT, ref.replace(/^\.\//, '').replace(/^\//, ''));
 }
 
 function listHtmlFiles(dir) {
@@ -113,36 +124,36 @@ test('the brand returns to About (merged hero home)', () => {
 });
 
 test('the page loads shared chrome and the section stylesheets in use', () => {
-    ['/pages/shared/css/theme.css', '/pages/shared/css/layout.css'].forEach((href) => {
+    ['./pages/shared/css/theme.css', './pages/shared/css/layout.css'].forEach((href) => {
         assert.ok(html.indexOf(href) !== -1, 'missing ' + href);
     });
     ['index', 'about', 'contact'].forEach((name) => {
-        const href = '/pages/index/css/' + name + '.css';
+        const href = './pages/index/css/' + name + '.css';
         assert.ok(html.indexOf(href) !== -1, 'missing ' + href);
-        assert.ok(fs.existsSync(path.join(ROOT, href.replace(/^\//, ''))), href + ' does not exist');
+        assert.ok(fs.existsSync(repoPathFromRef(href)), href + ' does not exist');
     });
-    assert.ok(html.indexOf('/pages/index/css/work.css') === -1, 'work.css should not load');
-    assert.ok(html.indexOf('/pages/index/css/skills.css') === -1, 'skills.css should not load');
+    assert.ok(html.indexOf('./pages/index/css/work.css') === -1, 'work.css should not load');
+    assert.ok(html.indexOf('./pages/index/css/skills.css') === -1, 'skills.css should not load');
 });
 
 test('the page boots theme before paint and behaviour after, without filter scripts', () => {
     const scripts = [
-        '/utils/theme-preference.js',
-        '/pages/shared/js/theme-init.js',
-        '/utils/site-nav.js',
-        '/utils/home-sections.js',
-        '/pages/shared/js/site.js',
-        '/pages/index/js/contact.js'
+        './utils/theme-preference.js',
+        './pages/shared/js/theme-init.js',
+        './utils/site-nav.js',
+        './utils/home-sections.js',
+        './pages/shared/js/site.js',
+        './pages/index/js/contact.js'
     ];
     scripts.forEach((src) => {
         assert.ok(html.indexOf(src) !== -1, 'missing script ' + src);
-        assert.ok(fs.existsSync(path.join(ROOT, src.replace(/^\//, ''))), src + ' does not exist');
+        assert.ok(fs.existsSync(repoPathFromRef(src)), src + ' does not exist');
     });
-    assert.ok(html.indexOf('/pages/index/js/index.js') === -1, 'timeline filter script should be gone');
-    assert.ok(html.indexOf('/pages/index/js/work.js') === -1, 'work filter script should be gone');
-    assert.ok(html.indexOf('/utils/experience-filter.js') === -1, 'experience-filter should not load');
+    assert.ok(html.indexOf('./pages/index/js/index.js') === -1, 'timeline filter script should be gone');
+    assert.ok(html.indexOf('./pages/index/js/work.js') === -1, 'work filter script should be gone');
+    assert.ok(html.indexOf('./utils/experience-filter.js') === -1, 'experience-filter should not load');
     assert.ok(
-        html.indexOf('/utils/theme-preference.js') < html.indexOf('/pages/shared/js/theme-init.js'),
+        html.indexOf('./utils/theme-preference.js') < html.indexOf('./pages/shared/js/theme-init.js'),
         'theme-preference.js must load before theme-init.js'
     );
 });
@@ -184,9 +195,27 @@ test('the skip link is centered on the header when focused', () => {
 
 test('every internal link and asset reference resolves to a real file', () => {
     collectLocalRefs(raw).forEach((ref) => {
-        const target = path.join(ROOT, ref.replace(/^\//, ''));
-        assert.ok(fs.existsSync(target), 'link to missing file: ' + ref);
+        assert.ok(
+            ref.indexOf('./') === 0,
+            'local ref must be document-relative (./…), not root-absolute: ' + ref
+        );
+        assert.ok(fs.existsSync(repoPathFromRef(ref)), 'link to missing file: ' + ref);
     });
+});
+
+test('no local href, src, or JSON-LD image is root-absolute', () => {
+    assert.ok(
+        !/(?:href|src)="\/(?!\/)/.test(raw),
+        'root-absolute href/src break GitHub Pages when the site is not hosted at /'
+    );
+    assert.ok(
+        raw.indexOf('"image": "/') === -1,
+        'JSON-LD image must be document-relative for project-site hosting'
+    );
+    assert.ok(
+        Resume.PROFILE.photoPath.indexOf('./') === 0 && Resume.PROFILE.resumePath.indexOf('./') === 0,
+        'PROFILE asset paths must be document-relative'
+    );
 });
 
 test('nothing links to a page that the single-page rewrite retired', () => {
@@ -196,9 +225,9 @@ test('nothing links to a page that the single-page rewrite retired', () => {
 });
 
 test('About uses the professional headshot, not the college profile photo', () => {
-    assert.equal(Resume.PROFILE.photoPath, '/media/images/pro_headshot.jpeg');
-    assert.ok(html.indexOf('/media/images/pro_headshot.jpeg') !== -1, 'missing pro headshot');
-    assert.ok(html.indexOf('/media/images/profile.jpeg') === -1, 'old profile photo must leave markup');
+    assert.equal(Resume.PROFILE.photoPath, './media/images/pro_headshot.jpeg');
+    assert.ok(html.indexOf('./media/images/pro_headshot.jpeg') !== -1, 'missing pro headshot');
+    assert.ok(html.indexOf('profile.jpeg') === -1, 'old profile photo must leave markup');
 });
 
 test('proof metrics appear as triad bullets, and triad titles match What I do', () => {
@@ -254,11 +283,11 @@ test('each role pill keeps its EXPERIENCE id and accurate tenure', () => {
 
 test('Experience role pills show company logos on the right', () => {
     assert.ok(
-        html.indexOf('/media/images/youtube_logo_white.svg') !== -1,
+        html.indexOf('./media/images/youtube_logo_white.svg') !== -1,
         'dark-theme YouTube logo missing'
     );
     assert.ok(
-        html.indexOf('/media/images/youtube_logo_black.svg') !== -1,
+        html.indexOf('./media/images/youtube_logo_black.svg') !== -1,
         'light-theme YouTube logo missing'
     );
     assert.ok(
@@ -266,7 +295,7 @@ test('Experience role pills show company logos on the right', () => {
         'YouTube logos must be theme-paired so light mode stays legible'
     );
     assert.equal(
-        (raw.match(/\/media\/images\/google_logo\.svg/g) || []).length,
+        (raw.match(/src="\.\/media\/images\/google_logo\.svg"/g) || []).length,
         2,
         'both Google roles should show the Google logo'
     );
@@ -325,7 +354,7 @@ test('YouTube logo swaps with data-theme so light mode stays legible', () => {
 });
 
 test('Education pill keeps degree, affiliations, and logo on one row', () => {
-    assert.ok(html.indexOf('/media/images/osu_vertical_dark.svg') !== -1, 'OSU dark-theme logo missing');
+    assert.ok(html.indexOf('./media/images/osu_vertical_dark.svg') !== -1, 'OSU dark-theme logo missing');
     const education = raw.slice(raw.indexOf('id="education-heading"'), raw.indexOf('id="experience"'));
     assert.ok(
         education.indexOf('osu_vertical_dark.svg') < education.indexOf('B.S. Computer Science'),
@@ -377,11 +406,11 @@ test('Education pill keeps degree, affiliations, and logo on one row', () => {
 test('OSU logo swaps with data-theme so light mode stays legible', () => {
     const education = raw.slice(raw.indexOf('id="education-heading"'), raw.indexOf('id="experience"'));
     assert.ok(
-        education.indexOf('/media/images/osu_vertical_dark.svg') !== -1,
+        education.indexOf('./media/images/osu_vertical_dark.svg') !== -1,
         'dark-theme OSU logo missing'
     );
     assert.ok(
-        education.indexOf('/media/images/osu_vertical_light.svg') !== -1,
+        education.indexOf('./media/images/osu_vertical_light.svg') !== -1,
         'light-theme OSU logo missing'
     );
     assert.ok(

@@ -85,7 +85,10 @@ sequenceDiagram
   `layout.css` (YouTube white/black; OSU `osu_vertical_dark.svg` /
   `osu_vertical_light.svg`). `[data-theme]` picks the legible file; OSU does
   **not** lock an aspect-ratio.
-- **Photo contract.** `PROFILE.photoPath` → `/media/images/pro_headshot.jpeg`.
+- **Photo contract.** `PROFILE.photoPath` → `./media/images/pro_headshot.jpeg`.
+- **Asset paths.** Local `href`/`src` are document-relative (`./pages/…`,
+  `./utils/…`, `./media/…`) so GitHub Pages project URLs load the same files as
+  a root-served preview. Hashes and `https://` URLs are unchanged.
 - **Skip link.** `.pf-skip-link` stays the first focusable control in `index.html`.
   Position only: `left: 50%` and `top: calc(var(--pf-header-h) / 2)`, with
   `translate(-50%, -50%)` on `:focus`, so keyboard users get a control centered
