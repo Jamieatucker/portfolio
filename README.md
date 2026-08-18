@@ -1,10 +1,8 @@
 # Jamie Tucker — Software Engineering Portfolio
 
-A single-page static portfolio built to answer a recruiter's questions quickly:
-what I do, who I did it for, and how to reach me — in three sections (About,
-Experience, Contact).
+A single-page static portfolio to showcase my career journey.
 
-Hand-written HTML, CSS, and JavaScript. No framework, no build step, no runtime
+Developed in HTML, CSS, and JavaScript. No framework, no build step, no runtime
 dependencies.
 
 ## Local preview
