@@ -201,6 +201,17 @@ alwaysApply: false
   share `viewBox="0 0 256.29 173.02"`.
 - **State**: Resolved.
 
+### A14. Combined `.pf-section.pf-shell` lost its horizontal gutter
+
+- **Context**: `.pf-section` used `padding: var(--pf-space-8) 0 0`. Elements
+  that also carry `.pf-shell` (My Story, Education, Experience, Contact) lost
+  the shell’s left/right padding because the shorthand resets all sides.
+- **Symptom**: When the viewport is narrower than `--pf-container`, those
+  sections sat on the left edge while `about-hero` (shell only) stayed inset.
+- **Resolution**: `.pf-section` sets `padding-top` only. Horizontal gutter
+  stays on `.pf-shell`. Asserted in `page-markup.test.js`.
+- **State**: Resolved.
+
 ## Part B — Inherited from the sibling `PersonalWebsite` project
 
 Kept because the lessons still apply to any static site in this workspace.

@@ -4,6 +4,14 @@ All notable changes to this project are recorded here, newest first.
 This project follows [Semantic Versioning](https://semver.org/) loosely: the site is
 private and unversioned, so entries are grouped by date and milestone.
 
+## [2.1.6] — 2026-08-18
+
+### Fixed
+
+- `.pf-section` uses `padding-top` only so it no longer zeroes `.pf-shell`
+  left/right padding. My Story, Education, Experience, and Contact now share
+  the about-hero gutter on narrow viewports.
+
 ## [2.1.5] — 2026-08-18
 
 ### Fixed

@@ -59,7 +59,8 @@ readers decide whether anyone else ever sees it.
 - **FR-4 Contact** is two pill boxes only: LinkedIn (fastest) and Email. The résumé
   channel is removed here because it already appears in About.
 - **FR-5** Responsive for desktop, tablet, and phone — each viewport is intentionally
-  composed, not merely squeezed.
+  composed, not merely squeezed. Every `pf-shell` section shares the same
+  horizontal gutter as `about-hero`.
 - **FR-6** Visual language borrows late-2000s / early-2010s YouTube UI cues (pill
   buttons, card chrome, masthead feel) while staying modern and sleek. **Colour
   scheme stays Ohio State scarlet / gray / white** — no palette rewrite. Brand

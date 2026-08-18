@@ -90,6 +90,10 @@ not content or aesthetics — do not mix their patterns.
   (scarlet Block O would invert). Put both SVGs in the markup and let
   `[data-theme]` show one. Prefer a provided light/dark pair that already
   shares a viewBox (OSU) over locking `aspect-ratio` in CSS.
+- **Never use a `padding` shorthand on `.pf-section`.** Those nodes also carry
+  `.pf-shell`. A shorthand resets left/right to 0 and unaligns the block from
+  `about-hero` as soon as the viewport is narrower than `--pf-container`.
+  Use `padding-top` only.
 - **Honest content only.** Every home page metric traces to a résumé bullet in the
   home timeline; skill depth is labelled daily driver / production / working
   knowledge rather than invented percentages. Availability wording must match the

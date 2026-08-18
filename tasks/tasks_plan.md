@@ -31,6 +31,11 @@ controls, seven-section single-page architecture (superseded by M6 layout).
 - Nine Node suites via `test/run-all.js`
 - Docs: Memory Files + `docs/recruiter-concise-consolidation.md`
 
+## Recent — shell gutter alignment (2026-08-18)
+
+- [x] `.pf-section` is `padding-top` only; `.pf-shell` keeps the horizontal gutter
+- [x] Markup test forbids a padding shorthand that would unalign sections from about-hero
+
 ## Recent — OSU logo theme pair (2026-08-18)
 
 - [x] Education pill ships `osu_vertical_dark.svg` + `osu_vertical_light.svg`

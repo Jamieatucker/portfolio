@@ -61,6 +61,9 @@ on the page (util may remain for tests / future use).
   `data-copy-email`).
 - Skip link chrome lives in `layout.css` only. Centering uses `--pf-header-h`
   so the focused control stays on the nav bar if header height changes.
+- `.pf-section` sets `padding-top` only. Never use a `padding` shorthand on it:
+  sections also carry `.pf-shell`, and a shorthand would zero the shared
+  horizontal gutter that keeps them aligned with `about-hero`.
 - Theme-paired logos: both SVGs in the markup; `[data-theme]` in `layout.css`
   shows the `--dark` mark on dark and the `--light` mark on light. YouTube uses
   white/black wordmarks; Education uses `osu_vertical_dark.svg` /

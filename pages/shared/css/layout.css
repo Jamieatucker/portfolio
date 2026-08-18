@@ -219,7 +219,11 @@
 }
 
 .pf-section {
-    padding: var(--pf-space-8) 0 0;
+    /* Longhand only: a padding shorthand would zero .pf-shell's left/right
+       gutter on elements that carry both classes (every section except the
+       about hero), so content would sit on the viewport edge when the
+       container is narrower than --pf-container. */
+    padding-top: var(--pf-space-8);
 }
 
 .pf-section__head {

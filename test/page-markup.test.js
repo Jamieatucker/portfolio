@@ -490,6 +490,26 @@ test('the nav carries the brand name and not the subheader that broke phones', (
     );
 });
 
+test('pf-section keeps the pf-shell horizontal gutter', () => {
+    const css = fs.readFileSync(path.join(ROOT, 'pages', 'shared', 'css', 'layout.css'), 'utf8');
+    const sectionBlock = css.match(/\.pf-section\s*\{[\s\S]*?\}/);
+    assert.ok(sectionBlock, 'missing .pf-section rule');
+    assert.ok(
+        /padding-top:\s*var\(--pf-space-8\)/.test(sectionBlock[0]),
+        'section rhythm should be padding-top only'
+    );
+    assert.ok(
+        !/padding:\s*var\(--pf-space-8\)\s+0/.test(sectionBlock[0]),
+        'a padding shorthand would zero .pf-shell left/right and unalign sections from the about hero'
+    );
+    const shellBlock = css.match(/\.pf-shell\s*\{[\s\S]*?\}/);
+    assert.ok(shellBlock, 'missing .pf-shell rule');
+    assert.ok(
+        /padding:\s*0\s+var\(--pf-space-5\)/.test(shellBlock[0]),
+        'pf-shell must keep a horizontal gutter that about-hero and other sections share'
+    );
+});
+
 test('card grids pin two columns and never strand a lone card', () => {
     const css = fs.readFileSync(path.join(ROOT, 'pages', 'shared', 'css', 'layout.css'), 'utf8');
     assert.ok(

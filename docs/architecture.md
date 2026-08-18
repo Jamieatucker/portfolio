@@ -90,6 +90,9 @@ sequenceDiagram
   Position only: `left: 50%` and `top: calc(var(--pf-header-h) / 2)`, with
   `translate(-50%, -50%)` on `:focus`, so keyboard users get a control centered
   on the sticky header. Colors, padding, and type stay on the existing tokens.
+- **Shell gutter.** `.pf-shell` owns horizontal padding. `.pf-section` only
+  sets `padding-top`, so My Story / Education / Experience / Contact stay
+  aligned with `about-hero` when the viewport is narrower than `--pf-container`.
 
 ## 5. Current workflow (as built)
 
