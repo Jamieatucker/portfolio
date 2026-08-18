@@ -59,6 +59,8 @@ on the page (util may remain for tests / future use).
 - UMD + factory; single sources for nav and résumé; pure core / thin shell.
 - Data-attribute contracts (`data-nav-key`, `data-section`, `data-role-pill`,
   `data-copy-email`).
+- Skip link chrome lives in `layout.css` only. Centering uses `--pf-header-h`
+  so the focused control stays on the nav bar if header height changes.
 
 ## 5. Constraints
 

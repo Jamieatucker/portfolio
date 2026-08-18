@@ -162,6 +162,26 @@ test('the page is accessible-by-default: lang, viewport, skip link, title', () =
     assert.ok(html.indexOf('name="description"') !== -1, 'missing meta description');
 });
 
+test('the skip link is centered on the header when focused', () => {
+    const layout = fs.readFileSync(
+        path.join(ROOT, 'pages', 'shared', 'css', 'layout.css'),
+        'utf8'
+    );
+    const skipBlock = layout.match(/\.pf-skip-link\s*\{[\s\S]*?\}/);
+    const focusBlock = layout.match(/\.pf-skip-link:focus\s*\{[\s\S]*?\}/);
+    assert.ok(skipBlock, 'missing .pf-skip-link rule');
+    assert.ok(focusBlock, 'missing .pf-skip-link:focus rule');
+    assert.ok(/left:\s*50%/.test(skipBlock[0]), 'skip link should be horizontally centered');
+    assert.ok(
+        /top:\s*calc\(\s*var\(--pf-header-h\)\s*\/\s*2\s*\)/.test(skipBlock[0]),
+        'skip link should sit on the header midline'
+    );
+    assert.ok(
+        /transform:\s*translate\(\s*-50%\s*,\s*-50%\s*\)/.test(focusBlock[0]),
+        'focused skip link should stay centered on the nav bar'
+    );
+});
+
 test('every internal link and asset reference resolves to a real file', () => {
     collectLocalRefs(raw).forEach((ref) => {
         const target = path.join(ROOT, ref.replace(/^\//, ''));

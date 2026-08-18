@@ -1,17 +1,21 @@
 # Active Context — Jamie Tucker Portfolio
 
-_Last updated: 2026-08-06_
+_Last updated: 2026-08-18_
 
 ## Mode
 
-**ACT / Code MODE complete for Milestone 6.** Implementation shipped; `npm test`
-passes (9 suites).
+**ACT / Code MODE** — skip-link position on the nav bar.
 
 ## Current work focus
 
-Milestone 6 — Recruiter Concise Consolidation is **done**: three-section page,
-pill boxes, pro headshot, soft hash aliases, compact skills, YouTube-era
-structural chrome with OSU colours unchanged.
+Center the “Skip to content” control on the sticky header for keyboard /
+screen-reader users. Visual design of `.pf-skip-link` is unchanged.
+
+## Recent changes — skip-link centering
+
+- `.pf-skip-link` in `layout.css` is centered on the header (`left: 50%`,
+  `--pf-header-h` midline, `translate(-50%, -50%)` on focus). Tokens unchanged.
+- `page-markup.test.js` asserts that centering contract.
 
 ## Recent changes — Milestone 6
 
@@ -29,6 +33,7 @@ structural chrome with OSU colours unchanged.
 
 ## Active decisions
 
+- Skip link stays first in the DOM; only CSS position is centered on the header.
 - Scroll reduction over exhaustive case-study grids.
 - Soft aliases over breaking old fragments.
 - Pill borders use `--pf-border-strong` (S2 / WCAG 1.4.11).
@@ -36,7 +41,7 @@ structural chrome with OSU colours unchanged.
 
 ## Next steps
 
-1. Optional parallel commits if/when the user requests git commits (nav/data,
-   markup, CSS, tests/docs).
-2. P1 backlog: OG image, favicons, Lighthouse, focus-ring on scarlet.
-3. Manual visual pass on phone / tablet / desktop.
+1. Tab to the skip link and confirm it appears centered on the header, then
+   activates `#main`.
+2. Optional git commit if requested.
+3. P1 backlog: OG image, favicons, Lighthouse, focus-ring on scarlet.

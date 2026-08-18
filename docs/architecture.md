@@ -83,6 +83,10 @@ sequenceDiagram
 - **Pill boxes.** Shared `.pf-pill-box` chrome; role copy lives in `role-pills.js`
   and the Experience markup.
 - **Photo contract.** `PROFILE.photoPath` → `/media/images/pro_headshot.jpeg`.
+- **Skip link.** `.pf-skip-link` stays the first focusable control in `index.html`.
+  Position only: `left: 50%` and `top: calc(var(--pf-header-h) / 2)`, with
+  `translate(-50%, -50%)` on `:focus`, so keyboard users get a control centered
+  on the sticky header. Colors, padding, and type stay on the existing tokens.
 
 ## 5. Current workflow (as built)
 

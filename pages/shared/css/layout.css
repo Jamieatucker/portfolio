@@ -6,8 +6,8 @@
 
 .pf-skip-link {
     position: absolute;
-    left: var(--pf-space-4);
-    top: var(--pf-space-4);
+    left: 50%;
+    top: calc(var(--pf-header-h) / 2);
     z-index: 100;
     padding: var(--pf-space-2) var(--pf-space-4);
     border-radius: var(--pf-radius-sm);
@@ -15,12 +15,12 @@
     color: var(--pf-accent-contrast);
     font-weight: 650;
     text-decoration: none;
-    transform: translateY(-200%);
+    transform: translate(-50%, -200%);
     transition: transform var(--pf-transition);
 }
 
 .pf-skip-link:focus {
-    transform: translateY(0);
+    transform: translate(-50%, -50%);
     color: var(--pf-accent-contrast);
 }
 

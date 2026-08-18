@@ -4,6 +4,14 @@ All notable changes to this project are recorded here, newest first.
 This project follows [Semantic Versioning](https://semver.org/) loosely: the site is
 private and unversioned, so entries are grouped by date and milestone.
 
+## [2.1.1] — 2026-08-18
+
+### Changed
+
+- `.pf-skip-link` is centered on the sticky nav bar when focused (`left: 50%`,
+  `top: calc(var(--pf-header-h) / 2)`, `translate(-50%, -50%)`). Padding, color,
+  type, and off-screen hide motion are unchanged.
+
 ## [2.1.0] — 2026-08-06
 
 ### Added — Milestone 6: Recruiter Concise Consolidation

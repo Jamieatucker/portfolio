@@ -31,6 +31,12 @@ controls, seven-section single-page architecture (superseded by M6 layout).
 - Nine Node suites via `test/run-all.js`
 - Docs: Memory Files + `docs/recruiter-concise-consolidation.md`
 
+## Recent — skip-link centering (2026-08-18)
+
+- [x] `.pf-skip-link` centered on the nav bar (`left: 50%`, header midline)
+- [x] Focus transform keeps horizontal + vertical centering; hide offset unchanged
+- [x] Markup test covers centered skip-link CSS; design tokens untouched
+
 ## What's left (backlog)
 
 ### P1 — before sharing widely
